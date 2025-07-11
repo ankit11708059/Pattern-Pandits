@@ -15,6 +15,16 @@ import openai
 import tempfile
 import shutil
 from cursor_agent import CursorBackgroundAgent
+from openai import OpenAI
+
+# ---------------------------------------------------------------------------
+# Disable SSL verification globally (work-around for self-signed certificates)
+# ---------------------------------------------------------------------------
+from network_utils import install_insecure_ssl
+
+install_insecure_ssl()
+
+import httpx
 
 # Disable SSL warnings
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -39,6 +49,13 @@ class CursorAssistant:
         self.project_path = project_path
         self.context_files = []
         
+        # Initialize OpenAI client
+        if OPENAI_API_KEY:
+            http_client = httpx.Client(verify=False, timeout=30.0)
+            self.openai_client = OpenAI(api_key=OPENAI_API_KEY, http_client=http_client)
+        else:
+            self.openai_client = None
+    
     def read_file(self, file_path: str) -> str:
         """Read a file from the project"""
         try:
@@ -95,7 +112,7 @@ class CursorAssistant:
     
     def get_ai_response(self, query: str, context: str = "") -> str:
         """Get AI response using OpenAI API (similar to Cursor's AI)"""
-        if not OPENAI_API_KEY:
+        if not self.openai_client:
             return "OpenAI API key not configured. Please add OPENAI_API_KEY to your .env file."
         
         try:
@@ -110,7 +127,7 @@ Current project context: {context}
 
 Respond helpfully and provide specific code examples when relevant."""
 
-            response = openai.ChatCompletion.create(
+            response = self.openai_client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[
                     {"role": "system", "content": system_prompt},

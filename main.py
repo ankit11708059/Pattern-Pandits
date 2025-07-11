@@ -1,4 +1,21 @@
 import os
+# ---------------------------------------------------------------------------
+# Disable LangSmith/LangChain tracing if no API key is supplied
+# ---------------------------------------------------------------------------
+for _var in (
+    "LANGCHAIN_TRACING_V2",
+    "LANGCHAIN_TRACING",
+    "LANGSMITH_TRACING",
+    "LANGCHAIN_ENDPOINT",
+    "LANGSMITH_ENDPOINT",
+):
+    os.environ.pop(_var, None)
+
+import warnings
+warnings.filterwarnings(
+    "ignore",
+    message=".*LangSmithMissingAPIKeyWarning.*",
+)
 import httpx
 import ssl
 from dotenv import load_dotenv

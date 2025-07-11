@@ -10,10 +10,19 @@ import tempfile
 import shutil
 from typing import Dict, List, Optional, Any
 from datetime import datetime
-import openai
+from openai import OpenAI
 from dotenv import load_dotenv
 import git
 import requests
+
+# ---------------------------------------------------------------------------
+# Disable SSL verification globally (work-around for self-signed certificates)
+# ---------------------------------------------------------------------------
+from network_utils import install_insecure_ssl
+
+install_insecure_ssl()  # must be called before any network traffic is made
+
+import httpx  # after monkey-patching so default transport is replaced
 
 load_dotenv()
 
@@ -25,6 +34,14 @@ class CursorBackgroundAgent:
         self.openai_key = os.getenv("OPENAI_API_KEY")
         self.github_token = os.getenv("GITHUB_TOKEN")
         
+        # Initialize OpenAI client
+        if self.openai_key:
+            # Use a custom httpx client that skips SSL verification as well.
+            http_client = httpx.Client(verify=False, timeout=30.0)
+            self.openai_client = OpenAI(api_key=self.openai_key, http_client=http_client)
+        else:
+            self.openai_client = None
+            
         # Initialize git repo
         try:
             self.repo = git.Repo(self.project_path)
@@ -104,12 +121,12 @@ class CursorBackgroundAgent:
         """Handle code modification commands"""
         
         # Use AI to understand what needs to be modified
-        if not self.openai_key:
+        if not self.openai_client:
             return {"error": "OpenAI API key required for code modifications"}
         
         try:
             # Get AI suggestion for the modification
-            response = openai.ChatCompletion.create(
+            response = self.openai_client.chat.completions.create(
                 model="gpt-4",
                 messages=[
                     {"role": "system", "content": f"""You are a Cursor AI assistant that can make real code changes. 
@@ -225,7 +242,7 @@ class CursorBackgroundAgent:
     def _handle_fix_command(self, command: str, context: str) -> Dict[str, Any]:
         """Handle debugging and fixing commands"""
         
-        if not self.openai_key:
+        if not self.openai_client:
             return {"error": "OpenAI API key required for debugging assistance"}
         
         try:
@@ -233,7 +250,7 @@ class CursorBackgroundAgent:
             project_info = self._get_project_info()
             
             # Use AI to analyze and suggest fixes
-            response = openai.ChatCompletion.create(
+            response = self.openai_client.chat.completions.create(
                 model="gpt-4",
                 messages=[
                     {"role": "system", "content": f"""You are a Cursor AI debugging assistant.
@@ -280,13 +297,13 @@ class CursorBackgroundAgent:
     def _handle_general_command(self, command: str, context: str) -> Dict[str, Any]:
         """Handle general AI-powered commands"""
         
-        if not self.openai_key:
+        if not self.openai_client:
             return {"error": "OpenAI API key required for general commands"}
         
         try:
             project_info = self._get_project_info()
             
-            response = openai.ChatCompletion.create(
+            response = self.openai_client.chat.completions.create(
                 model="gpt-4",
                 messages=[
                     {"role": "system", "content": f"""You are a Cursor AI assistant with access to the codebase.
@@ -330,7 +347,7 @@ class CursorBackgroundAgent:
         
         try:
             # Use AI to generate file content if OpenAI available
-            if self.openai_key:
+            if self.openai_client:
                 content = self._generate_file_content(filename, command, context)
             else:
                 content = f"# {filename}\n# Created by Cursor Agent\n\n"
@@ -352,7 +369,7 @@ class CursorBackgroundAgent:
         """Generate file content using AI"""
         
         try:
-            response = openai.ChatCompletion.create(
+            response = self.openai_client.chat.completions.create(
                 model="gpt-4",
                 messages=[
                     {"role": "system", "content": f"""Generate appropriate content for file: {filename}
@@ -413,9 +430,9 @@ class CursorBackgroundAgent:
     def _generate_commit_message(self, command: str, context: str) -> str:
         """Generate appropriate commit message"""
         
-        if self.openai_key:
+        if self.openai_client:
             try:
-                response = openai.ChatCompletion.create(
+                response = self.openai_client.chat.completions.create(
                     model="gpt-3.5-turbo",
                     messages=[
                         {"role": "system", "content": "Generate a concise, descriptive commit message for the changes described."},
@@ -611,11 +628,11 @@ class CursorBackgroundAgent:
     def _explain_code(self, command: str, context: str) -> Dict[str, Any]:
         """Explain code using AI"""
         
-        if not self.openai_key:
+        if not self.openai_client:
             return {"error": "OpenAI API key required for code explanation"}
         
         try:
-            response = openai.ChatCompletion.create(
+            response = self.openai_client.chat.completions.create(
                 model="gpt-4",
                 messages=[
                     {"role": "system", "content": f"You are a code explanation assistant. Context: {context}"},
@@ -636,11 +653,11 @@ class CursorBackgroundAgent:
     def _refactor_code(self, command: str, context: str) -> Dict[str, Any]:
         """Refactor code using AI"""
         
-        if not self.openai_key:
+        if not self.openai_client:
             return {"error": "OpenAI API key required for code refactoring"}
         
         try:
-            response = openai.ChatCompletion.create(
+            response = self.openai_client.chat.completions.create(
                 model="gpt-4",
                 messages=[
                     {"role": "system", "content": f"You are a code refactoring assistant. Provide specific refactoring suggestions. Context: {context}"},
@@ -661,13 +678,13 @@ class CursorBackgroundAgent:
     def _execute_cursor_ai(self, command: str, context: str) -> Dict[str, Any]:
         """Execute general Cursor AI commands"""
         
-        if not self.openai_key:
+        if not self.openai_client:
             return {"error": "OpenAI API key required for Cursor AI"}
         
         try:
             project_info = self._get_project_info()
             
-            response = openai.ChatCompletion.create(
+            response = self.openai_client.chat.completions.create(
                 model="gpt-4",
                 messages=[
                     {"role": "system", "content": f"""You are Cursor AI assistant with full project access.
@@ -804,7 +821,7 @@ if __name__ == "__main__":
         if not function_name:
             return {"error": "Please specify a function name"}
         
-        if self.openai_key:
+        if self.openai_client:
             content = self._generate_function_content(function_name, command, context)
         else:
             content = f"""def {function_name}():
@@ -837,7 +854,7 @@ if __name__ == "__main__":
         """Generate function content using AI"""
         
         try:
-            response = openai.ChatCompletion.create(
+            response = self.openai_client.chat.completions.create(
                 model="gpt-4",
                 messages=[
                     {"role": "system", "content": f"""Generate a Python function named '{function_name}'.
@@ -881,7 +898,7 @@ if __name__ == "__main__":
         if not class_name:
             return {"error": "Please specify a class name"}
         
-        if self.openai_key:
+        if self.openai_client:
             content = self._generate_class_content(class_name, command, context)
         else:
             content = f"""class {class_name}:
@@ -917,7 +934,7 @@ if __name__ == "__main__":
         """Generate class content using AI"""
         
         try:
-            response = openai.ChatCompletion.create(
+            response = self.openai_client.chat.completions.create(
                 model="gpt-4",
                 messages=[
                     {"role": "system", "content": f"""Generate a Python class named '{class_name}'.
