@@ -63,6 +63,34 @@ def install_insecure_ssl(verify: bool | str | None = False, *, suppress_warnings
         # httpx not installed – nothing to patch
         pass
 
+    # ------------------------------------------------------------------
+    # Monkey-patch stdlib ssl context for libraries that rely directly on
+    # ssl.create_default_context (e.g. urllib3, pinecone-client)
+    # ------------------------------------------------------------------
+    if verify is False:
+        ssl._create_default_https_context = ssl._create_unverified_context  # type: ignore[attr-defined]
+    elif isinstance(verify, str):
+        # Custom CA bundle path provided
+        _orig_create_ctx = ssl.create_default_context
+
+        def _custom_context(*args, **kwargs):
+            kwargs.setdefault("cafile", verify)
+            return _orig_create_ctx(*args, **kwargs)
+
+        ssl._create_default_https_context = _custom_context  # type: ignore[attr-defined]
+
+    # Also patch urllib3's create_urllib3_context so PoolManager disables cert checks
+    _orig_create_urllib3_context = urllib3.util.ssl_.create_urllib3_context  # type: ignore[attr-defined]
+
+    def _patched_create_urllib3_context(*args, **kwargs):
+        ctx = _orig_create_urllib3_context(*args, **kwargs)
+        if verify is False:
+            ctx.check_hostname = False
+            ctx.verify_mode = ssl.CERT_NONE
+        return ctx
+
+    urllib3.util.ssl_.create_urllib3_context = _patched_create_urllib3_context  # type: ignore[attr-defined]
+
     _PATCHED = True
 
 __all__ = ["install_insecure_ssl"] 

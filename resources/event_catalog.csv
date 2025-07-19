@@ -1,0 +1,5 @@
+event_name,description
+app_open,User launched the mobile application
+add_to_cart,User added an item to the shopping cart
+checkout_started,User began the checkout process
+purchase_completed,User completed a purchase transaction 

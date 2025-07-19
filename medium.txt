@@ -1,0 +1,138 @@
+As an Android developer at slice, watching our app evolve from a simple financial product to a full fledged bank has been exciting. But this growth came with a challenge familiar to many developers: increasingly painful build times.
+
+What started as a minor inconvenience gradually became a significant productivity blocker:
+
+CI builds meant long waits for PR feedback
+Local build times stretching beyond reasonable coffee breaks
+Full test suite executions for even minor changes to unrelated code
+Mysterious dependency chains causing unexpected rebuilds
+These weren’t just technical inconveniences — they were affecting our ability to ship features quickly and maintain our development momentum.
+
+That’s when we launched Project Flash — our initiative to reclaim our build times and optimize our CI processes. Here’s how we approached it, what we learned, and the impressive results we achieved.
+
+1: Running Only Affected Module Tests
+Our first breakthrough was elegantly simple: only test what’s changed.
+
+In a multi-module project, there’s no reason to run every test when only a small portion of code has been modified. We implemented an affected module detection system that:
+
+Creates a dependency graph of all modules in the project
+During builds, analyzes git changes to identify modified files
+Determines which modules are directly or indirectly affected
+Executes tests only for those modules
+The results were immediate and substantial: 36% reduction in test execution time for most pull requests. Full test suites now only run when truly necessary (such as changes to core modules or configuration files).
+
+An unexpected benefit: this approach revealed several previously unknown cross-module dependencies in our codebase, helping us identify areas for architectural improvement.
+
+
+2. Dependency Showdown!
+We wielded the Dependency Analysis Gradle Plugin to tame our wild dependencies, uncovering:
+
+Sneaky unused dependencies
+Transitive dependencies needing direct love
+Slick dependency graphs
+Optimization gems
+We slashed:
+
+Duplicate dependencies with version drama
+Wasted module clutter
+Misplaced implementation/api dependencies
+3: Disabling Jetifier
+Jetifier automatically rewrites old Support Library classes and package names to AndroidX equivalents during the build process, allowing your app to use both old libraries and AndroidX while transitioning.As part of our optimization efforts, we aimed to disable Jetifier after migrating to AndroidX. Using the bye-bye-jetifier tool, we:
+
+Analyzed dependencies for legacy Android support library usage and removed which were not in use.
+Hit a snag with one third-party library ( NPCI ) still reliant on legacy support.
+This prevented us from fully disabling Jetifier, but reducing its workload still cut build times slightly. The improvement wasn’t huge, but it was a worthwhile gain for minimal effort.
+
+4: 43% Faster Incremental Builds: Enabling Configuration Cache for Local Builds
+This resulted in 43% faster incremental builds, significantly improving local development
+Configuration Cache works by serializing the project’s task graph and configuration after the first build, avoiding repetitive parsing and evaluation of build logic on subsequent builds. This particularly benefits our multi-module architecture, where these savings compound across modules.
+
+5: KAPT to KSP: Faster compilation times and better memory usage
+Switched from KAPT to KSP for processing Dagger and Room dependencies.
+Build times improved significantly due to the efficiency of KSP.
+Reduced memory overhead compared to KAPT.
+KSP processes Kotlin code directly, avoiding the need to generate Java stubs like KAPT does.
+Eliminates redundant stub generation, resulting in faster and more efficient builds.
+Results: From Crawling to Sprinting
+The combined impact of these optimizations transformed our development workflow:
+
+Benchmarking Our Results
+To track the impact of our optimizations, we established consistent benchmarking practices throughout Project Flash:
+
+Methodology
+Used Gradle Profiler to capture baseline and post-optimization measurements
+Our gradle profiler scenario file looks like
+
+Collected data from multiple build types: clean builds, incremental builds, and CI pipelines
+
+Key Results
+Our benchmarking revealed significant improvements across all key metrics we measured. The affected module testing approach delivered the promised 36% reduction in test execution time, while our dependency management work and Jetifier removal contributed to substantial overall build time reductions.
+
+The Business Impact: Quantifying CI Efficiency Gains
+Our optimization efforts yielded significant cost savings and CI efficiency improvements.
+
+To put these improvements in perspective:
+
+270,972 minutes/year
+Before Project Flash, our CI system was consuming approximately 270,972 minutes per year running builds and tests.
+
+14% reduction
+Through our targeted optimizations, we managed to reduce this by 14%.
+
+39,128 minutes saved annually
+This resulted in annual savings of 39,128 minutes of compute time.
+
+These improvements in our CI infrastructure complement the local development enhancements we achieved through Configuration Cache, creating a comprehensive boost to our development velocity at every stage of our process.
+
+Project Flash: Unlocking 167 Hours of Developer Time with Configurational Cache
+In the fast-paced world of software development, every second counts. That’s why our team turned to Project Flash and its powerful configurational cache to streamline our build processes. The result? An impressive 167 hours saved in a single year — time that’s now fueling innovation and reducing stress across our team.
+
+Configurational Cache Improvement
+
+
+Lessons Learned
+Project Flash taught us valuable lessons that extend beyond the technical improvements:
+
+Measure before optimizing: Baseline measurements were essential for tracking progress
+Modularization is powerful: Well-structured modules make targeted testing possible
+Small changes add up: Even simple optimizations like disabling Jetifier had outsized impacts
+Developer experience matters: Investing in build tooling has direct business value
+Future Plans
+While we’ve made significant progress, we’re not stopping here. Our roadmap includes:
+
+Remote Build Caching
+Our next major initiative is implementing remote Gradle caching to:
+
+Store and reuse build outputs across different developer machines
+Preserve artifacts between CI builds
+Cache compilation results for unchanged modules
+Reduce redundant work across the team
+Our preliminary tests suggest this could further reduce build times, especially for modules that haven’t changed.
+
+Further Optimizations
+We’re also exploring:
+
+More aggressive modularization strategies
+Custom Gradle task optimizations
+Future Addition: Gradle Profiler for Benchmarking
+To ensure we maintain these gains and identify new opportunities, we plan to integrate Gradle Profiler into our workflow to:
+
+Set up regular benchmarks of our build process
+Create visualization dashboards to track performance over time
+Implement alerts when build times regress significantly
+Enable data-driven decisions for future optimizations
+The improvements we’ve seen have fundamentally changed how we work at slice, allowing us to focus more on creating value for our users and less on waiting for builds to complete.
+
+Visualizing Our Progress
+As we implemented each solution, we tracked our build times closely, visualizing the improvements over time. The most dramatic drops occurred after implementing affected module testing and configuration cache.
+
+Conclusion
+Project Flash has transformed how we work at slice, turning what was once a source of frustration into a competitive advantage. The combination of targeted testing, dependency optimization, Jetifier removal, and configuration cache has given our development team back valuable time — time we now invest in innovation and quality.
+
+The measurable improvements in both developer experience and business metrics have made Project Flash one of our most successful internal initiatives to date, proving that technical infrastructure investments yield tangible returns.
+
+Have you implemented similar optimizations in your Android projects? What build time issues are you still struggling with? Share your experiences in the comments below!
+
+If you’re interested in learning more about our Android development work at slice or have questions about build optimization, feel free to connect with me or check out our other tech blog posts
+
+Contributed by Saurabh Sachdeva, Senior Android Engineer
