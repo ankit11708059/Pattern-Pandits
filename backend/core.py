@@ -4,7 +4,7 @@ from langchain.chains.retrieval import create_retrieval_chain
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain_pinecone import PineconeVectorStore
 
-INDEX_NAME="langchain-doc-index"
+INDEX_NAME="medium-blogs-embedding-index"
 
 
 def run_llm(query:str):
@@ -22,3 +22,8 @@ def run_llm(query:str):
 
     result = qa.invoke(input={"input":query})
     return result
+
+
+
+if __name__ == "__main__":
+    print(run_llm("who wrote the article , slashing build times at slice"))
