@@ -66,7 +66,7 @@ def main():
     except Exception as e:
         print(f"❌ Error occurred: {e}")
         print("\n🔧 Trying alternative approach...")
-        
+
         # Fallback: Use environment variable to disable SSL globally
         os.environ['PYTHONHTTPSVERIFY'] = '0'
         ssl._create_default_https_context = ssl._create_unverified_context

@@ -52,14 +52,14 @@ if not OPENAI_API_KEY:
 if not PINECONE_API_KEY or not INDEX_NAME:
     raise ValueError("PINECONE_API_KEY / INDEX_NAME missing in environment")
 
-embedding_model = OpenAIEmbeddings(
+    embedding_model = OpenAIEmbeddings(
     api_key=OPENAI_API_KEY,
     model="text-embedding-3-small",
-    dimensions=512,
-    http_client=httpx.Client(verify=False, timeout=30.0),
-)
+        dimensions=512,
+        http_client=httpx.Client(verify=False, timeout=30.0),
+    )
 
-llm = ChatOpenAI(temperature=0, http_client=httpx.Client(verify=False))
+    llm = ChatOpenAI(temperature=0, http_client=httpx.Client(verify=False))
 
 pc = Pinecone(api_key=PINECONE_API_KEY)  # ssl_verify patched to False globally
 index = pc.Index(INDEX_NAME)

@@ -9,3 +9,8 @@ streamlit
 requests
 pandas
 urllib3
+langchain
+langchain-community
+pinecone-client[grpc]
+langchain-pinecone
+plotly
