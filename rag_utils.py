@@ -61,7 +61,7 @@ User raw activity JSON:
 Event catalog (name→description):
 {catalog_json}
 
-Write a concise chronological narrative (≤200 words) explaining what the user actually did. Group similar actions and highlight important milestones.
+Write a concise chronological summary of the user's actions as BULLET POINTS only ("• text"). Group similar steps and highlight key milestones. Maximum 12 bullets.
 """,
 )
 
