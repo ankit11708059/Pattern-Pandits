@@ -40,7 +40,14 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 
 
-def run_llm(query: str):
+def run_llm(query: str, context_size: str = "large"):
+    """
+    Run LLM query with configurable context size
+    
+    Args:
+        query: The question to ask
+        context_size: "small" (5 docs), "medium" (10 docs), "large" (20 docs), "max" (30 docs)
+    """
     # Check for required API keys
     if not OPENAI_API_KEY or OPENAI_API_KEY == "your_openai_api_key":
         raise ValueError(
@@ -53,6 +60,15 @@ def run_llm(query: str):
             "❌ Pinecone API key not found! Please add your Pinecone API key to the .env file:\n"
             "PINECONE_API_KEY=your_actual_pinecone_key_here"
         )
+    
+    # Configure context size
+    context_config = {
+        "small": 5,
+        "medium": 10, 
+        "large": 20,
+        "max": 30
+    }
+    k_value = context_config.get(context_size, 20)
 
     print(f"🔍 Running LLM query: {query}")
     print("🔧 Initializing OpenAI embeddings with SSL handling...")
@@ -73,10 +89,12 @@ def run_llm(query: str):
     
     docsearch = PineconeVectorStore(index=index, embedding=embeddings)
 
-    print("🔧 Initializing ChatOpenAI with SSL handling...")
+    print("🔧 Initializing ChatOpenAI with enhanced context handling...")
     chat = ChatOpenAI(
         verbose=True, 
         temperature=0,
+        model="gpt-3.5-turbo-16k",  # Use 16k model for larger context
+        max_tokens=4000,  # Increased token limit for longer responses
         openai_api_key=OPENAI_API_KEY,
         http_client=httpx.Client(verify=False, timeout=30)  # SSL handling
     )
@@ -105,32 +123,79 @@ def run_llm(query: str):
     except Exception as e:
         print(f"⚠️ LangChain hub connection failed (SSL/Network issue)")
         print("🔧 Using optimized fallback prompt...")
-        # Enhanced fallback prompt
+        # Enhanced fallback prompt optimized for large context
         retrieval_qa_chat_prompt = ChatPromptTemplate.from_messages([
-            ("system", "You are an expert assistant for question-answering tasks. "
-                      "Use the following retrieved context to provide accurate, helpful answers. "
+            ("system", "You are an expert assistant for question-answering tasks with access to extensive context. "
+                      "Use the following comprehensive retrieved context to provide detailed, accurate answers. "
                       "Guidelines:\n"
-                      "- Base your answer primarily on the provided context\n"
-                      "- If the context doesn't contain enough information, state this clearly\n"
-                      "- Keep responses concise but comprehensive\n"
-                      "- Include specific details when available\n\n"
-                      "Context:\n{context}"),
+                      "- Synthesize information from ALL provided context documents\n"
+                      "- Cross-reference information across multiple sources when available\n"
+                      "- Provide detailed answers with specific examples and evidence\n"
+                      "- Include relevant quotes or specific details from the context\n"
+                      "- If context is extensive, organize your response with clear structure\n"
+                      "- Mention if information comes from multiple sources\n"
+                      "- If context doesn't contain enough information, state this clearly\n\n"
+                      "EXTENSIVE CONTEXT:\n{context}"),
             ("human", "Question: {input}"),
         ])
 
     print("🔧 Creating document chain...")
     stuff_documents_chain = create_stuff_documents_chain(chat, retrieval_qa_chat_prompt)
 
-    print("🔧 Creating retrieval chain...")
+    print("🔧 Creating enhanced retrieval chain with increased context...")
+    
+    # Method 1: Configurable similarity search 
+    enhanced_retriever = docsearch.as_retriever(
+        search_type="similarity",
+        search_kwargs={
+            "k": k_value,  # Configurable based on context_size parameter
+        }
+    )
+    
+    # Method 2: Alternative - Use MMR for diversity (uncomment to use)
+    # enhanced_retriever = docsearch.as_retriever(
+    #     search_type="mmr",
+    #     search_kwargs={
+    #         "k": 15,  # Number of documents to return
+    #         "lambda_mult": 0.7,  # Balance between relevance (1.0) and diversity (0.0)
+    #     }
+    # )
+    
+    # Method 3: Alternative - Similarity with score threshold (uncomment to use)
+    # enhanced_retriever = docsearch.as_retriever(
+    #     search_type="similarity_score_threshold",
+    #     search_kwargs={
+    #         "k": 25,
+    #         "score_threshold": 0.2,  # Lower threshold = more results
+    #     }
+    # )
+    
+    print(f"📄 Enhanced retriever configured to fetch up to {k_value} documents per query ({context_size} context)")
+    
     qa = create_retrieval_chain(
-        retriever=docsearch.as_retriever(),
+        retriever=enhanced_retriever,
         combine_docs_chain=stuff_documents_chain
     )
 
-    print("🚀 Executing query...")
+    print("🚀 Executing enhanced query with increased context...")
     result = qa.invoke(input={"input": query})
     
-    print("✅ Query completed successfully!")
+    # Display context information for debugging
+    print("📊 Context Analysis:")
+    if 'context' in result:
+        context_docs = result['context']
+        print(f"   • Retrieved {len(context_docs)} documents")
+        total_chars = sum(len(doc.page_content) for doc in context_docs)
+        print(f"   • Total context characters: {total_chars:,}")
+        print(f"   • Average document length: {total_chars // len(context_docs) if context_docs else 0} chars")
+        
+        # Show first few document previews
+        print("📄 Document previews:")
+        for i, doc in enumerate(context_docs[:3]):
+            preview = doc.page_content[:200] + "..." if len(doc.page_content) > 200 else doc.page_content
+            print(f"   Doc {i+1}: {preview}")
+    
+    print("✅ Enhanced query completed successfully!")
     return result
 
 
@@ -143,16 +208,33 @@ if __name__ == "__main__":
     try:
         print("🚀 Starting LLM query...")
         
-        # Capture stderr to hide LangSmith connection errors
-        stderr_capture = StringIO()
-        with redirect_stderr(stderr_capture):
-            result = run_llm("who wrote the article , slashing build times at slice")
+        # Test different context sizes
+        test_queries = [
+            ("who wrote the article , slashing build times at slice", "max"),
+            ("what are the main build optimization techniques mentioned", "large")
+        ]
         
-        print("\n📋 Result:")
-        print("=" * 50)
-        print(result.get('answer', 'No answer found'))
-        print("=" * 50)
-        print("\n✅ RAG query completed successfully!")
+        for i, (query, context_size) in enumerate(test_queries, 1):
+            print(f"\n{'='*60}")
+            print(f"🔍 QUERY {i} ({context_size.upper()} CONTEXT): {query}")
+            print('='*60)
+            
+            # Capture stderr to hide LangSmith connection errors
+            stderr_capture = StringIO()
+            with redirect_stderr(stderr_capture):
+                result = run_llm(query, context_size)
+            
+            print(f"\n📋 Result {i}:")
+            print("=" * 50)
+            print(result.get('answer', 'No answer found'))
+            print("=" * 50)
+        
+        print(f"\n✅ All RAG queries completed successfully!")
+        print(f"\n💡 You can adjust context size by calling:")
+        print(f"   run_llm(query, 'small')   # 5 documents")
+        print(f"   run_llm(query, 'medium')  # 10 documents") 
+        print(f"   run_llm(query, 'large')   # 20 documents")
+        print(f"   run_llm(query, 'max')     # 30 documents")
         
     except ValueError as e:
         print(f"\n{e}")
