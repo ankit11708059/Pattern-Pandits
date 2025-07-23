@@ -1133,15 +1133,25 @@ def render_ai_insights(funnel_data, funnel_id, from_date, to_date):
             render_basic_ai_insights(funnel_data, funnel_id, from_date, to_date)
             return
         
+        # Parse the funnel data first for table display
+        try:
+            start_date_obj = datetime.strptime(from_date, '%Y-%m-%d')
+            end_date_obj = datetime.strptime(to_date, '%Y-%m-%d')
+            parsed_daily_data = parse_daily_funnel_breakdown(funnel_data, start_date_obj, end_date_obj)
+        except:
+            parsed_daily_data = []
+        
         with st.spinner("🧠 Generating comprehensive business analysis with AI..."):
             # Generate comprehensive AI analysis
-            ai_analysis = generate_llm_funnel_analysis(funnel_data, funnel_id, from_date, to_date)
+            ai_analysis = generate_llm_funnel_analysis(parsed_daily_data if parsed_daily_data else funnel_data, funnel_id, from_date, to_date)
         
         if ai_analysis:
-            # Display comprehensive business analysis
-            display_comprehensive_funnel_insights(ai_analysis)
+            # Display comprehensive business analysis with parsed data
+            display_comprehensive_funnel_insights(ai_analysis, parsed_daily_data if parsed_daily_data else funnel_data)
         else:
             st.error("❌ Could not generate AI analysis")
+            # Still show the table even without AI analysis
+            display_dropoff_table_ui(parsed_daily_data if parsed_daily_data else funnel_data)
             render_basic_ai_insights(funnel_data, funnel_id, from_date, to_date)
         
     except Exception as e:
@@ -1229,11 +1239,21 @@ def generate_llm_funnel_analysis(funnel_data, funnel_id, from_date, to_date):
         **CRITICAL ANALYSIS REQUIRED:**
 
         **1. DROP-OFF POINT ANALYSIS:**
-        - Identify the EXACT step where most users drop off
-        - Calculate step-by-step conversion rates for each funnel stage
-        - Determine which events have the highest abandonment rates
-        - Analyze the biggest conversion bottlenecks in the funnel
-        - Rank drop-off points by impact (users lost × revenue potential)
+        Format your response with clear sections using this EXACT structure:
+
+        **Step 1 → Step 2: [Step Names]**
+        - Overall drop-off: [X]% ([Y] users lost)
+        - Android drop-off: [X]% ([Y] users lost)
+        - iOS drop-off: [X]% ([Y] users lost)
+        - Impact: [High/Medium/Low]
+
+        **Step 2 → Step 3: [Step Names]**
+        - Overall drop-off: [X]% ([Y] users lost)
+        - Android drop-off: [X]% ([Y] users lost)  
+        - iOS drop-off: [X]% ([Y] users lost)
+        - Impact: [High/Medium/Low]
+
+        Continue for each step transition. Include specific numbers and percentages.
 
         **2. PLATFORM BEHAVIOR PATTERNS:**
         - Compare iOS vs Android step-by-step conversion rates
@@ -1255,7 +1275,29 @@ def generate_llm_funnel_analysis(funnel_data, funnel_id, from_date, to_date):
         - Cross-platform consistency improvements
         - Device-specific performance optimizations
 
-        **5. ACTIONABLE NEXT STEPS:**
+        **5. DETAILED PLATFORM COMPARISON:**
+        Provide a comprehensive analysis in this EXACT format:
+
+        **ANDROID PLATFORM ANALYSIS:**
+        - **Strengths:** [List 3-4 specific strengths with data]
+        - **Weaknesses:** [List 3-4 specific weaknesses with data] 
+        - **Conversion Performance:** [Overall performance vs iOS]
+        - **User Behavior Patterns:** [Unique Android user behaviors]
+        - **Immediate Improvements:** [Top 3 Android-specific fixes with estimated impact]
+
+        **iOS PLATFORM ANALYSIS:**
+        - **Strengths:** [List 3-4 specific strengths with data]
+        - **Weaknesses:** [List 3-4 specific weaknesses with data]
+        - **Conversion Performance:** [Overall performance vs Android]  
+        - **User Behavior Patterns:** [Unique iOS user behaviors]
+        - **Immediate Improvements:** [Top 3 iOS-specific fixes with estimated impact]
+
+        **PLATFORM SIMILARITIES:**
+        - **Common Drop-off Points:** [Steps where both platforms struggle]
+        - **Shared User Behaviors:** [Similar patterns across platforms]
+        - **Universal Optimizations:** [Improvements that benefit both platforms]
+
+        **6. ACTIONABLE NEXT STEPS:**
         - Technical improvements for high drop-off events
         - UX changes to reduce friction at specific steps
         - Copy/messaging optimization for problematic steps
@@ -1602,97 +1644,632 @@ def prepare_comprehensive_funnel_data_for_llm(funnel_data, funnel_id, from_date,
 
 
 def parse_comprehensive_funnel_analysis(ai_content):
-    """Parse comprehensive funnel analysis into business-focused sections"""
+    """Parse comprehensive funnel analysis into business-focused sections with platform details"""
     try:
         sections = {
-            'revenue_impact': '',
-            'competitive_positioning': '',
-            'ux_optimization': '',
-            'tracking_strategy': '',
-            'growth_hacking': '',
-            'platform_specific': ''
+            'drop_off_analysis': '',
+            'platform_behavior': '',
+            'improvement_opportunities': '',
+            'platform_optimization': '',
+            'android_analysis': '',
+            'ios_analysis': '',
+            'platform_similarities': '',
+            'actionable_steps': ''
         }
         
-        # Split content and categorize by business focus areas
+        # Split content and categorize by sections
         lines = ai_content.split('\n')
-        current_section = 'revenue_impact'
+        current_section = 'drop_off_analysis'
         
         for line in lines:
-            if '1.' in line or 'REVENUE' in line.upper():
-                current_section = 'revenue_impact'
-            elif '2.' in line or 'COMPETITIVE' in line.upper():
-                current_section = 'competitive_positioning'
-            elif '3.' in line or 'USER EXPERIENCE' in line.upper() or 'UX' in line.upper():
-                current_section = 'ux_optimization'
-            elif '4.' in line or 'TRACKING' in line.upper():
-                current_section = 'tracking_strategy'
-            elif '5.' in line or 'GROWTH' in line.upper():
-                current_section = 'growth_hacking'
-            elif '6.' in line or 'PLATFORM' in line.upper():
-                current_section = 'platform_specific'
+            line_upper = line.upper()
             
-            if line.strip() and not line.strip().startswith(('1.', '2.', '3.', '4.', '5.', '6.')):
+            if '1.' in line or 'DROP-OFF' in line_upper:
+                current_section = 'drop_off_analysis'
+            elif '2.' in line or 'PLATFORM BEHAVIOR' in line_upper:
+                current_section = 'platform_behavior'
+            elif '3.' in line or 'IMPROVEMENT OPPORTUNITIES' in line_upper:
+                current_section = 'improvement_opportunities'
+            elif '4.' in line or 'PLATFORM-SPECIFIC OPTIMIZATION' in line_upper:
+                current_section = 'platform_optimization'
+            elif 'ANDROID PLATFORM ANALYSIS' in line_upper:
+                current_section = 'android_analysis'
+            elif 'IOS PLATFORM ANALYSIS' in line_upper:
+                current_section = 'ios_analysis'
+            elif 'PLATFORM SIMILARITIES' in line_upper:
+                current_section = 'platform_similarities'
+            elif '6.' in line or 'ACTIONABLE NEXT STEPS' in line_upper:
+                current_section = 'actionable_steps'
+            
+            # Skip header lines but include content
+            if line.strip() and not any(header in line for header in ['**1.', '**2.', '**3.', '**4.', '**5.', '**6.', '*ANDROID PLATFORM*', '*IOS PLATFORM*', '*PLATFORM SIMILARITIES*']):
                 sections[current_section] += line + '\n'
         
         return sections
         
     except Exception as e:
-        return {'revenue_impact': ai_content}
+        return {'drop_off_analysis': ai_content}
 
 
-def display_comprehensive_funnel_insights(ai_analysis):
-    """Display comprehensive business-focused funnel insights"""
+def display_structured_dropoff_analysis(dropoff_content):
+    """Display drop-off analysis in a structured, readable format"""
+    try:
+        # Create organized sections for drop-off analysis
+        col1, col2 = st.columns([2, 1])
+        
+        with col1:
+            st.markdown("#### 📊 Critical Drop-off Points")
+            
+            # Try to create a structured table first
+            dropoff_table = parse_dropoff_to_table(dropoff_content)
+            
+            if dropoff_table:
+                st.dataframe(
+                    dropoff_table,
+                    use_container_width=True,
+                    column_config={
+                        "Step Transition": st.column_config.TextColumn("🔄 Step Transition", width="medium"),
+                        "Overall Drop-off": st.column_config.ProgressColumn("📊 Overall Drop-off", min_value=0, max_value=100, format="%.1f%%"),
+                        "Android Drop-off": st.column_config.ProgressColumn("🤖 Android Drop-off", min_value=0, max_value=100, format="%.1f%%"),
+                        "iOS Drop-off": st.column_config.ProgressColumn("🍎 iOS Drop-off", min_value=0, max_value=100, format="%.1f%%"),
+                        "Users Lost": st.column_config.NumberColumn("👥 Users Lost", format="%d"),
+                        "Impact": st.column_config.TextColumn("⚡ Impact", width="small")
+                    }
+                )
+            
+            # Parse and structure the content for detailed view
+            lines = dropoff_content.split('\n')
+            current_section = ""
+            points = []
+            
+            for line in lines:
+                line = line.strip()
+                if not line:
+                    continue
+                    
+                # Check for step-specific content
+                if 'step' in line.lower() and ('→' in line or 'to' in line.lower()):
+                    if points:
+                        display_dropoff_section(current_section, points)
+                        points = []
+                    current_section = line
+                elif line.startswith('-') or line.startswith('•') or 'drop' in line.lower():
+                    points.append(line.lstrip('-•').strip())
+                elif current_section and line:
+                    points.append(line)
+            
+            # Display last section
+            if points:
+                display_dropoff_section(current_section, points)
+        
+        with col2:
+            # Summary metrics box
+            st.markdown("#### 🔍 Key Metrics")
+            
+            # Extract key metrics from content for display
+            key_metrics = extract_key_dropoff_metrics(dropoff_content)
+            
+            if key_metrics:
+                # Biggest Drop-off
+                if key_metrics.get('biggest_dropoff'):
+                    st.metric(
+                        label="🔻 Biggest Drop-off",
+                        value=f"{key_metrics['biggest_dropoff']['rate']:.1f}%",
+                        delta=f"{key_metrics['biggest_dropoff']['users']:,} users lost",
+                        delta_color="inverse"
+                    )
+                
+                # Platform Difference
+                if key_metrics.get('platform_difference'):
+                    st.metric(
+                        label="📱 Worst Platform",
+                        value=key_metrics['platform_difference']['platform'],
+                        delta=f"{key_metrics['platform_difference']['difference']:.1f}% worse",
+                        delta_color="inverse"
+                    )
+                
+                # Impact Level
+                if key_metrics.get('overall_impact'):
+                    st.metric(
+                        label="⚡ Overall Impact",
+                        value=key_metrics['overall_impact']['level'],
+                        delta=f"{key_metrics['overall_impact']['total_lost']:,} users lost total"
+                    )
+            
+            else:
+                # Fallback summary
+                with st.container():
+                    st.markdown("""
+                    <div style="background: linear-gradient(135deg, #ff6b6b, #ee5a24); 
+                               color: white; padding: 1rem; border-radius: 10px; 
+                               margin: 0.5rem 0;">
+                        <h5 style="color: white; margin-top: 0;">Key Insights</h5>
+                        <p style="margin: 0.5rem 0;">• Biggest drop-off identified</p>
+                        <p style="margin: 0.5rem 0;">• Platform differences analyzed</p>
+                        <p style="margin: 0.5rem 0;">• Actionable fixes provided</p>
+                    </div>
+                    """, unsafe_allow_html=True)
+        
+        # Additional structured display
+        st.markdown("---")
+        display_dropoff_raw_content(dropoff_content)
+        
+    except Exception as e:
+        # Fallback to simple display
+        st.markdown("#### 🔍 Drop-off Analysis")
+        st.markdown(dropoff_content)
+
+
+def extract_key_dropoff_metrics(dropoff_content):
+    """Extract key metrics from drop-off analysis for summary display"""
+    import re
+    
+    try:
+        metrics = {}
+        
+        # Find all drop-off percentages and user losses
+        dropoff_rates = []
+        lines = dropoff_content.split('\n')
+        
+        current_step = ""
+        current_rates = {}
+        
+        for line in lines:
+            line = line.strip()
+            
+            # Capture step names
+            if 'step' in line.lower() and ('→' in line or 'to' in line.lower()):
+                current_step = line.replace('**', '').strip()
+                current_rates = {'step': current_step}
+                continue
+            
+            if current_step and line.startswith('-'):
+                # Extract percentages and user counts
+                if 'overall drop-off' in line.lower():
+                    match = re.search(r'(\d+\.?\d*)%.*?(\d+(?:,\d+)*)', line)
+                    if match:
+                        rate = float(match.group(1))
+                        users = int(match.group(2).replace(',', ''))
+                        current_rates['overall'] = {'rate': rate, 'users': users}
+                
+                elif 'android drop-off' in line.lower():
+                    match = re.search(r'(\d+\.?\d*)%', line)
+                    if match:
+                        current_rates['android'] = float(match.group(1))
+                
+                elif 'ios drop-off' in line.lower():
+                    match = re.search(r'(\d+\.?\d*)%', line)
+                    if match:
+                        current_rates['ios'] = float(match.group(1))
+                
+                elif 'impact' in line.lower():
+                    impact = line.split(':')[-1].strip().title()
+                    current_rates['impact'] = impact
+                    
+                    # Store completed rate data
+                    if 'overall' in current_rates:
+                        dropoff_rates.append(current_rates.copy())
+        
+        if dropoff_rates:
+            # Find biggest drop-off
+            biggest = max(dropoff_rates, key=lambda x: x.get('overall', {}).get('rate', 0))
+            if biggest.get('overall'):
+                metrics['biggest_dropoff'] = {
+                    'step': biggest['step'],
+                    'rate': biggest['overall']['rate'],
+                    'users': biggest['overall']['users']
+                }
+            
+            # Find platform with worst performance overall
+            android_avg = sum(r.get('android', 0) for r in dropoff_rates) / len(dropoff_rates)
+            ios_avg = sum(r.get('ios', 0) for r in dropoff_rates) / len(dropoff_rates)
+            
+            if android_avg > ios_avg:
+                metrics['platform_difference'] = {
+                    'platform': 'Android',
+                    'difference': android_avg - ios_avg
+                }
+            elif ios_avg > android_avg:
+                metrics['platform_difference'] = {
+                    'platform': 'iOS',
+                    'difference': ios_avg - android_avg
+                }
+            
+            # Overall impact assessment
+            total_users_lost = sum(r.get('overall', {}).get('users', 0) for r in dropoff_rates)
+            avg_dropoff = sum(r.get('overall', {}).get('rate', 0) for r in dropoff_rates) / len(dropoff_rates)
+            
+            if avg_dropoff > 70:
+                impact_level = "CRITICAL"
+            elif avg_dropoff > 50:
+                impact_level = "HIGH"
+            elif avg_dropoff > 30:
+                impact_level = "MEDIUM"
+            else:
+                impact_level = "LOW"
+            
+            metrics['overall_impact'] = {
+                'level': impact_level,
+                'total_lost': total_users_lost,
+                'avg_rate': avg_dropoff
+            }
+        
+        return metrics if metrics else None
+        
+    except Exception as e:
+        return None
+
+
+def parse_dropoff_to_table(dropoff_content):
+    """Parse drop-off content into a structured table format"""
+    import pandas as pd
+    import re
+    
+    try:
+        table_data = []
+        lines = dropoff_content.split('\n')
+        current_step = ""
+        
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+            
+            # Check for step transition headers
+            if 'step' in line.lower() and ('→' in line or 'to' in line.lower()):
+                current_step = line.replace('**', '').strip()
+                continue
+            
+            if current_step and line.startswith('-'):
+                # Extract drop-off data from bullet points
+                if 'overall drop-off' in line.lower():
+                    overall_match = re.search(r'(\d+\.?\d*)%.*?(\d+(?:,\d+)*)', line)
+                    overall_pct = float(overall_match.group(1)) if overall_match else 0
+                    users_lost = int(overall_match.group(2).replace(',', '')) if overall_match else 0
+                elif 'android drop-off' in line.lower():
+                    android_match = re.search(r'(\d+\.?\d*)%', line)
+                    android_pct = float(android_match.group(1)) if android_match else 0
+                elif 'ios drop-off' in line.lower():
+                    ios_match = re.search(r'(\d+\.?\d*)%', line)
+                    ios_pct = float(ios_match.group(1)) if ios_match else 0
+                elif 'impact' in line.lower():
+                    impact = line.split(':')[-1].strip().title()
+                    
+                    # Add row to table when we have all data
+                    if current_step and 'overall_pct' in locals():
+                        table_data.append({
+                            'Step Transition': current_step,
+                            'Overall Drop-off': overall_pct,
+                            'Android Drop-off': android_pct if 'android_pct' in locals() else 0,
+                            'iOS Drop-off': ios_pct if 'ios_pct' in locals() else 0,
+                            'Users Lost': users_lost if 'users_lost' in locals() else 0,
+                            'Impact': impact if 'impact' in locals() else 'Unknown'
+                        })
+                        
+                        # Reset variables for next step
+                        del overall_pct, android_pct, ios_pct, users_lost, impact
+        
+        if table_data:
+            df = pd.DataFrame(table_data)
+            return df
+        else:
+            return None
+            
+    except Exception as e:
+        return None
+
+
+def display_dropoff_section(section_title, points):
+    """Display a section of drop-off analysis with structured formatting"""
+    if section_title:
+        st.markdown(f"##### {section_title}")
+    
+    if points:
+        # Create metrics or bullet points based on content
+        metrics_found = False
+        
+        for point in points:
+            if '%' in point and any(word in point.lower() for word in ['drop', 'lost', 'conversion']):
+                # Extract metrics for display
+                try:
+                    # Try to parse metrics from the point
+                    if 'drop-off' in point.lower() or 'lost' in point.lower():
+                        st.markdown(f"🔻 **{point}**")
+                        metrics_found = True
+                    elif 'conversion' in point.lower():
+                        st.markdown(f"📊 **{point}**")
+                        metrics_found = True
+                    else:
+                        st.markdown(f"• {point}")
+                except:
+                    st.markdown(f"• {point}")
+            else:
+                st.markdown(f"• {point}")
+        
+        if not metrics_found and points:
+            # If no metrics found, display as regular bullets
+            pass
+
+
+def display_dropoff_raw_content(content):
+    """Display raw content in expandable section for full details"""
+    with st.expander("📋 View Complete Analysis", expanded=False):
+        st.markdown("#### Full Drop-off Analysis Details")
+        
+        # Clean up the content for better readability
+        cleaned_content = content.replace('**', '').replace('*', '•')
+        
+        # Split into paragraphs and format
+        paragraphs = [p.strip() for p in cleaned_content.split('\n') if p.strip()]
+        
+        for para in paragraphs:
+            if para.startswith('•') or para.startswith('-'):
+                st.markdown(f"  {para}")
+            else:
+                st.markdown(f"**{para}**" if not para.startswith('Step') else f"### {para}")
+
+
+def display_dropoff_table_ui(funnel_data):
+    """Display beautiful drop-off analysis table directly from funnel data"""
+    try:
+        import pandas as pd
+        
+        # Extract platform data for table
+        table_data = []
+        
+        if isinstance(funnel_data, list) and len(funnel_data) > 0:
+            # Get platform data from first parsed daily entry
+            first_day = funnel_data[0]
+            if 'data' in first_day and 'platform_breakdown' in first_day['data']:
+                platform_breakdown = first_day['data']['platform_breakdown']
+                
+                # Extract step transitions for each platform
+                platforms = ['$overall', 'android', 'iOS']
+                step_transitions = []
+                
+                for platform in platforms:
+                    if platform in platform_breakdown and 'funnel_steps' in platform_breakdown[platform]:
+                        steps = platform_breakdown[platform]['funnel_steps']
+                        
+                        for i in range(len(steps) - 1):
+                            current_step = steps[i]
+                            next_step = steps[i + 1]
+                            
+                            # Calculate drop-off
+                            current_count = current_step['count']
+                            next_count = next_step['count']
+                            dropoff_rate = ((current_count - next_count) / current_count * 100) if current_count > 0 else 0
+                            users_lost = current_count - next_count
+                            
+                            # Create step transition name
+                            step_name = f"{current_step['step_label']} → {next_step['step_label']}"
+                            
+                            # Find or create table row
+                            existing_row = next((row for row in table_data if row['Step Transition'] == step_name), None)
+                            
+                            if existing_row:
+                                existing_row[f'{platform.replace("$", "").title()} Drop-off'] = dropoff_rate
+                                if platform == '$overall':
+                                    existing_row['Users Lost'] = users_lost
+                            else:
+                                new_row = {
+                                    'Step Transition': step_name,
+                                    'Overall Drop-off': dropoff_rate if platform == '$overall' else 0,
+                                    'Android Drop-off': dropoff_rate if platform == 'android' else 0,
+                                    'IOS Drop-off': dropoff_rate if platform == 'iOS' else 0,
+                                    'Users Lost': users_lost if platform == '$overall' else 0,
+                                    'Impact': 'HIGH' if dropoff_rate > 70 else 'MEDIUM' if dropoff_rate > 40 else 'LOW'
+                                }
+                                # Clean up the key names
+                                if platform == '$overall':
+                                    new_row['Overall Drop-off'] = dropoff_rate
+                                elif platform == 'android':
+                                    new_row['Android Drop-off'] = dropoff_rate
+                                elif platform == 'iOS':
+                                    new_row['IOS Drop-off'] = dropoff_rate
+                                
+                                table_data.append(new_row)
+                
+                if table_data:
+                    # Create DataFrame
+                    df = pd.DataFrame(table_data)
+                    
+                    # Display beautiful table
+                    col1, col2 = st.columns([3, 1])
+                    
+                    with col1:
+                        st.markdown("#### 📊 Step-by-Step Drop-off Analysis")
+                        
+                        # Beautiful styled dataframe
+                        st.dataframe(
+                            df,
+                            use_container_width=True,
+                            column_config={
+                                "Step Transition": st.column_config.TextColumn(
+                                    "🔄 Step Transition",
+                                    help="Transition between funnel steps",
+                                    width="large"
+                                ),
+                                "Overall Drop-off": st.column_config.ProgressColumn(
+                                    "📊 Overall Drop-off",
+                                    help="Overall drop-off percentage",
+                                    min_value=0,
+                                    max_value=100,
+                                    format="%.1f%%"
+                                ),
+                                "Android Drop-off": st.column_config.ProgressColumn(
+                                    "🤖 Android Drop-off", 
+                                    help="Android platform drop-off percentage",
+                                    min_value=0,
+                                    max_value=100,
+                                    format="%.1f%%"
+                                ),
+                                "IOS Drop-off": st.column_config.ProgressColumn(
+                                    "🍎 iOS Drop-off",
+                                    help="iOS platform drop-off percentage", 
+                                    min_value=0,
+                                    max_value=100,
+                                    format="%.1f%%"
+                                ),
+                                "Users Lost": st.column_config.NumberColumn(
+                                    "👥 Users Lost",
+                                    help="Number of users lost in this step",
+                                    format="%d"
+                                ),
+                                "Impact": st.column_config.TextColumn(
+                                    "⚡ Impact",
+                                    help="Impact level of this drop-off",
+                                    width="small"
+                                )
+                            },
+                            hide_index=True
+                        )
+                    
+                    with col2:
+                        st.markdown("#### 🔍 Summary Metrics")
+                        
+                        # Calculate summary metrics
+                        if len(table_data) > 0:
+                            biggest_dropoff = max(table_data, key=lambda x: x['Overall Drop-off'])
+                            total_users_lost = sum(row['Users Lost'] for row in table_data)
+                            avg_android = sum(row['Android Drop-off'] for row in table_data) / len(table_data)
+                            avg_ios = sum(row['IOS Drop-off'] for row in table_data) / len(table_data)
+                            
+                            # Display metrics
+                            st.metric(
+                                "🔻 Biggest Drop-off",
+                                f"{biggest_dropoff['Overall Drop-off']:.1f}%",
+                                f"{biggest_dropoff['Users Lost']:,} users lost"
+                            )
+                            
+                            st.metric(
+                                "👥 Total Users Lost", 
+                                f"{total_users_lost:,}",
+                                "across all steps"
+                            )
+                            
+                            platform_diff = abs(avg_android - avg_ios)
+                            worse_platform = "Android" if avg_android > avg_ios else "iOS"
+                            st.metric(
+                                "📱 Platform Difference",
+                                f"{worse_platform} worse",
+                                f"{platform_diff:.1f}% difference"
+                            )
+                    
+                    return True
+                        
+        # Fallback if no data
+        st.info("📊 Drop-off analysis will appear here when funnel data is processed")
+        return False
+        
+    except Exception as e:
+        st.error(f"Error creating drop-off table: {e}")
+        return False
+
+
+def display_comprehensive_funnel_insights(ai_analysis, funnel_data=None):
+    """Display comprehensive funnel insights with detailed platform comparison"""
     if not ai_analysis:
         return
     
-    # Revenue Impact - Most Critical First
-    if ai_analysis.get('revenue_impact'):
-        st.markdown("### 💰 Revenue Impact Analysis")
-        with st.container():
-            st.markdown(f"""
-            <div style="background: linear-gradient(135deg, #ff6b6b, #ee5a24); 
-                       color: white; padding: 1.5rem; border-radius: 15px; 
-                       box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin: 1rem 0;">
-                <h4 style="color: white; margin-top: 0;">🎯 Revenue Growth Opportunities</h4>
-                {ai_analysis['revenue_impact'].replace('\\n', '<br>')}
-            </div>
-            """, unsafe_allow_html=True)
+    # Drop-off Analysis - Most Critical First  
+    st.markdown("### 🎯 Drop-off Point Analysis")
+    
+    # Create beautiful table from funnel data directly
+    display_dropoff_table_ui(funnel_data)
+    
+    # Also show AI insights if available
+    if ai_analysis.get('drop_off_analysis'):
+        with st.expander("🤖 AI Drop-off Insights", expanded=False):
+            st.markdown(ai_analysis['drop_off_analysis'])
     
     # Create tabs for different analysis areas
-    tab1, tab2, tab3 = st.tabs(["🏆 Competition & UX", "📊 Tracking & Growth", "📱 Platform Strategy"])
+    tab1, tab2, tab3, tab4 = st.tabs(["📊 Platform Behavior", "💡 Improvements", "🤖 Android vs iOS", "🚀 Action Plan"])
     
     with tab1:
-        # Competitive Positioning
-        if ai_analysis.get('competitive_positioning'):
-            st.markdown("#### 🏆 Competitive Positioning Analysis")
-            with st.expander("View Competitive Insights", expanded=True):
-                st.markdown(ai_analysis['competitive_positioning'])
+        # Platform Behavior Patterns
+        if ai_analysis.get('platform_behavior'):
+            st.markdown("#### 📱 Platform Behavior Patterns")
+            with st.expander("View Behavior Analysis", expanded=True):
+                st.markdown(ai_analysis['platform_behavior'])
         
-        # UX Optimization
-        if ai_analysis.get('ux_optimization'):
-            st.markdown("#### 🎨 User Experience Optimization")
-            with st.expander("View UX Recommendations", expanded=True):
-                st.markdown(ai_analysis['ux_optimization'])
+        # Platform Optimization Overview
+        if ai_analysis.get('platform_optimization'):
+            st.markdown("#### ⚙️ Platform Optimization Overview")
+            with st.expander("View Optimization Strategy", expanded=True):
+                st.markdown(ai_analysis['platform_optimization'])
     
     with tab2:
-        # Tracking Strategy
-        if ai_analysis.get('tracking_strategy'):
-            st.markdown("#### 📊 Advanced Tracking Strategy")
-            with st.expander("View Tracking Recommendations", expanded=True):
-                st.markdown(ai_analysis['tracking_strategy'])
-        
-        # Growth Hacking
-        if ai_analysis.get('growth_hacking'):
-            st.markdown("#### 🚀 Growth Hacking Opportunities")
-            with st.expander("View Growth Strategies", expanded=True):
-                st.markdown(ai_analysis['growth_hacking'])
+        # Improvement Opportunities
+        if ai_analysis.get('improvement_opportunities'):
+            st.markdown("#### 💡 Immediate Improvement Opportunities")
+            with st.expander("View Improvement Strategies", expanded=True):
+                st.markdown(ai_analysis['improvement_opportunities'])
     
     with tab3:
-        # Platform-Specific Analysis
-        if ai_analysis.get('platform_specific'):
-            st.markdown("#### 📱 Platform-Specific Strategies")
-            with st.expander("View Platform Analysis", expanded=True):
-                st.markdown(ai_analysis['platform_specific'])
+        st.markdown("#### 📱 Detailed Platform Comparison")
+        
+        # Create columns for Android and iOS
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            # Android Analysis
+            if ai_analysis.get('android_analysis'):
+                st.markdown("##### 🤖 Android Platform Analysis")
+                with st.container():
+                    st.markdown(f"""
+                    <div style="background: linear-gradient(135deg, #4CAF50, #45a049); 
+                               color: white; padding: 1.5rem; border-radius: 15px; 
+                               box-shadow: 0 8px 25px rgba(0,0,0,0.15); margin: 1rem 0;">
+                        <h4 style="color: white; margin-top: 0;">🤖 Android Strategy</h4>
+                        {ai_analysis['android_analysis'].replace('\\n', '<br>')}
+                    </div>
+                    """, unsafe_allow_html=True)
+            else:
+                st.info("🤖 Android analysis not available")
+        
+        with col2:
+            # iOS Analysis
+            if ai_analysis.get('ios_analysis'):
+                st.markdown("##### 🍎 iOS Platform Analysis")
+                with st.container():
+                    st.markdown(f"""
+                    <div style="background: linear-gradient(135deg, #007AFF, #0056b3); 
+                               color: white; padding: 1.5rem; border-radius: 15px; 
+                               box-shadow: 0 8px 25px rgba(0,0,0,0.15); margin: 1rem 0;">
+                        <h4 style="color: white; margin-top: 0;">🍎 iOS Strategy</h4>
+                        {ai_analysis['ios_analysis'].replace('\\n', '<br>')}
+                    </div>
+                    """, unsafe_allow_html=True)
+            else:
+                st.info("🍎 iOS analysis not available")
+        
+        # Platform Similarities
+        if ai_analysis.get('platform_similarities'):
+            st.markdown("##### 🔄 Platform Similarities & Universal Optimizations")
+            with st.container():
+                st.markdown(f"""
+                <div style="background: linear-gradient(135deg, #9C27B0, #7B1FA2); 
+                           color: white; padding: 1.5rem; border-radius: 15px; 
+                           box-shadow: 0 8px 25px rgba(0,0,0,0.15); margin: 1rem 0;">
+                    <h4 style="color: white; margin-top: 0;">🔄 Cross-Platform Insights</h4>
+                    {ai_analysis['platform_similarities'].replace('\\n', '<br>')}
+                </div>
+                """, unsafe_allow_html=True)
+    
+    with tab4:
+        # Actionable Steps
+        if ai_analysis.get('actionable_steps'):
+            st.markdown("#### 🚀 Actionable Next Steps")
+            with st.container():
+                st.markdown(f"""
+                <div style="background: linear-gradient(135deg, #FF9800, #F57C00); 
+                           color: white; padding: 1.5rem; border-radius: 15px; 
+                           box-shadow: 0 8px 25px rgba(0,0,0,0.15); margin: 1rem 0;">
+                    <h4 style="color: white; margin-top: 0;">🎯 Implementation Roadmap</h4>
+                    {ai_analysis['actionable_steps'].replace('\\n', '<br>')}
+                </div>
+                """, unsafe_allow_html=True)
 
 
 def generate_temporal_ai_analysis(daily_funnel_data, funnel_id, start_date, end_date):
