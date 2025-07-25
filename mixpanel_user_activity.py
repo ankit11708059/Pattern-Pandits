@@ -3039,6 +3039,8 @@ def render_data_query_tab(client):
     # Initialize session state for persistent data management
     if 'chatbot_messages' not in st.session_state:
         st.session_state.chatbot_messages = []
+    if 'chat_is_loading' not in st.session_state:
+        st.session_state.chat_is_loading = False
     if 'current_mixpanel_data' not in st.session_state:
         st.session_state.current_mixpanel_data = None
     if 'current_events_context' not in st.session_state:
@@ -3447,103 +3449,365 @@ def clear_all_data():
         del st.session_state[key]
 
 
-def render_event_catalog_chatbot():
-    """Render the integrated Analytics Knowledge Chatbot for Mixpanel data analysis"""
+def render_modern_chat_interface():
+    """Render beautiful, modern ChatGPT/Grok-style chat interface with loading animations"""
     
-    st.subheader("🤖 AI Assistant - Analytics Knowledge + Event Sequence Analysis")
-    st.markdown("Ask questions about your Mixpanel events and get AI-powered insights with **event sequence analysis**! The assistant now provides temporal context by showing what events happened before and after relevant events, giving you deeper insights into user behavior patterns.")
+    # Add custom CSS for beautiful chat styling
+    st.markdown("""
+    <style>
+    /* Modern Chat Container */
+    .chat-container {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 20px;
+        padding: 20px;
+        margin: 10px 0;
+        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(4px);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+    }
     
-    # Create context information box
+    /* Chat Header */
+    .chat-header {
+        text-align: center;
+        color: white;
+        margin-bottom: 20px;
+    }
+    
+    .chat-title {
+        font-size: 2.2rem;
+        font-weight: 700;
+        background: linear-gradient(45deg, #fff, #e0e7ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 10px;
+    }
+    
+    .chat-subtitle {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        font-weight: 300;
+    }
+    
+    /* Context Status Card */
+    .context-card {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 15px;
+        margin: 15px 0;
+        border-left: 4px solid #10b981;
+        backdrop-filter: blur(10px);
+    }
+    
+    .context-card h4 {
+        color: #10b981;
+        margin-bottom: 10px;
+        font-weight: 600;
+    }
+    
+    .context-item {
+        color: rgba(255, 255, 255, 0.9);
+        margin: 5px 0;
+        font-size: 0.95rem;
+    }
+    
+    /* Chat Messages */
+    .user-message {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 12px 18px;
+        border-radius: 18px 18px 5px 18px;
+        margin: 10px 0;
+        margin-left: 20%;
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        animation: slideInRight 0.3s ease-out;
+    }
+    
+    .assistant-message {
+        background: linear-gradient(135deg, #f3f4f6 0%, #ffffff 100%);
+        color: #374151;
+        padding: 12px 18px;
+        border-radius: 18px 18px 18px 5px;
+        margin: 10px 0;
+        margin-right: 20%;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border-left: 4px solid #10b981;
+        animation: slideInLeft 0.3s ease-out;
+    }
+    
+    /* Loading Animation */
+    .loading-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        margin: 15px 0;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+    }
+    
+    .loading-dots {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .loading-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: linear-gradient(45deg, #10b981, #3b82f6);
+        animation: loadingPulse 1.4s ease-in-out infinite both;
+    }
+    
+    .loading-dot:nth-child(1) { animation-delay: -0.32s; }
+    .loading-dot:nth-child(2) { animation-delay: -0.16s; }
+    .loading-dot:nth-child(3) { animation-delay: 0s; }
+    
+    .loading-text {
+        color: white;
+        margin-left: 15px;
+        font-weight: 500;
+        opacity: 0.9;
+    }
+    
+    /* Input Container */
+    .input-container {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 10px;
+        margin-top: 20px;
+        backdrop-filter: blur(10px);
+    }
+    
+    /* Animations */
+    @keyframes slideInRight {
+        from { transform: translateX(30px); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes slideInLeft {
+        from { transform: translateX(-30px); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes loadingPulse {
+        0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+        40% { transform: scale(1.2); opacity: 1; }
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .user-message { margin-left: 10%; }
+        .assistant-message { margin-right: 10%; }
+        .chat-title { font-size: 1.8rem; }
+    }
+    </style>
+    """, unsafe_allow_html=True)
+    
+    # Beautiful Chat Header
+    st.markdown("""
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="chat-title">🤖 AI Analytics Assistant</div>
+            <div class="chat-subtitle">Powered by GPT-4o • Temporal Intelligence • Event Sequence Analysis</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Modern Context Status Card
+    render_context_status_card()
+    
+    # Example Questions in Expandable Card
+    render_example_questions()
+    
+    # Chat Messages Container
+    st.markdown('<div class="chat-messages-container">', unsafe_allow_html=True)
+    
+    # Display chat history with beautiful styling
+    render_chat_messages()
+    
+    # Show loading state if processing
+    if st.session_state.get('chat_is_loading', False):
+        render_loading_animation()
+    
+    st.markdown('</div>', unsafe_allow_html=True)
+    
+    # Modern Input Interface
+    render_chat_input()
+
+
+def render_context_status_card():
+    """Render beautiful context status card showing available data"""
     context_info = []
+    
     if st.session_state.current_mixpanel_data is not None:
         df = st.session_state.current_mixpanel_data
         if st.session_state.get('is_testing_fallback', False):
-            context_info.append(f"🧪 **Testing Data**: {len(df)} sample events for testing chat functionality")
+            status_color = "#f59e0b"
+            status_icon = "🧪"
+            status_text = f"Testing Data: {len(df)} sample events"
         else:
-            context_info.append(f"📊 **Current Data**: {len(df)} events from {df['user_id'].nunique()} users")
-        context_info.append(f"🎯 **Events**: {', '.join(df['event'].unique()[:5])}{'...' if len(df['event'].unique()) > 5 else ''}")
-        context_info.append(f"📱 **Platforms**: {', '.join(df['platform'].unique())}")
+            status_color = "#10b981"
+            status_icon = "📊"
+            status_text = f"Live Data: {len(df)} events from {df['user_id'].nunique()} users"
+        
+        context_info.extend([
+            f"{status_icon} **{status_text}**",
+            f"🎯 **Events**: {', '.join(df['event'].unique()[:4])}{'...' if len(df['event'].unique()) > 4 else ''}",
+            f"📱 **Platforms**: {', '.join(df['platform'].unique())}"
+        ])
+    else:
+        status_color = "#6b7280"
+        status_icon = "💡"
+        context_info.append(f"{status_icon} **Ready to analyze your data**")
     
     if st.session_state.current_events_context:
-        context_info.append(f"📚 **Analytics Knowledge**: {len(st.session_state.current_events_context)} enriched events with comprehensive insights")
+        context_info.append(f"📚 **Analytics Knowledge**: {len(st.session_state.current_events_context)} enriched events")
     
-    context_info.append("🔍 **Event Sequence Analysis**: Temporal context showing events before/after relevant events")
-    context_info.append("❓ **FAQ Database**: Troubleshooting Q&A for user issues (sim-binding, login, session creation, etc.)")
+    context_info.extend([
+        "🧠 **AI Capabilities**: Temporal analysis, pattern detection, sequence insights",
+        "❓ **FAQ Support**: Troubleshooting and best practices database"
+    ])
     
-    if context_info:
-        st.markdown("**💡 Current Context Available:**")
-        for info in context_info:
-            st.markdown(f"• {info}")
-        st.markdown("*The AI assistant has access to this data for personalized insights!*")
-    else:
-        st.markdown("**💡 Available Capabilities:**")
-        st.markdown("• Comprehensive analytics knowledge queries")
-        st.markdown("• Event insights with timing, context, and debugging info") 
-        st.markdown("• **Event sequence analysis** - temporal context around events")
-        st.markdown("• Troubleshooting FAQ database")
-        st.markdown("• Best practices and recommendations")
-        st.markdown("• *Load Mixpanel data above for personalized sequence analysis*")
+    context_html = f"""
+    <div class="context-card">
+        <h4 style="color: {status_color};">🔥 AI Assistant Status</h4>
+        {''.join([f'<div class="context-item">• {info}</div>' for info in context_info])}
+    </div>
+    """
     
-    # Example questions
-    with st.expander("💡 Example Questions You Can Ask"):
+    st.markdown(context_html, unsafe_allow_html=True)
+
+
+def render_example_questions():
+    """Render example questions in a beautiful expandable card"""
+    with st.expander("💡 Ask Me Anything - Example Questions", expanded=False):
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown("""
+            **🔍 Temporal Analysis:**
+            - "What user is doing around 25th July 12:50?"
+            - "Show me events from midnight to 1 AM"
+            - "What happened 30 minutes before profile_page_opened?"
+            
+            **🛤️ User Journey Analysis:**
+            - "Explain the complete login flow sequence"
+            - "What events lead to successful payments?"
+            - "Show me the onboarding event patterns"
+            
+            **🧠 Smart Pattern Detection:**
+            - "What patterns do you see in this user behavior?"
+            - "Detect any unusual activity in the data"
+            - "Find referral-related event sequences"
+            """)
+        
+        with col2:
+            st.markdown("""
+            **🔧 Troubleshooting & FAQ:**
+            - "How do I know if user login was successful?"
+            - "What causes sim-binding failures?"
+            - "Why is signup not completing?"
+            
+            **📊 Analytics Insights:**
+            - "What events should I track for engagement?"
+            - "Explain platform differences in user behavior"
+            - "How can I improve conversion rates?"
+            
+            **💡 Best Practices:**
+            - "Recommend events for tracking retention"
+            - "What's the optimal event tracking strategy?"
+            - "How to debug user flow issues?"
+            """)
+
+
+def render_chat_messages():
+    """Render chat messages with beautiful styling"""
+    if not st.session_state.chatbot_messages:
         st.markdown("""
-        **About Your Current Data (with Event Sequence Analysis):**
-        - "What does the profile_page_opened event do and what happens before/after it?"
-        - "Explain the user journey around mpin validation"
-        - "What events lead to app_open and what follows?"
-        - "Show me the sequence when users access banking features"
-        
-        **Event Flow & Behavior Analysis:**
-        - "What happens when users navigate to profile?"
-        - "Show me the complete login flow sequence"
-        - "What events occur around payment transactions?"
-        - "Analyze the onboarding event sequence"
-        
-        **General Analytics Knowledge:**
-        - "What events are related to user onboarding?"
-        - "Show me all payment-related events"
-        - "What's the difference between app_open and session_start?"
-        - "Recommend events for tracking user engagement"
-        
-        **Troubleshooting & FAQ:**
-        - "How do I know if user login was successful?"
-        - "What causes sim-binding failures?"
-        - "How to diagnose session creation issues?"
-        - "Why is the user not able to complete signup?"
-        
-        **Analysis & Insights:**
-        - "What patterns do you see in this user behavior?"
-        - "How can I improve conversion at step X?"
-        - "What additional events should I track?"
-        - "Explain the platform differences in this data"
-        """)
+        <div style="text-align: center; padding: 40px; color: rgba(255,255,255,0.7);">
+            <h3>👋 Welcome to your AI Analytics Assistant!</h3>
+            <p>I'm here to help you analyze your Mixpanel data with advanced temporal intelligence.</p>
+            <p>Ask me anything about user behavior, event sequences, or troubleshooting! 🚀</p>
+        </div>
+        """, unsafe_allow_html=True)
+        return
     
-    # Chat interface
-    st.markdown("---")
+    # Display messages with beautiful styling
+    for i, message in enumerate(st.session_state.chatbot_messages):
+        if message["role"] == "user":
+            st.markdown(f"""
+            <div class="user-message">
+                <strong>🧑‍💻 You:</strong><br>
+                {message["content"]}
+            </div>
+            """, unsafe_allow_html=True)
+        else:
+            # Assistant message with enhanced formatting
+            content = message["content"]
+            # Add some basic formatting for better readability
+            content = content.replace("###", "<h4>").replace("##", "<h3>").replace("#", "<h2>")
+            
+            st.markdown(f"""
+            <div class="assistant-message">
+                <strong>🤖 AI Assistant:</strong><br>
+                {content}
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Show sources if available
+            if "sources" in message and message["sources"]:
+                with st.expander("📚 Sources & References", expanded=False):
+                    st.write(message["sources"])
+
+
+def render_loading_animation():
+    """Render beautiful loading animation while processing"""
+    st.markdown("""
+    <div class="loading-container">
+        <div class="loading-dots">
+            <div class="loading-dot"></div>
+            <div class="loading-dot"></div>
+            <div class="loading-dot"></div>
+        </div>
+        <div class="loading-text">🧠 AI is analyzing your data with temporal intelligence...</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+
+def render_chat_input():
+    """Render modern chat input interface"""
+    st.markdown('<div class="input-container">', unsafe_allow_html=True)
     
-    # Display chat history
-    if st.session_state.chatbot_messages:
-        st.markdown("### 💬 Conversation History")
-        
-        # Create a container for chat messages to prevent layout shifts
-        chat_container = st.container()
-        with chat_container:
-            for i, message in enumerate(st.session_state.chatbot_messages):
-                if message["role"] == "user":
-                    with st.chat_message("user"):
-                        st.write(message["content"])
-                else:
-                    with st.chat_message("assistant"):
-                        st.write(message["content"])
-                        if "sources" in message:
-                            with st.expander("📚 Sources"):
-                                st.write(message["sources"])
+    # Process pending chat response if loading
+    if st.session_state.get('chat_is_loading', False):
+        process_chat_response_async()
     
-    # Chat input - Use st.chat_input which handles state better
-    user_question = st.chat_input("Ask about events, user journeys, or get insights...", key="chatbot_input")
+    # Disable input while loading
+    disabled = st.session_state.get('chat_is_loading', False)
+    placeholder = "🧠 Analyzing..." if disabled else "Ask about events, temporal patterns, user journeys, or get insights... 🚀"
     
-    if user_question:
-        handle_chatbot_interaction(user_question)
+    user_question = st.chat_input(
+        placeholder=placeholder,
+        key="modern_chatbot_input",
+        disabled=disabled
+    )
+    
+    st.markdown('</div>', unsafe_allow_html=True)
+    
+    if user_question and not disabled:
+        handle_modern_chatbot_interaction(user_question)
+
+
+def render_event_catalog_chatbot():
+    """Legacy function - now uses modern interface"""
+    render_modern_chat_interface()
 
 
 def detect_user_intent_patterns(df: pd.DataFrame) -> list:
@@ -3770,8 +4034,9 @@ def detect_navigation_patterns(events: list) -> str:
 
 def parse_time_from_question(question: str, df: pd.DataFrame = None) -> dict:
     """
-    🕒 SMART TIME PARSING - Extract time mentions and context from user questions
-    Supports formats like: "around 12 PM", "at 2:30", "July 25 around 1 PM", "12:00 AM night", etc.
+    🕒 ENHANCED TIME PARSING - Extract time mentions and create ±30 minute context windows
+    Handles formats like: "25th july 12:50", "July 25 around 1 PM", "12:00 AM night", etc.
+    Maps to data format: 2025-07-25 HH:MM:SS
     """
     import re
     from datetime import datetime, timedelta
@@ -3783,128 +4048,228 @@ def parse_time_from_question(question: str, df: pd.DataFrame = None) -> dict:
         "time_range_start": None,
         "time_range_end": None,
         "time_context": "",
-        "date_mentioned": None
+        "date_mentioned": None,
+        "query_time_str": ""
     }
     
     try:
         question_lower = question.lower()
         
-        # Common time patterns
+        # Enhanced time patterns for better matching
         time_patterns = [
-            r'\b(\d{1,2}):(\d{2})\s*(am|pm)?\b',  # 12:30 PM, 2:45
-            r'\b(\d{1,2})\s*(am|pm)\b',           # 12 PM, 2 AM
-            r'\baround\s+(\d{1,2}):?(\d{2})?\s*(am|pm)?\b',  # around 12 PM
-            r'\bat\s+(\d{1,2}):?(\d{2})?\s*(am|pm)?\b',      # at 2 PM
-            r'\b(\d{1,2}):(\d{2})\s*o\'?clock\b', # 2:30 o'clock
+            # 24-hour format: 12:50, 13:30, etc.
+            r'\b(\d{1,2}):(\d{2})\b(?!\s*(?:am|pm))',  # 12:50 (24-hour assumed if no AM/PM)
+            # 12-hour format with AM/PM
+            r'\b(\d{1,2}):(\d{2})\s*(am|pm)\b',        # 12:30 PM, 2:45 AM
+            r'\b(\d{1,2})\s*(am|pm)\b',                # 12 PM, 2 AM
+            # Context-based patterns
+            r'\baround\s+(\d{1,2}):?(\d{2})?\s*(am|pm)?\b',  # around 12 PM, around 12:50
+            r'\bat\s+(\d{1,2}):?(\d{2})?\s*(am|pm)?\b',      # at 2 PM, at 12:50
+            r'\b(\d{1,2}):(\d{2})\s*o\'?clock\b',            # 2:30 o'clock
         ]
         
-        # Date patterns
+        # Enhanced date patterns for better date recognition
         date_patterns = [
-            r'\bjuly\s+(\d{1,2})\b',
-            r'\b(\d{1,2})\s+july\b',
-            r'\b(\d{4})-(\d{1,2})-(\d{1,2})\b',  # 2025-07-25
-            r'\b(\d{1,2})/(\d{1,2})/(\d{4})\b',  # 07/25/2025
+            # Various July formats
+            r'\b(\d{1,2})(?:st|nd|rd|th)?\s+july\b',     # 25th july, 25 july
+            r'\bjuly\s+(\d{1,2})(?:st|nd|rd|th)?\b',     # july 25th, july 25
+            # ISO format
+            r'\b(2025)-(\d{1,2})-(\d{1,2})\b',           # 2025-07-25
+            r'\b(\d{1,2})/(\d{1,2})/(2025)\b',           # 07/25/2025, 25/07/2025
+            # Month day format
+            r'\b(\d{1,2})/(\d{1,2})\b',                  # 07/25 (assume current year)
         ]
         
-        # Extract time
+        extracted_hour = None
+        extracted_minute = None
+        is_24_hour = False
+        ampm_indicator = None
+        
+        # Extract time with better logic
         for pattern in time_patterns:
             match = re.search(pattern, question_lower)
             if match:
                 time_info["has_time_mention"] = True
+                time_info["query_time_str"] = match.group()
                 
                 try:
-                    # Build time string for parsing
-                    if len(match.groups()) >= 3 and match.group(3):  # Has AM/PM
-                        hour = int(match.group(1))
-                        minute = int(match.group(2) or 0)
-                        ampm = match.group(3)
-                        time_str = f"{hour}:{minute:02d} {ampm}"
-                    elif len(match.groups()) >= 2:
-                        hour = int(match.group(1))
-                        minute = int(match.group(2) or 0)
-                        time_str = f"{hour}:{minute:02d}"
-                    else:
-                        hour = int(match.group(1))
-                        time_str = f"{hour}:00"
+                    groups = match.groups()
                     
-                    # Use current date as base if no date mentioned
-                    base_date = datetime.now().date()
-                    
-                    # Check for date mentions
-                    for date_pattern in date_patterns:
-                        date_match = re.search(date_pattern, question_lower)
-                        if date_match:
-                            if 'july' in date_pattern:
-                                day = int(date_match.group(1))
-                                base_date = datetime(2025, 7, day).date()  # Assuming 2025
-                                time_info["date_mentioned"] = f"July {day}, 2025"
-                            break
-                    
-                    # Parse the full datetime
-                    full_time_str = f"{base_date} {time_str}"
-                    extracted_time = parser.parse(full_time_str)
-                    
-                    time_info["extracted_time"] = extracted_time
-                    time_info["time_range_start"] = extracted_time - timedelta(minutes=15)
-                    time_info["time_range_end"] = extracted_time + timedelta(minutes=15)
-                    time_info["time_context"] = f"Events from {time_info['time_range_start'].strftime('%H:%M')} to {time_info['time_range_end'].strftime('%H:%M')}"
+                    if len(groups) >= 2 and groups[1] is not None:
+                        # Has both hour and minute
+                        extracted_hour = int(groups[0])
+                        extracted_minute = int(groups[1])
+                        if len(groups) >= 3 and groups[2]:
+                            ampm_indicator = groups[2].lower()
+                        else:
+                            is_24_hour = True  # No AM/PM, assume 24-hour
+                            
+                    elif len(groups) >= 2 and groups[1] and groups[1].lower() in ['am', 'pm']:
+                        # Hour with AM/PM, no minute specified
+                        extracted_hour = int(groups[0])
+                        extracted_minute = 0
+                        ampm_indicator = groups[1].lower()
+                        
+                    elif len(groups) >= 1:
+                        # Just hour
+                        extracted_hour = int(groups[0])
+                        extracted_minute = 0
+                        
+                        # Check if there's an AM/PM in a later group
+                        for group in groups[1:]:
+                            if group and group.lower() in ['am', 'pm']:
+                                ampm_indicator = group.lower()
+                                break
+                        else:
+                            is_24_hour = True
                     
                     break
                     
-                except Exception as e:
-                    # Fallback parsing
-                    time_info["time_context"] = f"Time parsing attempt: {match.group()}"
+                except (ValueError, IndexError) as e:
+                    print(f"⚠️ Time parsing error for pattern: {pattern}, match: {match.group()}, error: {e}")
+                    continue
         
-        # Special handling for relative times
+        if extracted_hour is not None:
+            # Convert to 24-hour format
+            if ampm_indicator == 'pm' and extracted_hour != 12:
+                extracted_hour += 12
+            elif ampm_indicator == 'am' and extracted_hour == 12:
+                extracted_hour = 0
+            
+            # Default date to July 25, 2025 (matching your data format)
+            base_date = datetime(2025, 7, 25).date()
+            
+            # Enhanced date extraction
+            for date_pattern in date_patterns:
+                date_match = re.search(date_pattern, question_lower)
+                if date_match:
+                    try:
+                        groups = date_match.groups()
+                        
+                        if 'july' in date_pattern:
+                            day = int(groups[0])
+                            base_date = datetime(2025, 7, day).date()
+                            time_info["date_mentioned"] = f"July {day}, 2025"
+                            
+                        elif len(groups) >= 3 and groups[0] == '2025':
+                            # ISO format: 2025-07-25
+                            year, month, day = int(groups[0]), int(groups[1]), int(groups[2])
+                            base_date = datetime(year, month, day).date()
+                            time_info["date_mentioned"] = f"{base_date.strftime('%B %d, %Y')}"
+                            
+                        elif len(groups) >= 2:
+                            # MM/DD or DD/MM format
+                            month, day = int(groups[0]), int(groups[1])
+                            if month <= 12 and day <= 31:
+                                base_date = datetime(2025, month, day).date()
+                                time_info["date_mentioned"] = f"{base_date.strftime('%B %d, %Y')}"
+                                
+                    except (ValueError, IndexError) as e:
+                        print(f"⚠️ Date parsing error: {e}")
+                        continue
+                    break
+            
+            # Create the target datetime
+            if extracted_minute is None:
+                extracted_minute = 0
+                
+            extracted_time = datetime.combine(base_date, datetime.min.time().replace(
+                hour=extracted_hour, 
+                minute=extracted_minute, 
+                second=0
+            ))
+            
+            time_info["extracted_time"] = extracted_time
+            # **ENHANCED: ±30 MINUTES (half hour above and below)**
+            time_info["time_range_start"] = extracted_time - timedelta(minutes=30)
+            time_info["time_range_end"] = extracted_time + timedelta(minutes=30)
+            time_info["time_context"] = f"Events from {time_info['time_range_start'].strftime('%Y-%m-%d %H:%M')} to {time_info['time_range_end'].strftime('%Y-%m-%d %H:%M')} (±30 minutes)"
+        
+        # Enhanced relative time handling
         if not time_info["has_time_mention"]:
             relative_patterns = [
-                (r'\bmidnight\b', 0),
-                (r'\bnoon\b', 12),
-                (r'\bmorning\b', 9),
-                (r'\bafternoon\b', 15),
-                (r'\bevening\b', 19),
-                (r'\bnight\b', 22)
+                (r'\bmidnight\b', 0, 0),      # 00:00
+                (r'\bnoon\b', 12, 0),         # 12:00
+                (r'\bmorning\b', 9, 0),       # 09:00
+                (r'\bafternoon\b', 15, 0),    # 15:00
+                (r'\bevening\b', 19, 0),      # 19:00
+                (r'\bnight\b', 22, 0),        # 22:00
+                (r'\bearly\s+morning\b', 6, 0),   # 06:00
+                (r'\blate\s+night\b', 23, 0),     # 23:00
             ]
             
-            for pattern, hour in relative_patterns:
+            for pattern, hour, minute in relative_patterns:
                 if re.search(pattern, question_lower):
                     time_info["has_time_mention"] = True
-                    base_date = datetime.now().date()
-                    extracted_time = datetime.combine(base_date, datetime.min.time().replace(hour=hour))
+                    time_info["query_time_str"] = re.search(pattern, question_lower).group()
+                    
+                    base_date = datetime(2025, 7, 25).date()  # Default to July 25, 2025
+                    extracted_time = datetime.combine(base_date, datetime.min.time().replace(hour=hour, minute=minute))
+                    
                     time_info["extracted_time"] = extracted_time
-                    time_info["time_range_start"] = extracted_time - timedelta(minutes=15)
-                    time_info["time_range_end"] = extracted_time + timedelta(minutes=15)
-                    time_info["time_context"] = f"Around {pattern.strip('\\b')} ({hour:02d}:00)"
+                    # **ENHANCED: ±30 MINUTES**
+                    time_info["time_range_start"] = extracted_time - timedelta(minutes=30)
+                    time_info["time_range_end"] = extracted_time + timedelta(minutes=30)
+                    time_info["time_context"] = f"Around {pattern.strip('\\b').replace('\\s+', ' ')} ({hour:02d}:{minute:02d}) ±30 minutes"
                     break
         
     except Exception as e:
         time_info["time_context"] = f"Time parsing error: {str(e)}"
+        print(f"🚨 Time parsing failed: {e}")
     
     return time_info
 
 
 def filter_events_by_temporal_context(df: pd.DataFrame, time_info: dict) -> pd.DataFrame:
     """
-    📅 TEMPORAL EVENT FILTERING - Get events within ±15 minutes of specified time
+    📅 ENHANCED TEMPORAL EVENT FILTERING - Get events within ±30 minutes of specified time
+    Handles multiple timestamp formats: Unix timestamps, ISO strings (2025-07-25 00:00:58), etc.
     """
     if not time_info["has_time_mention"] or df.empty:
         return df
     
     try:
-        # Convert time column to datetime if it's not already
+        # Enhanced datetime conversion with multiple format support
         if 'time' in df.columns:
-            # Handle different time formats
+            # Handle different time formats robustly
             if df['time'].dtype in ['int64', 'float64']:
-                # Unix timestamp
-                df['datetime'] = pd.to_datetime(df['time'], unit='s')
+                # Unix timestamp (seconds or milliseconds)
+                df['datetime'] = pd.to_datetime(df['time'], unit='s', errors='coerce')
+                # Try milliseconds if seconds don't make sense
+                if df['datetime'].isna().all():
+                    df['datetime'] = pd.to_datetime(df['time'], unit='ms', errors='coerce')
             else:
-                # String datetime
-                df['datetime'] = pd.to_datetime(df['time'])
+                # String datetime - try multiple formats
+                try:
+                    # Try parsing as ISO format first (2025-07-25 00:00:58)
+                    df['datetime'] = pd.to_datetime(df['time'], format='%Y-%m-%d %H:%M:%S', errors='coerce')
+                    
+                    # If that fails, try general parsing
+                    if df['datetime'].isna().any():
+                        df['datetime'] = pd.to_datetime(df['time'], errors='coerce')
+                        
+                except Exception as parse_error:
+                    print(f"⚠️ Datetime parsing fallback: {parse_error}")
+                    df['datetime'] = pd.to_datetime(df['time'], errors='coerce')
         else:
+            print("⚠️ No 'time' column found in data")
+            return df
+        
+        # Remove any rows where datetime parsing failed
+        original_count = len(df)
+        df = df.dropna(subset=['datetime'])
+        if len(df) < original_count:
+            print(f"⚠️ Dropped {original_count - len(df)} rows due to datetime parsing issues")
+        
+        if df.empty:
+            print("⚠️ No valid datetime data found")
             return df
         
         start_time = time_info["time_range_start"]
         end_time = time_info["time_range_end"]
+        
+        print(f"🔍 Filtering events between {start_time} and {end_time}")
+        print(f"📊 Data time range: {df['datetime'].min()} to {df['datetime'].max()}")
         
         # Filter events within the time range
         filtered_df = df[
@@ -3912,19 +4277,22 @@ def filter_events_by_temporal_context(df: pd.DataFrame, time_info: dict) -> pd.D
             (df['datetime'] <= end_time)
         ].copy()
         
-        # Sort by time for better analysis
+        print(f"✅ Found {len(filtered_df)} events in temporal window (±30 minutes)")
+        
+        # Sort by time for chronological analysis
         filtered_df = filtered_df.sort_values('datetime')
         
         return filtered_df
         
     except Exception as e:
-        print(f"⚠️ Temporal filtering error: {e}")
+        print(f"🚨 Temporal filtering error: {e}")
         return df
 
 
 def build_enhanced_temporal_context(question: str, df: pd.DataFrame, analytics_results: list) -> str:
     """
-    🧠 ENHANCED TEMPORAL CONTEXT BUILDER - Create rich context with time-aware event analysis
+    🧠 SUPER ENHANCED TEMPORAL CONTEXT BUILDER - Create incredibly rich context for LLM
+    Provides comprehensive time-aware analysis with full analytics knowledge integration
     """
     try:
         # Parse time from question
@@ -3933,124 +4301,288 @@ def build_enhanced_temporal_context(question: str, df: pd.DataFrame, analytics_r
         if not time_info["has_time_mention"]:
             return ""
         
+        print(f"🕒 Building temporal context for: {time_info['query_time_str']}")
+        
         # Filter events by temporal context
         temporal_df = filter_events_by_temporal_context(df, time_info)
         
         if temporal_df.empty:
             return f"""
-=== ⏰ TEMPORAL ANALYSIS ===
-🕒 **Time Context**: {time_info['time_context']}
-📊 **Events Found**: No events found in the specified time range
-💡 **Suggestion**: Try expanding the time range or check if data exists for this period
+=== ⏰ TEMPORAL ANALYSIS - NO EVENTS FOUND ===
+🕒 **Time Query**: {time_info['query_time_str']}
+📅 **Search Window**: {time_info['time_context']}
+📊 **Events Found**: No events in the specified time range
+🔍 **Data Range**: {df['datetime'].min().strftime('%Y-%m-%d %H:%M')} to {df['datetime'].max().strftime('%Y-%m-%d %H:%M')} ({len(df)} total events)
+💡 **Suggestion**: The requested time may be outside the available data range, or no activity occurred during this period
 """
         
-        # Build rich temporal context
+        # Build incredibly rich temporal context
         temporal_context = f"""
-=== ⏰ TEMPORAL ANALYSIS FOR: {time_info['time_context']} ===
+=== ⏰ COMPREHENSIVE TEMPORAL ANALYSIS ===
+🎯 **User Query**: "{time_info['query_time_str']}"
+📅 **Resolved Time Window**: {time_info['time_context']}
+🎯 **Target Time**: {time_info['extracted_time'].strftime('%Y-%m-%d %H:%M:%S')}
+📊 **Events Found**: {len(temporal_df)} events in ±30 minute window
+📈 **Activity Density**: {len(temporal_df)/60:.2f} events per minute
 
-📅 **Query Time Range**: {time_info['time_range_start'].strftime('%Y-%m-%d %H:%M')} to {time_info['time_range_end'].strftime('%Y-%m-%d %H:%M')}
-📊 **Events in Time Window**: {len(temporal_df)} events found
-
-🔍 **CHRONOLOGICAL EVENT SEQUENCE**:
+🔍 **DETAILED CHRONOLOGICAL EVENT SEQUENCE**:
 """
         
-        # Add chronological event details with analytics context
+        # Enhanced event analysis with full analytics context
         for idx, row in temporal_df.iterrows():
-            event_time = row['datetime'].strftime('%H:%M:%S')
+            event_time = row['datetime'].strftime('%Y-%m-%d %H:%M:%S')
             event_name = row['event']
             
-            # Get analytics knowledge for this event
+            # Calculate time difference from target
+            time_diff = (row['datetime'] - time_info['extracted_time']).total_seconds()
+            time_indicator = f"({time_diff:+.0f}s from target)"
+            
+            # Get comprehensive analytics knowledge for this event
             event_analytics = ""
             for result in analytics_results:
                 if result.get('event_name', '').lower() == event_name.lower():
+                    description = result.get('description', '')
                     context = result.get('context', '')
                     timing = result.get('timing', '')
                     screen = result.get('screen', '')
+                    debug_usage = result.get('debug_usage', '')
+                    production_examples = result.get('production_examples', '')
                     
                     event_analytics = f"""
-    📋 **Analytics Context**: {context[:150]}...
-    ⏱️  **Timing Info**: {timing[:100]}...
-    🖥️  **Screen**: {screen[:100]}..."""
+    📋 **Full Description**: {description}
+    🎯 **Business Context**: {context}
+    ⏱️  **Timing Context**: {timing}
+    🖥️  **Screen/UI**: {screen}"""
+                    
+                    if debug_usage:
+                        event_analytics += f"""
+    🔧 **Debug Usage**: {debug_usage}"""
+                    
+                    if production_examples:
+                        event_analytics += f"""
+    📊 **Real Examples**: {production_examples[:200]}..."""
+                    
                     break
             
+            # Add user properties if available
+            user_properties = ""
+            if 'user_id' in row:
+                user_properties += f"👤 User: {row['user_id'][:20]}... "
+            if 'platform' in row:
+                user_properties += f"📱 Platform: {row.get('platform', 'N/A')} "
+            
             temporal_context += f"""
-⏰ **{event_time}** - `{event_name}`{event_analytics}
+⏰ **{event_time}** {time_indicator} - `{event_name}`
+    {user_properties}{event_analytics}
 """
         
-        # Add pattern analysis for temporal events
+        # Enhanced pattern analysis for temporal events
         pattern_insights = detect_user_intent_patterns(temporal_df)
         if pattern_insights:
             temporal_context += f"""
 
-🧠 **TEMPORAL PATTERN INSIGHTS**:
+🧠 **INTELLIGENT PATTERN INSIGHTS IN TIME WINDOW**:
 """
             for insight in pattern_insights:
-                temporal_context += f"• {insight}\n"
+                temporal_context += f"🔍 {insight}\n"
         
-        # Add event frequency analysis
+        # Enhanced event frequency and distribution analysis
         event_counts = temporal_df['event'].value_counts()
         if len(event_counts) > 1:
             temporal_context += f"""
 
-📈 **EVENT FREQUENCY IN TIME WINDOW**:
+📈 **EVENT DISTRIBUTION ANALYSIS**:
 """
-            for event, count in event_counts.head(5).items():
-                temporal_context += f"• {event}: {count} times\n"
+            for event, count in event_counts.head(8).items():
+                percentage = (count / len(temporal_df)) * 100
+                temporal_context += f"• **{event}**: {count} times ({percentage:.1f}% of activity)\n"
         
-        # Add user journey insights
+        # Enhanced user journey insights with timing analysis
         if len(temporal_df) > 1:
             first_event = temporal_df.iloc[0]['event']
             last_event = temporal_df.iloc[-1]['event']
-            duration = (temporal_df.iloc[-1]['datetime'] - temporal_df.iloc[0]['datetime']).total_seconds()
+            first_time = temporal_df.iloc[0]['datetime']
+            last_time = temporal_df.iloc[-1]['datetime']
+            duration = (last_time - first_time).total_seconds()
+            
+            # Calculate event velocity
+            events_per_minute = len(temporal_df) / (60 if duration < 60 else duration / 60)
             
             temporal_context += f"""
 
-🛤️  **USER JOURNEY SUMMARY**:
-• **Started with**: {first_event}
-• **Ended with**: {last_event}  
-• **Duration**: {duration:.1f} seconds
-• **Activity Level**: {len(temporal_df)} events in 30 minutes ({'High' if len(temporal_df) > 10 else 'Medium' if len(temporal_df) > 5 else 'Low'} activity)
+🛤️  **COMPREHENSIVE USER JOURNEY ANALYSIS**:
+• **Journey Start**: {first_event} at {first_time.strftime('%H:%M:%S')}
+• **Journey End**: {last_event} at {last_time.strftime('%H:%M:%S')}
+• **Total Duration**: {duration:.1f} seconds ({duration/60:.1f} minutes)
+• **Event Velocity**: {events_per_minute:.1f} events per minute
+• **Activity Pattern**: {'Burst activity' if events_per_minute > 2 else 'Steady activity' if events_per_minute > 0.5 else 'Light activity'}
+• **Session Intensity**: {'High' if len(temporal_df) > 20 else 'Medium' if len(temporal_df) > 10 else 'Low'} ({len(temporal_df)} events in 1-hour window)
+"""
+        
+        # Add contextual insights about the time period
+        target_hour = time_info['extracted_time'].hour
+        time_context_insight = ""
+        if 0 <= target_hour <= 5:
+            time_context_insight = "🌙 **Late night/early morning activity** - May indicate different user behavior patterns"
+        elif 6 <= target_hour <= 11:
+            time_context_insight = "🌅 **Morning activity** - Users may be starting their day, checking balances"
+        elif 12 <= target_hour <= 17:
+            time_context_insight = "☀️ **Afternoon activity** - Peak usage time, active financial transactions"
+        elif 18 <= target_hour <= 23:
+            time_context_insight = "🌆 **Evening activity** - Users may be checking accounts, planning finances"
+        
+        if time_context_insight:
+            temporal_context += f"""
+
+🕐 **TEMPORAL BEHAVIOR CONTEXT**:
+{time_context_insight}
 """
         
         return temporal_context
         
     except Exception as e:
-        return f"⚠️ Temporal context building error: {str(e)}"
+        error_msg = f"🚨 Temporal context building error: {str(e)}"
+        print(error_msg)
+        return error_msg
+
+
+def test_temporal_parsing():
+    """
+    🧪 Test function to validate temporal parsing with user's data format
+    """
+    test_cases = [
+        "25th july 12:50",
+        "July 25 around 1 PM", 
+        "12:00 AM night",
+        "around midnight",
+        "at 13:30",
+        "2025-07-25 00:00:58"
+    ]
+    
+    print("🧪 Testing Enhanced Temporal Parsing:")
+    for test_case in test_cases:
+        result = parse_time_from_question(test_case)
+        if result["has_time_mention"]:
+            print(f"✅ '{test_case}' -> {result['time_context']}")
+        else:
+            print(f"❌ '{test_case}' -> No time detected")
+    print()
+
+
+def handle_modern_chatbot_interaction(user_question):
+    """Handle modern chatbot interaction with beautiful loading states and enhanced UX"""
+    
+    # Add user message to history immediately
+    st.session_state.chatbot_messages.append({
+        "role": "user", 
+        "content": user_question,
+        "timestamp": pd.Timestamp.now().strftime("%H:%M:%S")
+    })
+    
+    # Set loading state to show spinner
+    st.session_state.chat_is_loading = True
+    
+    # Force rerun to show user message and loading state
+    st.rerun()
+
+
+def process_chat_response_async():
+    """Process the chat response asynchronously (called after rerun to show loading)"""
+    
+    if not st.session_state.get('chat_is_loading', False):
+        return
+    
+    try:
+        # Get the last user message
+        user_messages = [msg for msg in st.session_state.chatbot_messages if msg["role"] == "user"]
+        if not user_messages:
+            st.session_state.chat_is_loading = False
+            return
+        
+        last_user_question = user_messages[-1]["content"]
+        
+        # Generate response with enhanced error handling
+        with st.spinner("🧠 Processing your query with temporal intelligence..."):
+            response = generate_event_catalog_response(last_user_question)
+            
+            # Enhanced assistant message with metadata
+            assistant_message = {
+                "role": "assistant",
+                "content": response["answer"],
+                "timestamp": pd.Timestamp.now().strftime("%H:%M:%S"),
+                "processing_time": "⚡ Analyzed with GPT-4o"
+            }
+            
+            if "sources" in response and response["sources"]:
+                assistant_message["sources"] = response["sources"]
+            
+            st.session_state.chatbot_messages.append(assistant_message)
+        
+        # Success notification
+        st.success("✅ Analysis complete! Check the response below.")
+        
+    except Exception as e:
+        # Enhanced error handling with user-friendly messages
+        error_type = type(e).__name__
+        
+        if "context_length_exceeded" in str(e).lower():
+            error_content = """
+            🚨 **Context Length Exceeded**
+            
+            The query requires too much context for processing. Try:
+            • Ask a more specific question
+            • Focus on a particular time range
+            • Break complex queries into smaller parts
+            
+            💡 **Tip**: Use temporal queries like "what happened around 12:50" for focused analysis.
+            """
+        elif "rate_limit" in str(e).lower():
+            error_content = """
+            ⏰ **Rate Limit Reached**
+            
+            Too many requests in a short time. Please wait a moment and try again.
+            
+            💡 **Tip**: The AI is quite popular! Give it a few seconds to catch up.
+            """
+        elif "network" in str(e).lower() or "connection" in str(e).lower():
+            error_content = """
+            🌐 **Network Issue**
+            
+            Trouble connecting to AI services. Please:
+            • Check your internet connection
+            • Try again in a moment
+            • The issue usually resolves quickly
+            """
+        else:
+            error_content = f"""
+            ❌ **Unexpected Error ({error_type})**
+            
+            Something went wrong while processing your request.
+            
+            **Error details**: {str(e)[:200]}...
+            
+            💡 **Try**: Refreshing the page or asking your question differently.
+            """
+        
+        error_message = {
+            "role": "assistant",
+            "content": error_content,
+            "timestamp": pd.Timestamp.now().strftime("%H:%M:%S"),
+            "is_error": True
+        }
+        
+        st.session_state.chatbot_messages.append(error_message)
+        st.error("❌ Failed to process request. Check the chat for details.")
+    
+    finally:
+        # Always clear loading state
+        st.session_state.chat_is_loading = False
+        st.rerun()
 
 
 def handle_chatbot_interaction(user_question):
-    """Handle chatbot interaction without causing full page rerun"""
-    
-    # Add user message to history
-    st.session_state.chatbot_messages.append({
-        "role": "user", 
-        "content": user_question
-    })
-    
-    # Generate and add assistant response
-    try:
-        response = generate_event_catalog_response(user_question)
-        
-        assistant_message = {
-            "role": "assistant",
-            "content": response["answer"]
-        }
-        
-        if "sources" in response and response["sources"]:
-            assistant_message["sources"] = response["sources"]
-        
-        st.session_state.chatbot_messages.append(assistant_message)
-        
-        # Force a rerun to show the new messages
-        st.rerun()
-        
-    except Exception as e:
-        error_message = {
-            "role": "assistant",
-            "content": f"Sorry, I encountered an error: {str(e)}. Please try again."
-        }
-        st.session_state.chatbot_messages.append(error_message)
-        st.rerun()
+    """Legacy function - redirects to modern handler"""
+    handle_modern_chatbot_interaction(user_question)
 
 
 def analyze_event_sequences(question: str, df: pd.DataFrame, analytics_results: list) -> str:
@@ -4151,27 +4683,14 @@ def analyze_event_sequences(question: str, df: pd.DataFrame, analytics_results: 
             
             time_str = main_time.strftime('%H:%M:%S') if pd.notna(main_time) else 'Unknown'
             
-            sequence_analysis += f"🎯 SESSION {group_idx + 1}: {main_event} at {time_str}\n"
-            sequence_analysis += f"📊 Session Duration: {len(session_events)} events over {(session_events['time'].max() - session_events['time'].min()).total_seconds():.0f} seconds\n"
+            sequence_analysis += f"Session {group_idx + 1}: {main_event} at {time_str}\n"
+            duration_mins = (session_events['time'].max() - session_events['time'].min()).total_seconds() / 60
+            sequence_analysis += f"Duration: {len(session_events)} events over {duration_mins:.1f} minutes\n"
             
-            # Show all events in this session chronologically
-            sequence_analysis += "📋 Complete Session Timeline:\n"
-            
-            for _, event_row in session_events.iterrows():
-                event_time_str = event_row['time'].strftime('%H:%M:%S') if pd.notna(event_row['time']) else 'Unknown'
-                event_name = event_row['event']
-                
-                if event_name == main_event:
-                    sequence_analysis += f"  🎯 {event_time_str}: **{event_name}** ← MAIN EVENT\n"
-                elif event_name in relevant_events:
-                    sequence_analysis += f"  🔗 {event_time_str}: **{event_name}** ← RELATED EVENT\n"
-                else:
-                    sequence_analysis += f"  ⏱️ {event_time_str}: {event_name}\n"
-            
-            # Add contextual insights
+            # Add related activities
             related_events_in_session = [e for e in session_events['event'].unique() if e != main_event and e in relevant_events]
             if related_events_in_session:
-                sequence_analysis += f"  💡 Related activities: {', '.join(related_events_in_session)}\n"
+                sequence_analysis += f"Related: {', '.join(related_events_in_session)}\n"
             
             sequence_analysis += "\n"
         
@@ -4181,11 +4700,11 @@ def analyze_event_sequences(question: str, df: pd.DataFrame, analytics_results: 
             for session in session_groups:
                 all_events_in_sessions.update(session['events']['event'].unique())
             
-            sequence_analysis += "🔍 KEY INSIGHTS:\n"
-            sequence_analysis += f"• Total unique events in relevant sessions: {len(all_events_in_sessions)}\n"
-            sequence_analysis += f"• Events related to your question: {', '.join(relevant_events)}\n"
+            sequence_analysis += "Summary:\n"
+            sequence_analysis += f"• Found {len(all_events_in_sessions)} unique events\n"
+            sequence_analysis += f"• Key events: {', '.join(list(relevant_events)[:3])}\n"
             
-            # Find patterns
+            # Find simple patterns
             common_patterns = []
             for session in session_groups:
                 events_list = session['events']['event'].tolist()
@@ -4194,9 +4713,7 @@ def analyze_event_sequences(question: str, df: pd.DataFrame, analytics_results: 
                     common_patterns.append(pattern)
             
             if common_patterns:
-                sequence_analysis += f"• Common user flow patterns: {'; '.join(common_patterns[:2])}\n"
-        
-        sequence_analysis += "\n💡 This analysis shows complete user sessions with temporal context to understand the full picture of user behavior.\n"
+                sequence_analysis += f"• Common pattern: {common_patterns[0]}\n"
         
         return sequence_analysis
         
@@ -4223,18 +4740,15 @@ def generate_event_catalog_response(question: str) -> dict:
             df = st.session_state.current_mixpanel_data
             unique_events = df['event'].unique().tolist()
             
-            # Build Mixpanel context (limited to avoid token overflow)
-            mixpanel_context = f"=== MIXPANEL SESSION DATA ===\n"
-            mixpanel_context += f"Total Events: {len(df)}\n"
-            mixpanel_context += f"Unique Event Types: {len(unique_events)}\n"
-            mixpanel_context += f"Users: {df['user_id'].nunique()}\n"
-            mixpanel_context += f"Time Range: {df['time'].min()} to {df['time'].max()}\n\n"
+            # Build simplified Mixpanel context
+            mixpanel_context = f"Session has {len(df)} events from {df['user_id'].nunique()} users.\n"
+            mixpanel_context += f"Time period: {df['time'].min()} to {df['time'].max()}\n\n"
             
-            # Add top 10 most frequent events
-            event_counts = df['event'].value_counts().head(10)
-            mixpanel_context += "Top Events in Session:\n"
+            # Add top 5 most frequent events only
+            event_counts = df['event'].value_counts().head(5)
+            mixpanel_context += "Most common events:\n"
             for event, count in event_counts.items():
-                mixpanel_context += f"- {event}: {count} times\n"
+                mixpanel_context += f"• {event} ({count}x)\n"
         
         # 🎯 STEP 2: Get COMPREHENSIVE Analytics Knowledge for Question + Event Context
         analytics_results = search_analytics_knowledge(question, k=8)  # Get more results for richer context
@@ -4259,45 +4773,26 @@ def generate_event_catalog_response(question: str) -> dict:
                 seen_events.add(event_name)
         
         if unique_analytics:
-            analytics_context = "=== 📚 COMPREHENSIVE ANALYTICS KNOWLEDGE BASE ===\n"
-            analytics_context += f"Found {len(unique_analytics)} relevant analytics insights:\n\n"
+            analytics_context = "=== EVENT DEFINITIONS ===\n"
             
-            for result in unique_analytics[:12]:  # Limit to top 12 for context management
+            for result in unique_analytics[:8]:  # Limit to top 8 for cleaner output
                 event_name = result.get('event_name', 'Knowledge')
                 description = result.get('description', '')
                 context_info = result.get('context', '')
-                timing = result.get('timing', '')
-                screen = result.get('screen', '')
-                debug_usage = result.get('debug_usage', '')
-                production_examples = result.get('production_examples', '')
                 
-                analytics_context += f"🔸 **{event_name}**\n"
-                
-                # Full description (don't truncate - let smart context management handle it)
+                # Extract the core meaning from description, removing technical jargon
                 if description:
-                    analytics_context += f"   📋 Description: {description}\n"
-                
-                # Context information
-                if context_info:
-                    analytics_context += f"   🎯 Context: {context_info}\n"
-                
-                # Timing information
-                if timing:
-                    analytics_context += f"   ⏱️ Timing: {timing}\n"
-                
-                # Screen information
-                if screen:
-                    analytics_context += f"   🖥️ Screen: {screen}\n"
-                
-                # Debug usage (valuable for understanding business context)
-                if debug_usage:
-                    analytics_context += f"   🔧 Debug Usage: {debug_usage}\n"
-                
-                # Production examples (real usage patterns)
-                if production_examples:
-                    analytics_context += f"   📊 Production Examples: {production_examples[:200]}...\n"
-                
-                analytics_context += "\n"
+                    # Clean up the description to be more user-friendly
+                    clean_desc = description.replace('Event: ', '').replace('Context: ', '')
+                    if len(clean_desc) > 80:
+                        clean_desc = clean_desc[:80] + "..."
+                    
+                    analytics_context += f"• {event_name}: {clean_desc}\n"
+                elif context_info:
+                    clean_context = context_info[:60] + "..." if len(context_info) > 60 else context_info
+                    analytics_context += f"• {event_name}: {clean_context}\n"
+                else:
+                    analytics_context += f"• {event_name}: User interaction event\n"
         
         # 🎯 STEP 3: ENHANCED TEMPORAL & SEQUENCE ANALYSIS - Time-aware event analysis
         temporal_context = ""
@@ -4313,62 +4808,24 @@ def generate_event_catalog_response(question: str) -> dict:
             else:
                 sequence_context = analyze_event_sequences(question, df, analytics_results)
         
-        # 🎯 STEP 4: Create SUPER SMART prompt with temporal context awareness
+        # Create simplified prompt for cleaner responses
         enhanced_question = f"""
-        🎯 ADVANCED TEMPORAL-AWARE MIXPANEL ANALYTICS QUERY
+        Question: {question}
         
-        USER QUESTION: {question}
-        
-        📊 MIXPANEL DATA CONTEXT:
+        SESSION DATA:
         {mixpanel_context}
         
-        📚 COMPREHENSIVE ANALYTICS KNOWLEDGE:
         {analytics_context}
         
-        🧠 INTELLIGENT PATTERN & TEMPORAL ANALYSIS:
         {sequence_context}
         
-        🎯 GPT-4o ENHANCED ANALYSIS INSTRUCTIONS:
-        
-        1. **TEMPORAL CONTEXT AWARENESS**: 
-           - If the user asks about specific times, focus on events within that time window
-           - Explain what the user was doing before, during, and after the mentioned time
-           - Use the chronological event sequence to tell a complete story
-           - Connect temporal patterns to understand user session flow
-        
-        2. **COMPREHENSIVE EVENT INTERPRETATION**: 
-           - Use the analytics knowledge base to provide deep context for each event
-           - Explain what each event means in terms of user intent and business value
-           - Don't just list events - INTERPRET their significance and relationships
-           - Use timing, context, screen information from analytics knowledge
-        
-        3. **SMART PATTERN RECOGNITION**: 
-           - Identify user intent patterns (referral, help-seeking, transaction, navigation)
-           - Connect event sequences to understand true user goals
-           - Recognize behavioral patterns and user journey stages
-           - Detect anomalies or interesting user behaviors
-        
-        4. **CONTEXTUAL BUSINESS INSIGHTS**: 
-           - Provide actionable insights based on event patterns and timing
-           - Explain what the patterns mean for product usage and user experience
-           - Suggest improvements or highlight successful user flows
-           - Identify potential friction points or optimization opportunities
-        
-        5. **COMPREHENSIVE RESPONSE STRUCTURE**:
-           - Start with a clear answer to the specific question
-           - Provide temporal context if time-related
-           - Include detailed event analysis with analytics knowledge context
-           - Add pattern insights and behavioral interpretation
-           - End with actionable recommendations or key findings
-        
-        🚀 RESPONSE STYLE: 
-        - Be conversational and insightful
-        - Use clear sections with emojis for readability
-        - Focus on UNDERSTANDING user behavior, not just describing events
-        - Provide specific evidence from the event data and analytics knowledge
-        - Make connections between different pieces of information
-        
-        Please provide a comprehensive, intelligent analysis that demonstrates deep understanding of user behavior patterns and temporal context.
+        INSTRUCTIONS:
+        - Give a clear, direct answer to the user's question
+        - Use simple language without technical jargon
+        - Keep the response concise and easy to understand
+        - Focus on what the user was actually doing, not technical details
+        - If discussing events, explain them in plain English
+        - Include practical insights when relevant
         """
         
         # 🎯 STEP 5: Get POWERFUL GPT-4 Response (with enhanced context management)
@@ -4380,40 +4837,72 @@ def generate_event_catalog_response(question: str) -> dict:
             http_client=httpx.Client(verify=False, timeout=60)  # Longer timeout for better model
         )
         
-        # 🧠 ENHANCED SMART CONTEXT MANAGEMENT - Optimized for temporal queries
+        # 🧠 SUPER SMART CONTEXT MANAGEMENT - Optimized for comprehensive temporal analysis
         estimated_tokens = len(enhanced_question.split()) * 1.3  # Rough token estimation
         
-        if estimated_tokens > 15000:  # Higher threshold for GPT-4o with richer context
-            print(f"🔧 Context optimization triggered - Estimated tokens: {estimated_tokens:.0f}")
+        if estimated_tokens > 18000:  # Higher threshold for GPT-4o with comprehensive temporal data
+            print(f"🔧 Advanced context optimization triggered - Estimated tokens: {estimated_tokens:.0f}")
             
-            # SMART PRIORITIZED TRUNCATION
+            # INTELLIGENT PRIORITIZED OPTIMIZATION
             
-            # 1. Preserve temporal context (highest priority for time-based queries)
-            # Temporal/sequence context is kept as-is since it's most valuable
+            # 1. PRESERVE TEMPORAL CONTEXT (HIGHEST PRIORITY)
+            # Temporal context is absolutely critical for time-based queries - keep it complete
             
-            # 2. Optimize mixpanel context (medium priority)
-            if len(mixpanel_context) > 2500:
+            # 2. SMART MIXPANEL CONTEXT OPTIMIZATION (MEDIUM PRIORITY)
+            if len(mixpanel_context) > 3000:
                 if st.session_state.current_mixpanel_data is not None:
-                    event_counts = df['event'].value_counts().head(8)  # Top 8 events
-                    mixpanel_context = f"=== 📊 MIXPANEL SESSION DATA (Optimized) ===\n"
+                    event_counts = df['event'].value_counts().head(10)  # Top 10 events
+                    mixpanel_context = f"=== 📊 MIXPANEL SESSION DATA (Optimized for Temporal Analysis) ===\n"
                     mixpanel_context += f"Total Events: {len(df)}, Users: {df['user_id'].nunique()}\n"
-                    mixpanel_context += f"Time Range: {df['time'].min()} to {df['time'].max()}\n"
-                    mixpanel_context += f"Date Range: {pd.to_datetime(df['time'], unit='s').dt.date.min()} to {pd.to_datetime(df['time'], unit='s').dt.date.max()}\n"
+                    
+                    # Enhanced time range info for temporal queries
+                    try:
+                        if 'datetime' in df.columns:
+                            time_range = f"{df['datetime'].min().strftime('%Y-%m-%d %H:%M:%S')} to {df['datetime'].max().strftime('%Y-%m-%d %H:%M:%S')}"
+                        else:
+                            time_range = f"{df['time'].min()} to {df['time'].max()}"
+                        mixpanel_context += f"Full Time Range: {time_range}\n"
+                    except:
+                        mixpanel_context += f"Time Range: {df['time'].min()} to {df['time'].max()}\n"
+                    
                     mixpanel_context += "Top Events in Session:\n"
                     for event, count in event_counts.items():
-                        mixpanel_context += f"- {event}: {count} times\n"
+                        percentage = (count / len(df)) * 100
+                        mixpanel_context += f"- {event}: {count} times ({percentage:.1f}%)\n"
             
-            # 3. Optimize analytics context while preserving key insights (lowest priority but still important)
-            if len(analytics_context) > 4000:
-                analytics_context = "=== 📚 KEY ANALYTICS INSIGHTS (Condensed) ===\n"
-                analytics_context += f"Condensed from {len(unique_analytics)} analytics insights:\n\n"
+            # 3. INTELLIGENT ANALYTICS CONTEXT OPTIMIZATION 
+            if len(analytics_context) > 5000:
+                analytics_context = "=== 📚 COMPREHENSIVE ANALYTICS INSIGHTS (Optimized) ===\n"
+                analytics_context += f"Optimized from {len(unique_analytics)} detailed analytics insights:\n\n"
                 
-                # Keep top analytics results with essential information
-                for i, result in enumerate(unique_analytics[:6]):  # Top 6 most relevant
+                # Prioritize analytics results that match events in temporal window if available
+                prioritized_analytics = []
+                temporal_events = set()
+                
+                # Extract events from temporal context if available
+                if "CHRONOLOGICAL EVENT SEQUENCE" in sequence_context:
+                    import re
+                    event_matches = re.findall(r'`([^`]+)`', sequence_context)
+                    temporal_events = set(event_matches)
+                
+                # Prioritize analytics for temporal events first
+                for result in unique_analytics:
+                    event_name = result.get('event_name', '')
+                    if event_name.lower() in [e.lower() for e in temporal_events]:
+                        prioritized_analytics.append(result)
+                
+                # Add remaining analytics up to limit
+                for result in unique_analytics:
+                    if result not in prioritized_analytics and len(prioritized_analytics) < 8:
+                        prioritized_analytics.append(result)
+                
+                # Build optimized analytics context
+                for result in prioritized_analytics:
                     event_name = result.get('event_name', 'Knowledge')
-                    description = result.get('description', '')[:200]  # Reasonable length
-                    context_info = result.get('context', '')[:150]
-                    timing = result.get('timing', '')[:100]
+                    description = result.get('description', '')[:250]  # Slightly longer for better context
+                    context_info = result.get('context', '')[:200]
+                    timing = result.get('timing', '')[:150]
+                    screen = result.get('screen', '')[:100]
                     
                     analytics_context += f"🔸 **{event_name}**\n"
                     if description:
@@ -4422,30 +4911,33 @@ def generate_event_catalog_response(question: str) -> dict:
                         analytics_context += f"   🎯 Context: {context_info}\n"
                     if timing:
                         analytics_context += f"   ⏱️ Timing: {timing}\n"
+                    if screen:
+                        analytics_context += f"   🖥️ Screen: {screen}\n"
                     analytics_context += "\n"
             
-            # Rebuild with optimized context
+            # Rebuild with intelligently optimized context
             enhanced_question = f"""
-            🎯 ADVANCED TEMPORAL-AWARE MIXPANEL ANALYTICS QUERY (Context Optimized)
+            🎯 ADVANCED TEMPORAL INTELLIGENCE MIXPANEL ANALYTICS QUERY (Context Optimized)
             
             USER QUESTION: {question}
             
-            📊 MIXPANEL DATA CONTEXT:
+            📊 MIXPANEL SESSION DATA CONTEXT:
             {mixpanel_context}
             
-            📚 COMPREHENSIVE ANALYTICS KNOWLEDGE:
+            📚 COMPREHENSIVE ANALYTICS KNOWLEDGE DATABASE:
             {analytics_context}
             
-            🧠 INTELLIGENT PATTERN & TEMPORAL ANALYSIS:
+            🧠 SUPER INTELLIGENT TEMPORAL & PATTERN ANALYSIS:
             {sequence_context}
             
-            🎯 GPT-4o ANALYSIS INSTRUCTIONS: 
-            Focus on providing temporal context-aware insights using the comprehensive analytics knowledge.
-            Interpret event patterns and timing to understand user behavior and intent.
-            Provide specific, actionable recommendations based on the available data.
-            Use the analytics knowledge to explain the business context and significance of events.
+            🎯 GPT-4o FOCUSED TEMPORAL ANALYSIS: 
+            Provide comprehensive temporal analysis using the detailed context above.
+            Focus on the specific time period requested with precise chronological insights.
+            Use the analytics knowledge to explain the full business context of each event.
+            Deliver actionable insights based on the temporal behavior patterns.
+            Create a detailed narrative of the user's journey during the specified time window.
             
-            Please provide a comprehensive analysis with temporal awareness and deep event interpretation.
+            Please provide an incredibly detailed, time-aware analysis showcasing temporal intelligence.
             """
         
         ai_response = llm.invoke(enhanced_question)
