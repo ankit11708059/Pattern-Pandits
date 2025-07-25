@@ -19,6 +19,8 @@ from openai import OpenAI
 import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+import hashlib
+import dateutil.parser
 
 # ---------------------------------------------------------------------------
 # Disable SSL verification globally (work-around for self-signed certificates)
@@ -44,6 +46,34 @@ MIXPANEL_SECRET = os.getenv("MIXPANEL_SECRET")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 if OPENAI_API_KEY:
     openai.api_key = OPENAI_API_KEY
+
+
+def convert_user_id_to_sha256(user_id):
+    """Convert user ID to SHA256 hash for Mixpanel API"""
+    if not user_id:
+        return ""
+    # Convert to string if not already
+    user_id_str = str(user_id).strip()
+    # Generate SHA256 hash
+    sha256_hash = hashlib.sha256(user_id_str.encode('utf-8')).hexdigest()
+    return sha256_hash
+
+
+def process_user_ids_input(user_ids_input):
+    """Process user IDs input and convert to SHA256 hashes"""
+    if not user_ids_input.strip():
+        return []
+    
+    user_ids = [uid.strip() for uid in user_ids_input.strip().split('\n') if uid.strip()]
+    
+    # Convert each user ID to SHA256
+    sha256_user_ids = []
+    for user_id in user_ids:
+        sha256_id = convert_user_id_to_sha256(user_id)
+        sha256_user_ids.append(sha256_id)
+        st.info(f"🔐 Converted `{user_id}` → `{sha256_id[:16]}...` (SHA256)")
+    
+    return sha256_user_ids
 
 
 class MixpanelUserActivity:
@@ -110,6 +140,13 @@ class MixpanelUserActivity:
             st.write(f"- Project ID: {self.project_id}")
             st.write(f"- Username: {self.username}")
             st.write(f"- Response Status: {response.status_code}")
+            
+            # Handle 429 rate limit error specifically
+            if response.status_code == 429:
+                st.warning("⚠️ **Rate Limit Reached (429)**")
+                st.info("🔄 **Loading events from testing_events fallback data...**")
+                return self._load_testing_events_fallback()
+            
             response.raise_for_status()
             return response.json()
         except requests.exceptions.SSLError as e:
@@ -125,6 +162,74 @@ class MixpanelUserActivity:
         except json.JSONDecodeError as e:
             st.error(f"JSON decode error: {e}")
             return {"error": f"JSON decode error: {e}"}
+
+    def _load_testing_events_fallback(self):
+        """Load testing events from testing_events.txt as fallback for 429 errors"""
+        try:
+            import re
+            from datetime import datetime
+            
+            st.info("📂 Reading testing_events.txt...")
+            
+            # Read the testing events file
+            with open('testing_events.txt', 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            # Parse events from the text format
+            events = []
+            distinct_id = "0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6"
+            
+            # Extract individual events using regex
+            event_pattern = r'EVENT #(\d+) - (.+?)\nTime: (.+?)\nTimestamp: (.+?)\nProperties:\n(.*?)(?=\n-{80}|\n={80}|$)'
+            
+            matches = re.findall(event_pattern, content, re.DOTALL)
+            
+            for match in matches:
+                event_num, event_name, time_str, timestamp, properties_text = match
+                
+                # Parse properties
+                properties = {}
+                for line in properties_text.split('\n'):
+                    line = line.strip()
+                    if line and ':' in line:
+                        key, value = line.split(':', 1)
+                        key = key.strip()
+                        value = value.strip()
+                        # Convert basic types
+                        if value.lower() == 'true':
+                            value = True
+                        elif value.lower() == 'false':
+                            value = False
+                        elif value.replace('.', '').replace('-', '').isdigit():
+                            try:
+                                value = float(value) if '.' in value else int(value)
+                            except:
+                                pass
+                        properties[key] = value
+                
+                # Create event in Mixpanel format
+                event_data = {
+                    "event": event_name,
+                    "properties": properties
+                }
+                
+                events.append(event_data)
+            
+            # Return in the same format as Mixpanel API
+            result = {
+                "results": {
+                    distinct_id: events
+                }
+            }
+            
+            st.success(f"✅ Loaded {len(events)} testing events for fallback analysis")
+            st.info(f"📊 Testing data includes events: {', '.join(list(set([e['event'] for e in events[:10]])))}")
+            
+            return result
+            
+        except Exception as e:
+            st.error(f"❌ Failed to load testing events fallback: {e}")
+            return {"error": f"Failed to load testing events: {e}"}
 
     def get_events_for_funnel_analysis(self, from_date, to_date, events_list=None):
         """Get events data for funnel analysis using JQL-like approach"""
@@ -1141,9 +1246,42 @@ def render_ai_insights(funnel_data, funnel_id, from_date, to_date):
         except:
             parsed_daily_data = []
         
-        with st.spinner("🧠 Generating comprehensive business analysis with AI..."):
-            # Generate comprehensive AI analysis
-            ai_analysis = generate_llm_funnel_analysis(parsed_daily_data if parsed_daily_data else funnel_data, funnel_id, from_date, to_date)
+        with st.spinner("🧠 Generating comprehensive business analysis with Pattern Pandits intelligence..."):
+            # Extract funnel events from data
+            funnel_events = []
+            if parsed_daily_data:
+                # Try to extract events from parsed daily data
+                for daily_entry in parsed_daily_data:
+                    if 'steps' in daily_entry:
+                        for step in daily_entry['steps']:
+                            if 'event' in step:
+                                funnel_events.append(step['event'])
+            
+            # If no events found in parsed data, try to extract from raw funnel_data
+            if not funnel_events and isinstance(funnel_data, dict):
+                if 'data' in funnel_data:
+                    for date_key, date_data in funnel_data['data'].items():
+                        if isinstance(date_data, dict):
+                            for platform_key, platform_data in date_data.items():
+                                if isinstance(platform_data, list):
+                                    for step in platform_data:
+                                        if isinstance(step, dict) and 'event' in step:
+                                            funnel_events.append(step['event'])
+                                            break  # Only need one example per step
+                                    break  # Only process first platform
+                            break  # Only process first date
+            
+            # Remove duplicates while preserving order
+            funnel_events = list(dict.fromkeys(funnel_events))
+            
+            # Generate enhanced AI analysis using Pattern Pandits event catalog
+            if funnel_events:
+                ai_analysis = get_enhanced_funnel_insights(funnel_events, funnel_data)
+                st.info(f"🎯 Enhanced analysis using {len(funnel_events)} funnel events: {', '.join(funnel_events[:3])}{'...' if len(funnel_events) > 3 else ''}")
+            else:
+                # Fallback to regular analysis
+                ai_analysis = generate_llm_funnel_analysis(parsed_daily_data if parsed_daily_data else funnel_data, funnel_id, from_date, to_date)
+                st.warning("Using standard analysis - could not extract funnel events for enhanced insights")
         
         if ai_analysis:
             # Display comprehensive business analysis with parsed data
@@ -1213,12 +1351,12 @@ def generate_llm_funnel_analysis(funnel_data, funnel_id, from_date, to_date):
         from langchain_openai import ChatOpenAI
         import httpx
         
-        # Initialize LangChain ChatOpenAI (same as rag_utils.py approach)
+        # Initialize LangChain ChatOpenAI with GPT-4 for superior business insights
         llm = ChatOpenAI(
             api_key=OPENAI_API_KEY,
-            temperature=0.7,
-            model="gpt-3.5-turbo-16k",
-            http_client=httpx.Client(verify=False, timeout=30)
+            temperature=0.1,
+            model="gpt-4o",
+            http_client=httpx.Client(verify=False, timeout=60)
         )
         
         # Prepare comprehensive funnel data for LLM
@@ -2278,12 +2416,12 @@ def generate_temporal_ai_analysis(daily_funnel_data, funnel_id, start_date, end_
         from langchain_openai import ChatOpenAI
         import httpx
         
-        # Initialize LangChain ChatOpenAI
+        # Initialize LangChain ChatOpenAI with GPT-4
         llm = ChatOpenAI(
             api_key=OPENAI_API_KEY,
-            temperature=0.7,
-            model="gpt-3.5-turbo-16k",
-            http_client=httpx.Client(verify=False, timeout=30)
+            temperature=0.1,
+            model="gpt-4o",
+            http_client=httpx.Client(verify=False, timeout=60)
         )
         
         # Prepare temporal data summary for LLM
@@ -2477,12 +2615,12 @@ def generate_llm_dashboard_analysis(funnel_data, funnel_steps, from_date, to_dat
         from langchain_openai import ChatOpenAI
         import httpx
         
-        # Initialize LangChain ChatOpenAI (same approach as rag_utils)
+        # Initialize LangChain ChatOpenAI with GPT-4 for enhanced analysis
         llm = ChatOpenAI(
             api_key=OPENAI_API_KEY,
-            temperature=0.7,
-            model="gpt-3.5-turbo",  # Using same model as rag_utils
-            http_client=httpx.Client(verify=False, timeout=30),  # Same SSL handling
+            temperature=0.1,
+            model="gpt-4o",  # Upgraded to GPT-4 for superior insights
+            http_client=httpx.Client(verify=False, timeout=60),  # Extended timeout for better model
         )
         
         # Create focused analysis prompt for dashboard
@@ -2898,122 +3036,1455 @@ def render_data_query_tab(client):
     
     st.sidebar.header("🔧 Configuration")
 
+    # Initialize session state for persistent data management
+    if 'chatbot_messages' not in st.session_state:
+        st.session_state.chatbot_messages = []
+    if 'current_mixpanel_data' not in st.session_state:
+        st.session_state.current_mixpanel_data = None
+    if 'current_events_context' not in st.session_state:
+        st.session_state.current_events_context = None
+    if 'data_query_config' not in st.session_state:
+        st.session_state.data_query_config = {
+            'user_ids': '',
+            'from_date': datetime.now() - timedelta(days=7),
+            'to_date': datetime.now().date(),
+            'last_fetch_time': None
+        }
+    if 'show_mixpanel_data' not in st.session_state:
+        st.session_state.show_mixpanel_data = False
+
+    # Use session state for form inputs to maintain state
     user_ids_input = st.sidebar.text_area(
         "User IDs (one per line)",
+        value=st.session_state.data_query_config.get('user_ids', ''),
         placeholder="Enter user IDs, one per line...",
-        height=100
+        height=100,
+        key="user_ids_input"
     )
 
     col1, col2 = st.sidebar.columns(2)
     with col1:
         from_date = st.date_input(
             "From Date",
-            value=datetime.now() - timedelta(days=7),
-            max_value=datetime.now().date()
+            value=st.session_state.data_query_config.get('from_date', datetime.now() - timedelta(days=7)),
+            max_value=datetime.now().date(),
+            key="from_date_input"
         )
     with col2:
         to_date = st.date_input(
             "To Date",
-            value=datetime.now().date(),
-            max_value=datetime.now().date()
+            value=st.session_state.data_query_config.get('to_date', datetime.now().date()),
+            max_value=datetime.now().date(),
+            key="to_date_input"
         )
 
-    if st.sidebar.button("🔍 Get User Activity", type="primary"):
-        if not user_ids_input.strip():
-            st.error("Please enter at least one user ID")
+    # Update session state with current form values
+    st.session_state.data_query_config.update({
+        'user_ids': user_ids_input,
+        'from_date': from_date,
+        'to_date': to_date
+    })
+
+    # Fetch data button
+    if st.sidebar.button("🔍 Get User Activity", type="primary", key="fetch_data_btn"):
+        fetch_user_activity_data(client, user_ids_input, from_date, to_date)
+    
+    # Testing button to simulate 429 error
+    if st.sidebar.button("🧪 Test 429 Fallback", help="Simulate rate limit and load testing events", key="test_429_btn"):
+        st.sidebar.warning("⚠️ Simulating 429 rate limit...")
+        # Create a mock response that simulates 429 and triggers fallback
+        with st.spinner("Simulating rate limit and loading testing events..."):
+            fallback_response = client._load_testing_events_fallback()
+            if "error" not in fallback_response:
+                df = client.format_activity_data(fallback_response)
+                if not df.empty:
+                    from rag_utils import enrich_with_analytics_knowledge
+                    st.session_state.current_mixpanel_data = df.copy()
+                    st.session_state.is_testing_fallback = True
+                    enriched_df = enrich_with_analytics_knowledge(df)
+                    st.session_state.enriched_mixpanel_data = enriched_df
+                    st.session_state.show_mixpanel_data = True
+                    st.rerun()
+
+    # Show current data status in sidebar
+    if st.session_state.current_mixpanel_data is not None:
+        # Check if using testing fallback data
+        if st.session_state.get('is_testing_fallback', False):
+            st.sidebar.success("🧪 Testing events loaded!")
+            st.sidebar.info("Using fallback data due to rate limiting")
+        else:
+            st.sidebar.success("✅ Data loaded successfully!")
+        
+        df = st.session_state.current_mixpanel_data
+        st.sidebar.metric("Total Events", len(df))
+        st.sidebar.metric("Unique Events", len(df['event'].unique()))
+        
+        if st.sidebar.button("🔄 Clear Data", key="clear_data_btn"):
+            clear_all_data()
+            st.rerun()
+
+    # Display Mixpanel data if available
+    if st.session_state.current_mixpanel_data is not None:
+        display_mixpanel_data_analysis()
+
+    # Always show chatbot (it will show appropriate context based on available data)
+    st.markdown("---")
+    render_event_catalog_chatbot()
+
+
+def fetch_user_activity_data(client, user_ids_input, from_date, to_date):
+    """Fetch and process user activity data"""
+    if not user_ids_input.strip():
+        st.error("Please enter at least one user ID")
+        return
+
+    # Process user IDs and convert to SHA256
+    sha256_user_ids = process_user_ids_input(user_ids_input)
+
+    if not sha256_user_ids:
+        st.error("Please enter valid user IDs")
+        return
+
+    st.success(f"✅ Processing {len(sha256_user_ids)} user ID(s) with SHA256 conversion")
+
+    with st.spinner("Fetching user activity data..."):
+        response = client.get_user_activity(
+            distinct_ids=sha256_user_ids,
+            from_date=from_date.strftime("%Y-%m-%d"),
+            to_date=to_date.strftime("%Y-%m-%d")
+        )
+
+        if "error" in response:
+            st.error(f"Error: {response['error']}")
             return
 
-        user_ids = [uid.strip() for uid in user_ids_input.strip().split('\n') if uid.strip()]
+        df = client.format_activity_data(response)
 
-        if not user_ids:
-            st.error("Please enter valid user IDs")
+        if df.empty:
+            st.warning("No activity data found for the specified users and date range.")
             return
 
-        with st.spinner("Fetching user activity data..."):
-            response = client.get_user_activity(
-                distinct_ids=user_ids,
-                from_date=from_date.strftime("%Y-%m-%d"),
-                to_date=to_date.strftime("%Y-%m-%d")
-            )
+        # Check if this is testing events fallback data
+        testing_distinct_id = "0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6"
+        is_testing_fallback = any(testing_distinct_id in str(uid) for uid in df['user_id'].unique())
+        
+        if is_testing_fallback:
+            st.success("🧪 **Using Testing Events Fallback Data**")
+            st.info("📝 This data includes sample events for analysis and chat functionality")
 
-            if "error" in response:
-                st.error(f"Error: {response['error']}")
-                return
+        # Store data in session state
+        from rag_utils import enrich_with_analytics_knowledge
+        
+        # Store original data first
+        st.session_state.current_mixpanel_data = df.copy()
+        st.session_state.is_testing_fallback = is_testing_fallback
+        
+        # Enrich with event descriptions
+        enriched_df = enrich_with_analytics_knowledge(df)
+        
+        # Store enriched events context for chatbot
+        unique_events = enriched_df['event'].unique().tolist()
+        events_with_descriptions = {}
+        for event in unique_events:
+            event_rows = enriched_df[enriched_df['event'] == event]
+            if not event_rows.empty and 'event_desc' in event_rows.columns:
+                events_with_descriptions[event] = {
+                    'description': event_rows['event_desc'].iloc[0],
+                    'count': len(event_rows),
+                    'platforms': event_rows['platform'].unique().tolist(),
+                    'latest_time': event_rows['time'].max() if pd.notna(event_rows['time']).any() else None
+                }
+        
+        st.session_state.current_events_context = events_with_descriptions
+        st.session_state.data_query_config['last_fetch_time'] = datetime.now()
+        st.session_state.show_mixpanel_data = True
+        
+        # Store enriched data for display
+        st.session_state.enriched_mixpanel_data = enriched_df
 
-            df = client.format_activity_data(response)
+    if is_testing_fallback:
+        st.success(f"🧪 Loaded {len(df)} testing events for analysis and chat functionality")
+    else:
+        st.success(f"✅ Found {len(df)} events for {len(sha256_user_ids)} user(s)")
+    st.rerun()
 
-            if df.empty:
-                st.warning("No activity data found for the specified users and date range.")
-                return
 
-            st.success(f"✅ Found {len(df)} events for {len(user_ids)} user(s)")
+def display_mixpanel_data_analysis():
+    """Display Mixpanel data analysis without triggering reruns"""
+    
+    if st.session_state.current_mixpanel_data is None:
+        return
+        
+    df = st.session_state.current_mixpanel_data
+    enriched_df = st.session_state.get('enriched_mixpanel_data', df)
+    
+    # Display metrics
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.metric("Total Events", len(df))
+    with col2:
+        st.metric("Unique Users", df['user_id'].nunique())
+    with col3:
+        st.metric("Unique Events", df['event'].nunique())
+    with col4:
+        config = st.session_state.data_query_config
+        st.metric("Date Range", f"{config['from_date']} to {config['to_date']}")
 
-            col1, col2, col3, col4 = st.columns(4)
-            with col1:
-                st.metric("Total Events", len(df))
-            with col2:
-                st.metric("Unique Users", df['user_id'].nunique())
-            with col3:
-                st.metric("Unique Events", df['event'].nunique())
-            with col4:
-                st.metric("Date Range", f"{from_date} to {to_date}")
+    # Event timeline and top events
+    if len(df) > 0:
+        st.subheader("📈 Event Timeline")
+        df['date'] = df['time'].dt.date
+        daily_counts = df.groupby('date').size().reset_index(name='count')
+        st.line_chart(daily_counts.set_index('date'))
 
-            if len(df) > 0:
-                st.subheader("📈 Event Timeline")
-                df['date'] = df['time'].dt.date
-                daily_counts = df.groupby('date').size().reset_index(name='count')
-                st.line_chart(daily_counts.set_index('date'))
+        st.subheader("🔥 Top Events")
+        event_counts = df['event'].value_counts().head(10)
+        st.bar_chart(event_counts)
 
-                st.subheader("🔥 Top Events")
-                event_counts = df['event'].value_counts().head(10)
-                st.bar_chart(event_counts)
+    # Activity data table
+    st.subheader("📋 Activity Data")
+    selected_users = st.multiselect(
+        "Filter by Users",
+        options=df['user_id'].unique(),
+        default=df['user_id'].unique(),
+        key="user_filter_multiselect"
+    )
+    
+    filtered_df = enriched_df[enriched_df['user_id'].isin(selected_users)]
+    filtered_df = filtered_df.sort_values("time", ascending=False)
 
-            st.subheader("📋 Activity Data")
-            selected_users = st.multiselect(
-                "Filter by Users",
-                options=df['user_id'].unique(),
-                default=df['user_id'].unique()
-            )
-            filtered_df = df[df['user_id'].isin(selected_users)]
-            filtered_df = filtered_df.sort_values("time", ascending=False)
+    st.dataframe(
+        filtered_df[['time', 'event', 'event_desc', 'user_id', 'platform', 'city', 'country']],
+        use_container_width=True,
+        key="mixpanel_data_table"
+    )
 
-            from rag_utils import enrich_with_event_desc, summarize_session
+    # AI Analysis
+    render_ai_analysis(filtered_df)
+    
+    # Event Intelligence
+    render_event_intelligence(filtered_df)
 
-            filtered_df = enrich_with_event_desc(filtered_df)
 
-            st.dataframe(
-                filtered_df[['time', 'event', 'event_desc', 'user_id', 'platform', 'city', 'country']],
-                use_container_width=True
-            )
+def render_ai_analysis(filtered_df):
+    """Render AI analysis section"""
+    st.subheader("📝 Comprehensive Session Analysis (AI)")
+    st.markdown("*Powered by Pattern Pandits Event Catalog with 375+ detailed event descriptions*")
+    
+    # Use session state to cache analysis
+    analysis_key = f"ai_analysis_{len(filtered_df)}_{hash(str(filtered_df['event'].unique().tolist()))}"
+    
+    if analysis_key not in st.session_state:
+        with st.spinner("🧠 Generating comprehensive analysis using Pattern Pandits intelligence and event catalog…"):
+            from rag_utils import summarize_session
+            summary_raw = summarize_session(filtered_df)
+            summary_text = str(summary_raw).strip() if summary_raw else ""
+            st.session_state[analysis_key] = summary_text
+    else:
+        summary_text = st.session_state[analysis_key]
 
-            # ✅ Updated AI Session Summary
-            st.subheader("📝 Session Summary (AI)")
-            with st.spinner("Generating summary …"):
-                summary_raw = summarize_session(filtered_df)
-                summary_text = str(summary_raw).strip() if summary_raw else ""
+    if summary_text and not summary_text.startswith("("):
+        # Display the narrative summary with proper formatting
+        st.markdown("### 📖 Comprehensive User Journey Analysis")
+        
+        # Create a well-formatted display
+        st.markdown(f"""
+        <div style="background: linear-gradient(135deg, #f8f9fa, #e9ecef); 
+                   padding: 1.5rem; border-radius: 10px; 
+                   border-left: 4px solid #28a745; margin: 1rem 0;
+                   font-size: 1.1rem; line-height: 1.6;">
+            {summary_text}
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # Show detailed raw analysis
+        with st.expander("🔍 Full Technical Analysis & Event Details"):
+            st.markdown("**Comprehensive analysis with event catalog context:**")
+            
+            # Format the text for better readability in the expander
+            formatted_summary = summary_text.replace('. ', '.\n\n')
+            st.markdown(formatted_summary)
+            
+        # Show statistics
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("📊 Analysis Depth", "Comprehensive", help="Using full Pattern Pandits event catalog")
+        with col2:
+            st.metric("🎯 Event Coverage", f"{len(filtered_df['event'].unique())} events", help="Unique events analyzed")
+        with col3:
+            st.metric("⏱️ Timeframe", f"{len(filtered_df)} interactions", help="Total user interactions")
+            
+    elif summary_text.startswith("("):
+        # Handle error cases
+        st.warning(summary_text)
+        st.info("💡 Configure your OpenAI API key and Pinecone setup for enhanced analysis.")
+    else:
+        st.info("No comprehensive analysis could be generated for this session.")
 
-            if summary_text:
-                bullet_points = [
-                    f"• {point.strip()}"
-                    for point in summary_text.split('\n')
-                    if point.strip()
-                ]
-                st.markdown("### 🔍 Key Insights from User Activity")
-                for point in bullet_points:
-                    st.markdown(f"- {point}")
-                with st.expander("🧾 Full Raw Summary"):
-                    st.code(summary_text, language="markdown")
+
+def render_event_intelligence(filtered_df):
+    """Render event intelligence section"""
+    if len(filtered_df) > 0:
+        st.markdown("---")
+        st.subheader("🧠 Pattern Pandits Event Intelligence")
+        st.markdown("Advanced event analysis powered by our comprehensive event catalog")
+        
+        # Get unique events from the session
+        unique_events = filtered_df['event'].unique().tolist()
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown("#### 🔍 Similar Events Discovery")
+            if st.button("🔍 Find Similar Events", help="Discover related events in our catalog", key="find_similar_btn"):
+                with st.spinner("Searching Pattern Pandits event catalog..."):
+                    from rag_utils import search_similar_events
+                    similar_events_data = {}
+                    for event in unique_events[:5]:  # Limit to top 5 events
+                        similar = search_similar_events(event, k=3)
+                        if similar:
+                            similar_events_data[event] = similar
+                    
+                    if similar_events_data:
+                        for event, similar_list in similar_events_data.items():
+                            st.markdown(f"**{event}:**")
+                            for sim in similar_list:
+                                st.markdown(f"• *{sim['event_name']}*: {sim['description'][:100]}...")
+                            st.markdown("")
+                    else:
+                        st.info("No similar events found in catalog")
+        
+        with col2:
+            st.markdown("#### 💡 Event Recommendations")
+            if st.button("💡 Get Tracking Recommendations", help="Get suggestions for additional events to track", key="get_recommendations_btn"):
+                with st.spinner("Analyzing tracking gaps..."):
+                    from rag_utils import get_event_recommendations
+                    recommendations = get_event_recommendations(unique_events)
+                    
+                    if "error" in recommendations:
+                        st.error(recommendations["error"])
+                    elif recommendations and any(recommendations.values()):
+                        st.markdown("**Recommended additional events:**")
+                        for event, suggestions in recommendations.items():
+                            if suggestions:
+                                st.markdown(f"**For {event}:**")
+                                for suggestion in suggestions:
+                                    st.markdown(f"• *{suggestion['event']}*: {suggestion['reason']}")
+                                st.markdown("")
+                    else:
+                        st.info("Your current tracking looks comprehensive!")
+        
+        # Enhanced Event Context
+        with st.expander("📚 Detailed Event Context from Pattern Pandits Catalog"):
+            st.markdown("**Event descriptions and implementation details:**")
+            
+            if len(unique_events) == 0:
+                st.info("No events found in this session.")
             else:
-                st.info("No summary was generated.")
+                # Show event context with improved error handling
+                events_found = 0
+                
+                for event in unique_events:
+                    st.markdown(f"### 🔸 {event}")
+                    
+                    # Get the event description from the enriched dataframe
+                    event_desc = ""
+                    event_rows = filtered_df[filtered_df['event'] == event]
+                    if not event_rows.empty and 'event_desc' in event_rows.columns:
+                        event_desc = event_rows['event_desc'].iloc[0]
+                    
+                    # If no description from dataframe, try direct search
+                    if not event_desc or event_desc.startswith(("Event catalog not available", "No description found", "Unable to retrieve")):
+                        from rag_utils import search_similar_events
+                        similar = search_similar_events(event, k=1)
+                        if similar and len(similar) > 0:
+                            event_desc = similar[0]['description']
+                            events_found += 1
+                        else:
+                            event_desc = f"This event '{event}' appears in your data but doesn't have a detailed description in our Pattern Pandits catalog. This could be a custom event specific to your application."
+                    else:
+                        events_found += 1
+                    
+                    # Display the description
+                    if event_desc:
+                        # Show full description with proper formatting
+                        st.markdown(f"**Description:** {event_desc}")
+                        
+                        # Show event frequency in this session
+                        event_count = len(event_rows)
+                        st.markdown(f"**Frequency in session:** {event_count} occurrence{'s' if event_count != 1 else ''}")
+                        
+                        # Show platforms where this event occurred
+                        platforms = event_rows['platform'].unique().tolist()
+                        platforms = [p for p in platforms if p and p != 'Unknown']
+                        if platforms:
+                            st.markdown(f"**Platforms:** {', '.join(platforms)}")
+                        
+                        # Show latest occurrence
+                        if pd.notna(event_rows['time']).any():
+                            latest_time = event_rows['time'].max()
+                            st.markdown(f"**Latest occurrence:** {latest_time.strftime('%Y-%m-%d %H:%M:%S')}")
+                    
+                    st.markdown("---")
 
-            if st.button("📥 Export to CSV"):
-                csv = filtered_df.to_csv(index=False)
-                st.download_button(
-                    label="Download CSV",
-                    data=csv,
-                    file_name=f"mixpanel_activity_{from_date}_{to_date}.csv",
-                    mime="text/csv"
-                )
+
+def clear_all_data():
+    """Clear all session data"""
+    keys_to_clear = [
+        'current_mixpanel_data', 
+        'current_events_context', 
+        'enriched_mixpanel_data',
+        'show_mixpanel_data'
+    ]
+    
+    for key in keys_to_clear:
+        if key in st.session_state:
+            del st.session_state[key]
+    
+    # Clear AI analysis cache
+    keys_to_remove = [key for key in st.session_state.keys() if key.startswith('ai_analysis_')]
+    for key in keys_to_remove:
+        del st.session_state[key]
+
+
+def render_event_catalog_chatbot():
+    """Render the integrated Analytics Knowledge Chatbot for Mixpanel data analysis"""
+    
+    st.subheader("🤖 AI Assistant - Analytics Knowledge + Event Sequence Analysis")
+    st.markdown("Ask questions about your Mixpanel events and get AI-powered insights with **event sequence analysis**! The assistant now provides temporal context by showing what events happened before and after relevant events, giving you deeper insights into user behavior patterns.")
+    
+    # Create context information box
+    context_info = []
+    if st.session_state.current_mixpanel_data is not None:
+        df = st.session_state.current_mixpanel_data
+        if st.session_state.get('is_testing_fallback', False):
+            context_info.append(f"🧪 **Testing Data**: {len(df)} sample events for testing chat functionality")
+        else:
+            context_info.append(f"📊 **Current Data**: {len(df)} events from {df['user_id'].nunique()} users")
+        context_info.append(f"🎯 **Events**: {', '.join(df['event'].unique()[:5])}{'...' if len(df['event'].unique()) > 5 else ''}")
+        context_info.append(f"📱 **Platforms**: {', '.join(df['platform'].unique())}")
+    
+    if st.session_state.current_events_context:
+        context_info.append(f"📚 **Analytics Knowledge**: {len(st.session_state.current_events_context)} enriched events with comprehensive insights")
+    
+    context_info.append("🔍 **Event Sequence Analysis**: Temporal context showing events before/after relevant events")
+    context_info.append("❓ **FAQ Database**: Troubleshooting Q&A for user issues (sim-binding, login, session creation, etc.)")
+    
+    if context_info:
+        st.markdown("**💡 Current Context Available:**")
+        for info in context_info:
+            st.markdown(f"• {info}")
+        st.markdown("*The AI assistant has access to this data for personalized insights!*")
+    else:
+        st.markdown("**💡 Available Capabilities:**")
+        st.markdown("• Comprehensive analytics knowledge queries")
+        st.markdown("• Event insights with timing, context, and debugging info") 
+        st.markdown("• **Event sequence analysis** - temporal context around events")
+        st.markdown("• Troubleshooting FAQ database")
+        st.markdown("• Best practices and recommendations")
+        st.markdown("• *Load Mixpanel data above for personalized sequence analysis*")
+    
+    # Example questions
+    with st.expander("💡 Example Questions You Can Ask"):
+        st.markdown("""
+        **About Your Current Data (with Event Sequence Analysis):**
+        - "What does the profile_page_opened event do and what happens before/after it?"
+        - "Explain the user journey around mpin validation"
+        - "What events lead to app_open and what follows?"
+        - "Show me the sequence when users access banking features"
+        
+        **Event Flow & Behavior Analysis:**
+        - "What happens when users navigate to profile?"
+        - "Show me the complete login flow sequence"
+        - "What events occur around payment transactions?"
+        - "Analyze the onboarding event sequence"
+        
+        **General Analytics Knowledge:**
+        - "What events are related to user onboarding?"
+        - "Show me all payment-related events"
+        - "What's the difference between app_open and session_start?"
+        - "Recommend events for tracking user engagement"
+        
+        **Troubleshooting & FAQ:**
+        - "How do I know if user login was successful?"
+        - "What causes sim-binding failures?"
+        - "How to diagnose session creation issues?"
+        - "Why is the user not able to complete signup?"
+        
+        **Analysis & Insights:**
+        - "What patterns do you see in this user behavior?"
+        - "How can I improve conversion at step X?"
+        - "What additional events should I track?"
+        - "Explain the platform differences in this data"
+        """)
+    
+    # Chat interface
+    st.markdown("---")
+    
+    # Display chat history
+    if st.session_state.chatbot_messages:
+        st.markdown("### 💬 Conversation History")
+        
+        # Create a container for chat messages to prevent layout shifts
+        chat_container = st.container()
+        with chat_container:
+            for i, message in enumerate(st.session_state.chatbot_messages):
+                if message["role"] == "user":
+                    with st.chat_message("user"):
+                        st.write(message["content"])
+                else:
+                    with st.chat_message("assistant"):
+                        st.write(message["content"])
+                        if "sources" in message:
+                            with st.expander("📚 Sources"):
+                                st.write(message["sources"])
+    
+    # Chat input - Use st.chat_input which handles state better
+    user_question = st.chat_input("Ask about events, user journeys, or get insights...", key="chatbot_input")
+    
+    if user_question:
+        handle_chatbot_interaction(user_question)
+
+
+def detect_user_intent_patterns(df: pd.DataFrame) -> list:
+    """
+    🧠 SUPER SMART PATTERN DETECTION - Identify complex user intent patterns from event sequences
+    Examples: Profile navigation for referrals, help-seeking behavior, transaction patterns, etc.
+    """
+    patterns = []
+    
+    try:
+        # Convert to list for easier sequence analysis
+        events = df[['event', 'time']].to_dict('records')
+        
+        # 🎯 PATTERN 1: Profile Navigation with Invite/Referral Intent
+        profile_invite_pattern = detect_profile_referral_intent(events)
+        if profile_invite_pattern:
+            patterns.append(profile_invite_pattern)
+        
+        # 🎯 PATTERN 2: Help-Seeking Behavior Detection
+        help_seeking_pattern = detect_help_seeking_behavior(events)
+        if help_seeking_pattern:
+            patterns.append(help_seeking_pattern)
+        
+        # 🎯 PATTERN 3: Transaction/Payment Flow Analysis
+        transaction_pattern = detect_transaction_intent(events)
+        if transaction_pattern:
+            patterns.append(transaction_pattern)
+        
+        # 🎯 PATTERN 4: Onboarding/Registration Flow Analysis
+        onboarding_pattern = detect_onboarding_flow(events)
+        if onboarding_pattern:
+            patterns.append(onboarding_pattern)
+        
+        # 🎯 PATTERN 5: Navigation Pattern Analysis
+        navigation_pattern = detect_navigation_patterns(events)
+        if navigation_pattern:
+            patterns.append(navigation_pattern)
+        
+    except Exception as e:
+        patterns.append(f"⚠️ Pattern analysis error: {str(e)}")
+    
+    return patterns
+
+
+def detect_profile_referral_intent(events: list) -> str:
+    """Detect when user visits profile for referral/invite purposes"""
+    try:
+        profile_events = []
+        invite_events = []
+        
+        for i, event in enumerate(events):
+            event_name = event['event'].lower()
+            
+            # Profile-related events
+            if any(keyword in event_name for keyword in ['profile_page_opened', 'profile']):
+                profile_events.append((i, event))
+            
+            # Invite/referral-related events
+            if any(keyword in event_name for keyword in ['invite', 'referral', 'invite_page_open', 'profile_invite_code_clicked']):
+                invite_events.append((i, event))
+        
+        # Check for pattern: profile → invite/referral events → profile
+        if len(profile_events) >= 2 and invite_events:
+            # Find invite events between profile events
+            for i, (prof_idx1, prof_event1) in enumerate(profile_events[:-1]):
+                prof_idx2, prof_event2 = profile_events[i + 1]
+                
+                # Check if there are invite events between these profile events
+                invite_between = [inv for inv_idx, inv in invite_events if prof_idx1 < inv_idx < prof_idx2]
+                
+                if invite_between:
+                    invite_event_names = [inv['event'] for inv in invite_between]
+                    time_span = prof_event2['time'] - prof_event1['time']
+                    
+                    return f"🎯 **REFERRAL INTENT DETECTED**: User visited profile page, then interacted with invite features ({', '.join(invite_event_names)}), then returned to profile. Time span: {time_span:.1f}s - **USER LIKELY USING PROFILE FOR REFERRAL PURPOSES**"
+        
+        # Check for direct invite activity after profile access
+        if profile_events and invite_events:
+            last_profile_idx = max([idx for idx, _ in profile_events])
+            invite_after_profile = [inv for inv_idx, inv in invite_events if inv_idx > last_profile_idx]
+            
+            if invite_after_profile:
+                invite_names = [inv['event'] for inv in invite_after_profile]
+                return f"🎯 **INVITE ACTIVITY DETECTED**: After accessing profile, user engaged with invite features: {', '.join(invite_names)} - **REFERRAL INTENT LIKELY**"
+    
+    except Exception:
+        pass
+    
+    return ""
+
+
+def detect_help_seeking_behavior(events: list) -> str:
+    """Detect patterns indicating user is seeking help or having issues"""
+    try:
+        help_keywords = ['help', 'support', 'chat', 'faq', 'error', 'trouble', 'issue']
+        error_keywords = ['error', 'failed', 'timeout', 'retry']
+        
+        help_events = []
+        error_events = []
+        
+        for i, event in enumerate(events):
+            event_name = event['event'].lower()
+            
+            if any(keyword in event_name for keyword in help_keywords):
+                help_events.append((i, event))
+            
+            if any(keyword in event_name for keyword in error_keywords):
+                error_events.append((i, event))
+        
+        # Check for error followed by help-seeking
+        if error_events and help_events:
+            for err_idx, err_event in error_events:
+                help_after_error = [help_event for help_idx, help_event in help_events if help_idx > err_idx]
+                
+                if help_after_error:
+                    return f"🆘 **HELP-SEEKING DETECTED**: User encountered error ({err_event['event']}) then sought help ({help_after_error[0]['event']}) - **USER NEEDS ASSISTANCE**"
+        
+        # Multiple help interactions indicate struggle
+        if len(help_events) >= 3:
+            help_event_names = [event['event'] for _, event in help_events[-3:]]
+            return f"🆘 **PERSISTENT HELP-SEEKING**: Multiple help interactions detected: {', '.join(help_event_names)} - **USER STRUGGLING WITH SOMETHING**"
+    
+    except Exception:
+        pass
+    
+    return ""
+
+
+def detect_transaction_intent(events: list) -> str:
+    """Detect transaction or payment-related user intent"""
+    try:
+        transaction_keywords = ['send', 'pay', 'transfer', 'upi', 'payment', 'money', 'amount']
+        
+        transaction_events = []
+        for i, event in enumerate(events):
+            event_name = event['event'].lower()
+            if any(keyword in event_name for keyword in transaction_keywords):
+                transaction_events.append((i, event))
+        
+        if len(transaction_events) >= 3:
+            # Group by proximity (within 60 seconds)
+            grouped_transactions = []
+            current_group = [transaction_events[0]]
+            
+            for i in range(1, len(transaction_events)):
+                prev_time = current_group[-1][1]['time']
+                curr_time = transaction_events[i][1]['time']
+                
+                if curr_time - prev_time <= 60:  # Within 60 seconds
+                    current_group.append(transaction_events[i])
+                else:
+                    grouped_transactions.append(current_group)
+                    current_group = [transaction_events[i]]
+            
+            grouped_transactions.append(current_group)
+            
+            # Find the longest transaction flow
+            longest_flow = max(grouped_transactions, key=len)
+            if len(longest_flow) >= 3:
+                flow_events = [event['event'] for _, event in longest_flow]
+                return f"💳 **TRANSACTION FLOW DETECTED**: Intensive payment activity: {' → '.join(flow_events)} - **USER ACTIVELY TRANSACTING**"
+    
+    except Exception:
+        pass
+    
+    return ""
+
+
+def detect_onboarding_flow(events: list) -> str:
+    """Detect user onboarding or registration flow"""
+    try:
+        onboarding_keywords = ['login', 'signup', 'register', 'phone', 'otp', 'verification', 'mpin', 'permission']
+        
+        onboarding_events = []
+        for i, event in enumerate(events):
+            event_name = event['event'].lower()
+            if any(keyword in event_name for keyword in onboarding_keywords):
+                onboarding_events.append((i, event))
+        
+        if len(onboarding_events) >= 4:
+            # Check if events are in chronological sequence (typical onboarding flow)
+            event_names = [event['event'] for _, event in onboarding_events[:5]]
+            
+            # Look for typical signup flow
+            signup_indicators = ['login', 'phone', 'otp', 'verification', 'mpin']
+            signup_score = sum(1 for indicator in signup_indicators 
+                             if any(indicator in event_name.lower() for event_name in event_names))
+            
+            if signup_score >= 3:
+                return f"🔐 **ONBOARDING FLOW DETECTED**: User going through registration/setup: {' → '.join(event_names)} - **NEW USER ONBOARDING**"
+    
+    except Exception:
+        pass
+    
+    return ""
+
+
+def detect_navigation_patterns(events: list) -> str:
+    """Detect interesting navigation patterns"""
+    try:
+        nav_events = []
+        for i, event in enumerate(events):
+            event_name = event['event'].lower()
+            if 'nav' in event_name or 'page' in event_name or 'screen' in event_name:
+                nav_events.append((i, event))
+        
+        if len(nav_events) >= 5:
+            # Look for rapid page switching (exploration behavior)
+            rapid_switches = 0
+            for i in range(1, len(nav_events)):
+                time_diff = nav_events[i][1]['time'] - nav_events[i-1][1]['time']
+                if time_diff <= 5:  # Very quick navigation (5 seconds)
+                    rapid_switches += 1
+            
+            if rapid_switches >= 3:
+                recent_pages = [event['event'] for _, event in nav_events[-5:]]
+                return f"🔄 **EXPLORATION BEHAVIOR**: Rapid page switching detected - {rapid_switches} quick transitions through: {' → '.join(recent_pages)} - **USER EXPLORING/BROWSING**"
+    
+    except Exception:
+        pass
+    
+    return ""
+
+
+def parse_time_from_question(question: str, df: pd.DataFrame = None) -> dict:
+    """
+    🕒 SMART TIME PARSING - Extract time mentions and context from user questions
+    Supports formats like: "around 12 PM", "at 2:30", "July 25 around 1 PM", "12:00 AM night", etc.
+    """
+    import re
+    from datetime import datetime, timedelta
+    import dateutil.parser as parser
+    
+    time_info = {
+        "has_time_mention": False,
+        "extracted_time": None,
+        "time_range_start": None,
+        "time_range_end": None,
+        "time_context": "",
+        "date_mentioned": None
+    }
+    
+    try:
+        question_lower = question.lower()
+        
+        # Common time patterns
+        time_patterns = [
+            r'\b(\d{1,2}):(\d{2})\s*(am|pm)?\b',  # 12:30 PM, 2:45
+            r'\b(\d{1,2})\s*(am|pm)\b',           # 12 PM, 2 AM
+            r'\baround\s+(\d{1,2}):?(\d{2})?\s*(am|pm)?\b',  # around 12 PM
+            r'\bat\s+(\d{1,2}):?(\d{2})?\s*(am|pm)?\b',      # at 2 PM
+            r'\b(\d{1,2}):(\d{2})\s*o\'?clock\b', # 2:30 o'clock
+        ]
+        
+        # Date patterns
+        date_patterns = [
+            r'\bjuly\s+(\d{1,2})\b',
+            r'\b(\d{1,2})\s+july\b',
+            r'\b(\d{4})-(\d{1,2})-(\d{1,2})\b',  # 2025-07-25
+            r'\b(\d{1,2})/(\d{1,2})/(\d{4})\b',  # 07/25/2025
+        ]
+        
+        # Extract time
+        for pattern in time_patterns:
+            match = re.search(pattern, question_lower)
+            if match:
+                time_info["has_time_mention"] = True
+                
+                try:
+                    # Build time string for parsing
+                    if len(match.groups()) >= 3 and match.group(3):  # Has AM/PM
+                        hour = int(match.group(1))
+                        minute = int(match.group(2) or 0)
+                        ampm = match.group(3)
+                        time_str = f"{hour}:{minute:02d} {ampm}"
+                    elif len(match.groups()) >= 2:
+                        hour = int(match.group(1))
+                        minute = int(match.group(2) or 0)
+                        time_str = f"{hour}:{minute:02d}"
+                    else:
+                        hour = int(match.group(1))
+                        time_str = f"{hour}:00"
+                    
+                    # Use current date as base if no date mentioned
+                    base_date = datetime.now().date()
+                    
+                    # Check for date mentions
+                    for date_pattern in date_patterns:
+                        date_match = re.search(date_pattern, question_lower)
+                        if date_match:
+                            if 'july' in date_pattern:
+                                day = int(date_match.group(1))
+                                base_date = datetime(2025, 7, day).date()  # Assuming 2025
+                                time_info["date_mentioned"] = f"July {day}, 2025"
+                            break
+                    
+                    # Parse the full datetime
+                    full_time_str = f"{base_date} {time_str}"
+                    extracted_time = parser.parse(full_time_str)
+                    
+                    time_info["extracted_time"] = extracted_time
+                    time_info["time_range_start"] = extracted_time - timedelta(minutes=15)
+                    time_info["time_range_end"] = extracted_time + timedelta(minutes=15)
+                    time_info["time_context"] = f"Events from {time_info['time_range_start'].strftime('%H:%M')} to {time_info['time_range_end'].strftime('%H:%M')}"
+                    
+                    break
+                    
+                except Exception as e:
+                    # Fallback parsing
+                    time_info["time_context"] = f"Time parsing attempt: {match.group()}"
+        
+        # Special handling for relative times
+        if not time_info["has_time_mention"]:
+            relative_patterns = [
+                (r'\bmidnight\b', 0),
+                (r'\bnoon\b', 12),
+                (r'\bmorning\b', 9),
+                (r'\bafternoon\b', 15),
+                (r'\bevening\b', 19),
+                (r'\bnight\b', 22)
+            ]
+            
+            for pattern, hour in relative_patterns:
+                if re.search(pattern, question_lower):
+                    time_info["has_time_mention"] = True
+                    base_date = datetime.now().date()
+                    extracted_time = datetime.combine(base_date, datetime.min.time().replace(hour=hour))
+                    time_info["extracted_time"] = extracted_time
+                    time_info["time_range_start"] = extracted_time - timedelta(minutes=15)
+                    time_info["time_range_end"] = extracted_time + timedelta(minutes=15)
+                    time_info["time_context"] = f"Around {pattern.strip('\\b')} ({hour:02d}:00)"
+                    break
+        
+    except Exception as e:
+        time_info["time_context"] = f"Time parsing error: {str(e)}"
+    
+    return time_info
+
+
+def filter_events_by_temporal_context(df: pd.DataFrame, time_info: dict) -> pd.DataFrame:
+    """
+    📅 TEMPORAL EVENT FILTERING - Get events within ±15 minutes of specified time
+    """
+    if not time_info["has_time_mention"] or df.empty:
+        return df
+    
+    try:
+        # Convert time column to datetime if it's not already
+        if 'time' in df.columns:
+            # Handle different time formats
+            if df['time'].dtype in ['int64', 'float64']:
+                # Unix timestamp
+                df['datetime'] = pd.to_datetime(df['time'], unit='s')
+            else:
+                # String datetime
+                df['datetime'] = pd.to_datetime(df['time'])
+        else:
+            return df
+        
+        start_time = time_info["time_range_start"]
+        end_time = time_info["time_range_end"]
+        
+        # Filter events within the time range
+        filtered_df = df[
+            (df['datetime'] >= start_time) & 
+            (df['datetime'] <= end_time)
+        ].copy()
+        
+        # Sort by time for better analysis
+        filtered_df = filtered_df.sort_values('datetime')
+        
+        return filtered_df
+        
+    except Exception as e:
+        print(f"⚠️ Temporal filtering error: {e}")
+        return df
+
+
+def build_enhanced_temporal_context(question: str, df: pd.DataFrame, analytics_results: list) -> str:
+    """
+    🧠 ENHANCED TEMPORAL CONTEXT BUILDER - Create rich context with time-aware event analysis
+    """
+    try:
+        # Parse time from question
+        time_info = parse_time_from_question(question, df)
+        
+        if not time_info["has_time_mention"]:
+            return ""
+        
+        # Filter events by temporal context
+        temporal_df = filter_events_by_temporal_context(df, time_info)
+        
+        if temporal_df.empty:
+            return f"""
+=== ⏰ TEMPORAL ANALYSIS ===
+🕒 **Time Context**: {time_info['time_context']}
+📊 **Events Found**: No events found in the specified time range
+💡 **Suggestion**: Try expanding the time range or check if data exists for this period
+"""
+        
+        # Build rich temporal context
+        temporal_context = f"""
+=== ⏰ TEMPORAL ANALYSIS FOR: {time_info['time_context']} ===
+
+📅 **Query Time Range**: {time_info['time_range_start'].strftime('%Y-%m-%d %H:%M')} to {time_info['time_range_end'].strftime('%Y-%m-%d %H:%M')}
+📊 **Events in Time Window**: {len(temporal_df)} events found
+
+🔍 **CHRONOLOGICAL EVENT SEQUENCE**:
+"""
+        
+        # Add chronological event details with analytics context
+        for idx, row in temporal_df.iterrows():
+            event_time = row['datetime'].strftime('%H:%M:%S')
+            event_name = row['event']
+            
+            # Get analytics knowledge for this event
+            event_analytics = ""
+            for result in analytics_results:
+                if result.get('event_name', '').lower() == event_name.lower():
+                    context = result.get('context', '')
+                    timing = result.get('timing', '')
+                    screen = result.get('screen', '')
+                    
+                    event_analytics = f"""
+    📋 **Analytics Context**: {context[:150]}...
+    ⏱️  **Timing Info**: {timing[:100]}...
+    🖥️  **Screen**: {screen[:100]}..."""
+                    break
+            
+            temporal_context += f"""
+⏰ **{event_time}** - `{event_name}`{event_analytics}
+"""
+        
+        # Add pattern analysis for temporal events
+        pattern_insights = detect_user_intent_patterns(temporal_df)
+        if pattern_insights:
+            temporal_context += f"""
+
+🧠 **TEMPORAL PATTERN INSIGHTS**:
+"""
+            for insight in pattern_insights:
+                temporal_context += f"• {insight}\n"
+        
+        # Add event frequency analysis
+        event_counts = temporal_df['event'].value_counts()
+        if len(event_counts) > 1:
+            temporal_context += f"""
+
+📈 **EVENT FREQUENCY IN TIME WINDOW**:
+"""
+            for event, count in event_counts.head(5).items():
+                temporal_context += f"• {event}: {count} times\n"
+        
+        # Add user journey insights
+        if len(temporal_df) > 1:
+            first_event = temporal_df.iloc[0]['event']
+            last_event = temporal_df.iloc[-1]['event']
+            duration = (temporal_df.iloc[-1]['datetime'] - temporal_df.iloc[0]['datetime']).total_seconds()
+            
+            temporal_context += f"""
+
+🛤️  **USER JOURNEY SUMMARY**:
+• **Started with**: {first_event}
+• **Ended with**: {last_event}  
+• **Duration**: {duration:.1f} seconds
+• **Activity Level**: {len(temporal_df)} events in 30 minutes ({'High' if len(temporal_df) > 10 else 'Medium' if len(temporal_df) > 5 else 'Low'} activity)
+"""
+        
+        return temporal_context
+        
+    except Exception as e:
+        return f"⚠️ Temporal context building error: {str(e)}"
+
+
+def handle_chatbot_interaction(user_question):
+    """Handle chatbot interaction without causing full page rerun"""
+    
+    # Add user message to history
+    st.session_state.chatbot_messages.append({
+        "role": "user", 
+        "content": user_question
+    })
+    
+    # Generate and add assistant response
+    try:
+        response = generate_event_catalog_response(user_question)
+        
+        assistant_message = {
+            "role": "assistant",
+            "content": response["answer"]
+        }
+        
+        if "sources" in response and response["sources"]:
+            assistant_message["sources"] = response["sources"]
+        
+        st.session_state.chatbot_messages.append(assistant_message)
+        
+        # Force a rerun to show the new messages
+        st.rerun()
+        
+    except Exception as e:
+        error_message = {
+            "role": "assistant",
+            "content": f"Sorry, I encountered an error: {str(e)}. Please try again."
+        }
+        st.session_state.chatbot_messages.append(error_message)
+        st.rerun()
+
+
+def analyze_event_sequences(question: str, df: pd.DataFrame, analytics_results: list) -> str:
+    """
+    SUPER SMART event sequence analysis with pattern recognition and user intent detection
+    Detects complex user flows like profile navigation with invite interactions
+    """
+    try:
+        if df.empty:
+            return ""
+        
+        # Sort events by time for sequence analysis
+        df_sorted = df.sort_values('time').reset_index(drop=True)
+        
+        sequence_analysis = "=== 🧠 SMART EVENT PATTERN ANALYSIS ===\n"
+        sequence_analysis += "AI-powered user intent detection from event sequences:\n\n"
+        
+        # 🎯 SMART PATTERN DETECTION - Identify complex user flows
+        pattern_insights = detect_user_intent_patterns(df_sorted)
+        if pattern_insights:
+            sequence_analysis += "🔍 **DETECTED USER INTENT PATTERNS:**\n"
+            for insight in pattern_insights:
+                sequence_analysis += f"• {insight}\n"
+            sequence_analysis += "\n"
+        
+        # Enhanced keyword extraction from question
+        question_lower = question.lower()
+        primary_keywords = []
+        secondary_keywords = []
+        
+        # Extract key terms from question
+        key_terms = ['profile', 'login', 'mpin', 'invite', 'referral', 'payment', 'upi', 'app', 'screen', 'page', 'home', 'nav', 'settings', 'sync', 'auth']
+        for term in key_terms:
+            if term in question_lower:
+                primary_keywords.append(term)
+        
+        # Find all relevant events based on multiple criteria
+        relevant_events = set()
+        
+        # 1. Events from analytics results
+        for result in analytics_results:
+            event_name = result.get('event_name', '')
+            if event_name and event_name in df['event'].values:
+                relevant_events.add(event_name)
+        
+        # 2. Events matching primary keywords
+        for event in df['event'].unique():
+            event_lower = event.lower().replace('_', ' ')
+            for keyword in primary_keywords:
+                if keyword in event_lower:
+                    relevant_events.add(event)
+        
+        # 3. Events matching question words directly
+        question_words = [w for w in question_lower.split() if len(w) > 3]
+        for event in df['event'].unique():
+            event_words = event.lower().replace('_', ' ').split()
+            if any(word in event_words for word in question_words):
+                relevant_events.add(event)
+        
+        if not relevant_events:
+            return ""
+        
+        # Find SESSION GROUPINGS for main events
+        session_groups = []
+        relevant_events_list = list(relevant_events)
+        
+        for main_event in relevant_events_list[:2]:  # Focus on top 2 most relevant events
+            event_occurrences = df_sorted[df_sorted['event'] == main_event]
+            
+            for idx, (_, event_row) in enumerate(event_occurrences.head(2).iterrows()):
+                event_index = event_row.name
+                event_time = event_row['time']
+                
+                # Define session window (events within 5 minutes before/after)
+                time_window_start = event_time - pd.Timedelta(minutes=5)
+                time_window_end = event_time + pd.Timedelta(minutes=5)
+                
+                # Get all events in this time window
+                session_events = df_sorted[
+                    (df_sorted['time'] >= time_window_start) & 
+                    (df_sorted['time'] <= time_window_end)
+                ].copy()
+                
+                if len(session_events) > 1:  # Only include if there are multiple events
+                    session_groups.append({
+                        'main_event': main_event,
+                        'main_time': event_time,
+                        'events': session_events,
+                        'session_start': time_window_start,
+                        'session_end': time_window_end
+                    })
+        
+        # Generate enhanced sequence analysis
+        for group_idx, session in enumerate(session_groups[:3]):  # Limit to 3 sessions
+            main_event = session['main_event']
+            main_time = session['main_time']
+            session_events = session['events']
+            
+            time_str = main_time.strftime('%H:%M:%S') if pd.notna(main_time) else 'Unknown'
+            
+            sequence_analysis += f"🎯 SESSION {group_idx + 1}: {main_event} at {time_str}\n"
+            sequence_analysis += f"📊 Session Duration: {len(session_events)} events over {(session_events['time'].max() - session_events['time'].min()).total_seconds():.0f} seconds\n"
+            
+            # Show all events in this session chronologically
+            sequence_analysis += "📋 Complete Session Timeline:\n"
+            
+            for _, event_row in session_events.iterrows():
+                event_time_str = event_row['time'].strftime('%H:%M:%S') if pd.notna(event_row['time']) else 'Unknown'
+                event_name = event_row['event']
+                
+                if event_name == main_event:
+                    sequence_analysis += f"  🎯 {event_time_str}: **{event_name}** ← MAIN EVENT\n"
+                elif event_name in relevant_events:
+                    sequence_analysis += f"  🔗 {event_time_str}: **{event_name}** ← RELATED EVENT\n"
+                else:
+                    sequence_analysis += f"  ⏱️ {event_time_str}: {event_name}\n"
+            
+            # Add contextual insights
+            related_events_in_session = [e for e in session_events['event'].unique() if e != main_event and e in relevant_events]
+            if related_events_in_session:
+                sequence_analysis += f"  💡 Related activities: {', '.join(related_events_in_session)}\n"
+            
+            sequence_analysis += "\n"
+        
+        # Add summary insights
+        if session_groups:
+            all_events_in_sessions = set()
+            for session in session_groups:
+                all_events_in_sessions.update(session['events']['event'].unique())
+            
+            sequence_analysis += "🔍 KEY INSIGHTS:\n"
+            sequence_analysis += f"• Total unique events in relevant sessions: {len(all_events_in_sessions)}\n"
+            sequence_analysis += f"• Events related to your question: {', '.join(relevant_events)}\n"
+            
+            # Find patterns
+            common_patterns = []
+            for session in session_groups:
+                events_list = session['events']['event'].tolist()
+                if len(events_list) >= 2:
+                    pattern = f"{events_list[0]} → {events_list[-1]}"
+                    common_patterns.append(pattern)
+            
+            if common_patterns:
+                sequence_analysis += f"• Common user flow patterns: {'; '.join(common_patterns[:2])}\n"
+        
+        sequence_analysis += "\n💡 This analysis shows complete user sessions with temporal context to understand the full picture of user behavior.\n"
+        
+        return sequence_analysis
+        
+    except Exception as e:
+        print(f"❌ Error in enhanced sequence analysis: {e}")
+        return ""
+
+
+def generate_event_catalog_response(question: str) -> dict:
+    """Generate intelligent response using Mixpanel events + Analytics Knowledge Database with event sequence analysis"""
+    
+    try:
+        from langchain_openai import ChatOpenAI
+        import httpx
+        import pandas as pd
+        from rag_utils import search_analytics_knowledge, get_exact_analytics_event
+        
+        # 🎯 STEP 1: Get Mixpanel Events Data
+        mixpanel_context = ""
+        analytics_context = ""
+        sequence_context = ""
+        
+        if st.session_state.current_mixpanel_data is not None:
+            df = st.session_state.current_mixpanel_data
+            unique_events = df['event'].unique().tolist()
+            
+            # Build Mixpanel context (limited to avoid token overflow)
+            mixpanel_context = f"=== MIXPANEL SESSION DATA ===\n"
+            mixpanel_context += f"Total Events: {len(df)}\n"
+            mixpanel_context += f"Unique Event Types: {len(unique_events)}\n"
+            mixpanel_context += f"Users: {df['user_id'].nunique()}\n"
+            mixpanel_context += f"Time Range: {df['time'].min()} to {df['time'].max()}\n\n"
+            
+            # Add top 10 most frequent events
+            event_counts = df['event'].value_counts().head(10)
+            mixpanel_context += "Top Events in Session:\n"
+            for event, count in event_counts.items():
+                mixpanel_context += f"- {event}: {count} times\n"
+        
+        # 🎯 STEP 2: Get COMPREHENSIVE Analytics Knowledge for Question + Event Context
+        analytics_results = search_analytics_knowledge(question, k=8)  # Get more results for richer context
+        
+        # Also get analytics knowledge for events in the current dataset
+        event_specific_knowledge = []
+        if st.session_state.current_mixpanel_data is not None:
+            unique_events = df['event'].unique()[:10]  # Top 10 events
+            for event in unique_events:
+                event_analytics = search_analytics_knowledge(event, k=1)
+                if event_analytics:
+                    event_specific_knowledge.extend(event_analytics)
+        
+        # Combine and deduplicate analytics results
+        all_analytics = analytics_results + event_specific_knowledge
+        seen_events = set()
+        unique_analytics = []
+        for result in all_analytics:
+            event_name = result.get('event_name', 'Knowledge')
+            if event_name not in seen_events:
+                unique_analytics.append(result)
+                seen_events.add(event_name)
+        
+        if unique_analytics:
+            analytics_context = "=== 📚 COMPREHENSIVE ANALYTICS KNOWLEDGE BASE ===\n"
+            analytics_context += f"Found {len(unique_analytics)} relevant analytics insights:\n\n"
+            
+            for result in unique_analytics[:12]:  # Limit to top 12 for context management
+                event_name = result.get('event_name', 'Knowledge')
+                description = result.get('description', '')
+                context_info = result.get('context', '')
+                timing = result.get('timing', '')
+                screen = result.get('screen', '')
+                debug_usage = result.get('debug_usage', '')
+                production_examples = result.get('production_examples', '')
+                
+                analytics_context += f"🔸 **{event_name}**\n"
+                
+                # Full description (don't truncate - let smart context management handle it)
+                if description:
+                    analytics_context += f"   📋 Description: {description}\n"
+                
+                # Context information
+                if context_info:
+                    analytics_context += f"   🎯 Context: {context_info}\n"
+                
+                # Timing information
+                if timing:
+                    analytics_context += f"   ⏱️ Timing: {timing}\n"
+                
+                # Screen information
+                if screen:
+                    analytics_context += f"   🖥️ Screen: {screen}\n"
+                
+                # Debug usage (valuable for understanding business context)
+                if debug_usage:
+                    analytics_context += f"   🔧 Debug Usage: {debug_usage}\n"
+                
+                # Production examples (real usage patterns)
+                if production_examples:
+                    analytics_context += f"   📊 Production Examples: {production_examples[:200]}...\n"
+                
+                analytics_context += "\n"
+        
+        # 🎯 STEP 3: ENHANCED TEMPORAL & SEQUENCE ANALYSIS - Time-aware event analysis
+        temporal_context = ""
+        sequence_context = ""
+        
+        if st.session_state.current_mixpanel_data is not None:
+            # Check if question has time mentions for temporal analysis
+            temporal_context = build_enhanced_temporal_context(question, df, analytics_results)
+            
+            # If temporal context found, use it; otherwise do regular sequence analysis
+            if temporal_context:
+                sequence_context = temporal_context
+            else:
+                sequence_context = analyze_event_sequences(question, df, analytics_results)
+        
+        # 🎯 STEP 4: Create SUPER SMART prompt with temporal context awareness
+        enhanced_question = f"""
+        🎯 ADVANCED TEMPORAL-AWARE MIXPANEL ANALYTICS QUERY
+        
+        USER QUESTION: {question}
+        
+        📊 MIXPANEL DATA CONTEXT:
+        {mixpanel_context}
+        
+        📚 COMPREHENSIVE ANALYTICS KNOWLEDGE:
+        {analytics_context}
+        
+        🧠 INTELLIGENT PATTERN & TEMPORAL ANALYSIS:
+        {sequence_context}
+        
+        🎯 GPT-4o ENHANCED ANALYSIS INSTRUCTIONS:
+        
+        1. **TEMPORAL CONTEXT AWARENESS**: 
+           - If the user asks about specific times, focus on events within that time window
+           - Explain what the user was doing before, during, and after the mentioned time
+           - Use the chronological event sequence to tell a complete story
+           - Connect temporal patterns to understand user session flow
+        
+        2. **COMPREHENSIVE EVENT INTERPRETATION**: 
+           - Use the analytics knowledge base to provide deep context for each event
+           - Explain what each event means in terms of user intent and business value
+           - Don't just list events - INTERPRET their significance and relationships
+           - Use timing, context, screen information from analytics knowledge
+        
+        3. **SMART PATTERN RECOGNITION**: 
+           - Identify user intent patterns (referral, help-seeking, transaction, navigation)
+           - Connect event sequences to understand true user goals
+           - Recognize behavioral patterns and user journey stages
+           - Detect anomalies or interesting user behaviors
+        
+        4. **CONTEXTUAL BUSINESS INSIGHTS**: 
+           - Provide actionable insights based on event patterns and timing
+           - Explain what the patterns mean for product usage and user experience
+           - Suggest improvements or highlight successful user flows
+           - Identify potential friction points or optimization opportunities
+        
+        5. **COMPREHENSIVE RESPONSE STRUCTURE**:
+           - Start with a clear answer to the specific question
+           - Provide temporal context if time-related
+           - Include detailed event analysis with analytics knowledge context
+           - Add pattern insights and behavioral interpretation
+           - End with actionable recommendations or key findings
+        
+        🚀 RESPONSE STYLE: 
+        - Be conversational and insightful
+        - Use clear sections with emojis for readability
+        - Focus on UNDERSTANDING user behavior, not just describing events
+        - Provide specific evidence from the event data and analytics knowledge
+        - Make connections between different pieces of information
+        
+        Please provide a comprehensive, intelligent analysis that demonstrates deep understanding of user behavior patterns and temporal context.
+        """
+        
+        # 🎯 STEP 5: Get POWERFUL GPT-4 Response (with enhanced context management)
+        llm = ChatOpenAI(
+            api_key=OPENAI_API_KEY,
+            temperature=0.2,  # Lower temperature for more focused responses
+            model="gpt-4o",  # Using GPT-4o for superior reasoning and analysis
+            max_tokens=1200,  # Increased token limit for more comprehensive responses
+            http_client=httpx.Client(verify=False, timeout=60)  # Longer timeout for better model
+        )
+        
+        # 🧠 ENHANCED SMART CONTEXT MANAGEMENT - Optimized for temporal queries
+        estimated_tokens = len(enhanced_question.split()) * 1.3  # Rough token estimation
+        
+        if estimated_tokens > 15000:  # Higher threshold for GPT-4o with richer context
+            print(f"🔧 Context optimization triggered - Estimated tokens: {estimated_tokens:.0f}")
+            
+            # SMART PRIORITIZED TRUNCATION
+            
+            # 1. Preserve temporal context (highest priority for time-based queries)
+            # Temporal/sequence context is kept as-is since it's most valuable
+            
+            # 2. Optimize mixpanel context (medium priority)
+            if len(mixpanel_context) > 2500:
+                if st.session_state.current_mixpanel_data is not None:
+                    event_counts = df['event'].value_counts().head(8)  # Top 8 events
+                    mixpanel_context = f"=== 📊 MIXPANEL SESSION DATA (Optimized) ===\n"
+                    mixpanel_context += f"Total Events: {len(df)}, Users: {df['user_id'].nunique()}\n"
+                    mixpanel_context += f"Time Range: {df['time'].min()} to {df['time'].max()}\n"
+                    mixpanel_context += f"Date Range: {pd.to_datetime(df['time'], unit='s').dt.date.min()} to {pd.to_datetime(df['time'], unit='s').dt.date.max()}\n"
+                    mixpanel_context += "Top Events in Session:\n"
+                    for event, count in event_counts.items():
+                        mixpanel_context += f"- {event}: {count} times\n"
+            
+            # 3. Optimize analytics context while preserving key insights (lowest priority but still important)
+            if len(analytics_context) > 4000:
+                analytics_context = "=== 📚 KEY ANALYTICS INSIGHTS (Condensed) ===\n"
+                analytics_context += f"Condensed from {len(unique_analytics)} analytics insights:\n\n"
+                
+                # Keep top analytics results with essential information
+                for i, result in enumerate(unique_analytics[:6]):  # Top 6 most relevant
+                    event_name = result.get('event_name', 'Knowledge')
+                    description = result.get('description', '')[:200]  # Reasonable length
+                    context_info = result.get('context', '')[:150]
+                    timing = result.get('timing', '')[:100]
+                    
+                    analytics_context += f"🔸 **{event_name}**\n"
+                    if description:
+                        analytics_context += f"   📋 {description}\n"
+                    if context_info:
+                        analytics_context += f"   🎯 Context: {context_info}\n"
+                    if timing:
+                        analytics_context += f"   ⏱️ Timing: {timing}\n"
+                    analytics_context += "\n"
+            
+            # Rebuild with optimized context
+            enhanced_question = f"""
+            🎯 ADVANCED TEMPORAL-AWARE MIXPANEL ANALYTICS QUERY (Context Optimized)
+            
+            USER QUESTION: {question}
+            
+            📊 MIXPANEL DATA CONTEXT:
+            {mixpanel_context}
+            
+            📚 COMPREHENSIVE ANALYTICS KNOWLEDGE:
+            {analytics_context}
+            
+            🧠 INTELLIGENT PATTERN & TEMPORAL ANALYSIS:
+            {sequence_context}
+            
+            🎯 GPT-4o ANALYSIS INSTRUCTIONS: 
+            Focus on providing temporal context-aware insights using the comprehensive analytics knowledge.
+            Interpret event patterns and timing to understand user behavior and intent.
+            Provide specific, actionable recommendations based on the available data.
+            Use the analytics knowledge to explain the business context and significance of events.
+            
+            Please provide a comprehensive analysis with temporal awareness and deep event interpretation.
+            """
+        
+        ai_response = llm.invoke(enhanced_question)
+        answer = ai_response.content if hasattr(ai_response, 'content') else str(ai_response)
+        
+        # Prepare sources
+        sources = []
+        if st.session_state.current_mixpanel_data is not None:
+            sources.append(f"Mixpanel Session: {len(st.session_state.current_mixpanel_data)} events")
+        
+        if analytics_results:
+            sources.append(f"Analytics Knowledge: {len(analytics_results)} insights")
+        
+        if sequence_context:
+            sources.append("Event Sequence Analysis: Temporal context")
+        
+        return {
+            "answer": answer,
+            "sources": " | ".join(sources) if sources else "Analytics Knowledge Database"
+        }
+        
+    except Exception as e:
+        print(f"❌ Error in chat response: {e}")
+        
+        # Simple fallback using available data
+        fallback_answer = "I'm having trouble processing your question. "
+        
+        if st.session_state.current_mixpanel_data is not None:
+            df = st.session_state.current_mixpanel_data
+            fallback_answer += f"I can see you have {len(df)} Mixpanel events in the current session. "
+            top_events = df['event'].value_counts().head(3)
+            fallback_answer += f"The most frequent events are: {', '.join(top_events.index)}. "
+        
+        fallback_answer += "Please try asking a more specific question about your events or user behavior."
+        
+        return {
+            "answer": fallback_answer,
+            "sources": "Fallback response using available Mixpanel data"
+        }
 
 
 def render_dashboard_tab(client):
@@ -4294,12 +5765,12 @@ def generate_temporal_ai_analysis(daily_funnel_data, funnel_id, start_date, end_
         from langchain_openai import ChatOpenAI
         import httpx
         
-        # Initialize LangChain ChatOpenAI (same approach as other AI functions)
+        # Initialize LangChain ChatOpenAI with GPT-4 for enhanced temporal analysis
         llm = ChatOpenAI(
             api_key=OPENAI_API_KEY,
-            temperature=0.7,
-            model="gpt-3.5-turbo-16k",
-            http_client=httpx.Client(verify=False, timeout=30)
+            temperature=0.1,
+            model="gpt-4o",
+            http_client=httpx.Client(verify=False, timeout=60)
         )
         
         # Prepare temporal data summary for LLM

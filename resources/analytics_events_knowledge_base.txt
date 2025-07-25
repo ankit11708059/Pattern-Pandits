@@ -1,0 +1,2910 @@
+# ULTIMATE Analytics Events Knowledge Base for User Journey & Debugging
+
+## Overview
+This is the most comprehensive knowledge base for analytics events, containing every detail extracted from production event sequences across all user journeys. It enables precise user location identification, intention analysis, and issue debugging through complete event flow understanding.
+
+**Total Events Covered**: 213 unique events from production data
+**Data Sources**: 3 comprehensive event sequence files with real user journeys
+**Coverage**: Complete app lifecycle, all features, error states, and user flows
+
+## COMPLETE EVENT CATALOG (All 213 Events from Production Data)
+
+### 1. APP LIFECYCLE & SESSION MANAGEMENT
+
+#### **app_open**
+- **Context**: Primary app entry point, session initialization
+- **Properties**: 
+  - `from`: "fresh" (cold start) | "background" (return from background)
+  - `time_duration`: Time in background when from="background"
+  - `session_id`: New session when from="fresh", continued when "background"
+- **Implementation**: `BuddyApplication.trackAppOpenEvent()`, `PurpleScreenAnalyticsDelegate`
+- **Timing**: Always first or early event in sequence
+- **Screen**: Splash/Loading screen, immediate transition to `purple_screen`
+- **User Journey**: Entry point for all user sessions
+- **Debug Usage**: Session boundary detection, cold vs warm start analysis
+- **Production Examples**: 
+  - Fresh start: `app_open (from="fresh")` → immediate `purple_screen`
+  - Background return: `app_open (from="background", time_duration=3069)` → resume previous screen
+
+#### **app_closed**
+- **Context**: App termination or backgrounding
+- **Properties**: 
+  - `closing_option`: "background" | "force_close" | "system_kill"
+  - `session_id`: Current session being terminated
+- **Timing**: Last event in session
+- **Debug Usage**: Session completion analysis, app usage duration calculation
+- **Production Examples**: `app_closed (closing_option="background")` at end of session
+
+#### **purple_screen**
+- **Context**: App loading/splash screen display
+- **Properties**: 
+  - `flow`: "app_open" | "login" | "authentication"
+  - `location_permission_granted`: boolean
+  - `location_precise_granted`: boolean
+- **Implementation**: `PurpleScreenFragment`, loading state management
+- **Timing**: Immediately after `app_open`
+- **Screen**: Splash screen with branding and loading indicators
+- **User State**: Loading authentication state, preparing main app
+- **Debug Usage**: App startup performance, permission state tracking
+- **Production Examples**: `purple_screen (flow="app_open", location_permission_granted=false)`
+
+#### **timer_pre_auth**
+- **Context**: Pre-authentication timer and performance metrics
+- **Properties**: 
+  - `cold_startup_time`: App cold start duration (e.g., 478ms, 864ms)
+  - `time_app_on_create_end_to_first_activity_create`: Performance metric
+  - `time_to_first_draw`: Time to first UI render (e.g., 902ms, 1093ms)
+  - `screen_name`: "splash"
+  - `user_type`: "cache_user" | "new_user"
+  - `first_activity_name`: "com.slice.android.main.SingleActivity" | "com.sliceit.android.transactionstatus.ui.TransactionHostActivity"
+  - `bandwidth`: Network speed measurement
+  - `dark_mode`: "enabled" | "disabled"
+  - `haptics_enabled`: 0 | 1
+  - `mqtt_enabled`: boolean
+  - `font_scale`: UI scaling factor
+  - `speed_snap_info`: "UNKNOWN" | "GOOD" | "POOR"
+- **Implementation**: Performance tracking in Application lifecycle
+- **Timing**: During app initialization, before main UI
+- **Debug Usage**: Performance analysis, startup optimization
+- **Production Examples**: 
+  - Fast startup: `timer_pre_auth (cold_startup_time=478, time_to_first_draw=902)`
+  - Slow startup: `timer_pre_auth (cold_startup_time=864, time_to_first_draw=1093)`
+
+#### **app_intent_details**
+- **Context**: App launch intent and user state detection
+- **Properties**: 
+  - `intent_uri`: Deep link or launch intent ("null" if no deep link)
+  - `user_login_status`: boolean authentication state
+  - `user_ppi_onboarding_status`: "MINI_DATA_NOT_AVAILABLE" | onboarding completion
+  - `user_tpap_onboarding_status`: TPAP onboarding status (boolean)
+- **Timing**: During startup after authentication check
+- **Debug Usage**: Deep link handling, user state verification
+- **Production Examples**: `app_intent_details (intent_uri="null", user_login_status=true)`
+
+#### **dns_exception**
+- **Context**: Network DNS resolution failure
+- **Properties**: Error details and network state
+- **Timing**: During network operations
+- **Screen**: Any screen requiring network
+- **User State**: Network connectivity issue
+- **Debug Usage**: Network infrastructure health monitoring
+
+#### **dns_connection_exception**
+- **Context**: DNS connection specific failure
+- **Properties**: 
+  - `connection_type`: Type of DNS connection failure
+  - `error_details`: Specific connection error information
+  - `retry_count`: Number of retry attempts
+- **Timing**: During network connection establishment
+- **Screen**: Any screen with network dependency
+- **User State**: Network connectivity problem
+- **Debug Usage**: Network infrastructure health, connection quality monitoring
+
+#### **dns_lookup**
+- **Context**: DNS lookup operation
+- **Properties**: 
+  - `lookup_duration`: Time taken for DNS resolution
+  - `success`: boolean indicating lookup success
+  - `server_response`: DNS server response details
+- **Timing**: During network request initialization
+- **Screen**: Background DNS operations
+- **User State**: Network operations in progress
+- **Debug Usage**: DNS performance monitoring
+
+#### **session_timeout**
+- **Context**: User session expiration
+- **Properties**: 
+  - `timeout_reason`: "inactivity" | "security" | "policy"
+  - `session_duration`: Length of expired session
+  - `condition_met`: "background_to_foreground_on_call"
+  - `inactive_time`: Seconds of inactivity
+  - `terminated_by`: "frontend" | "backend"
+- **Debug Usage**: Session management analysis, security policy effectiveness
+- **Production Examples**: `session_timeout (terminated_by="backend", inactive_time=1800)`
+
+#### **session_token_fetch_failed**
+- **Context**: Authentication token retrieval failure
+- **Properties**: 
+  - `error_code`: Specific failure reason
+  - `retry_count`: Number of retry attempts
+- **Debug Usage**: Authentication infrastructure health
+
+#### **transaction_completed**
+- **Context**: Transaction processing completion (legacy usage in some flows)
+- **Properties**: Transaction details and status
+- **Timing**: After payment/transaction flow
+- **Screen**: Transaction result screen
+- **User State**: Transaction finalized
+- **Debug Usage**: Transaction success tracking
+
+#### **reload_triggered**
+- **Context**: App or screen reload initiated
+- **Properties**: 
+  - `reload_reason`: Reason for reload ("error" | "user_action" | "timeout")
+  - `screen_context`: Screen where reload occurred
+  - `reload_type`: "soft" | "hard" | "data_refresh"
+- **Timing**: When reload is triggered
+- **Screen**: Any screen with reload capability
+- **User State**: Attempting to refresh content
+- **Debug Usage**: Reload frequency analysis, error recovery tracking
+
+### 2. AUTHENTICATION & SECURITY
+
+#### **mpin_verify_screen**
+- **Context**: MPIN entry screen for authentication
+- **Properties**: 
+  - `method`: "DEVICE_AUTH" | "MANUAL_PIN" | "BIOMETRIC"
+  - `flow`: "login" | "transaction" | "settings" | "timeout"
+- **Implementation**: `MpinFragment`, authentication flow
+- **Screen**: PIN entry interface with security features
+- **User Journey**: Gateway to authenticated app features
+- **Debug Usage**: Authentication method tracking, security flow analysis
+- **Production Examples**: 
+  - Login: `mpin_verify_screen (method="DEVICE_AUTH", flow="login")`
+  - Transaction: `mpin_verify_screen (method="DEVICE_AUTH", flow="transaction")`
+
+#### **mpin_verify_screen_entered**
+- **Context**: User actively entering MPIN
+- **Properties**: 
+  - `method`: Authentication method used
+  - `flow`: Context of MPIN requirement
+  - `bandwidth`: Network speed during authentication
+  - `speed_snap_info`: "UNKNOWN" | "GOOD" | "POOR"
+- **Timing**: User interaction with MPIN input
+- **Debug Usage**: Authentication engagement, completion rates
+- **Production Examples**: `mpin_verify_screen_entered (method="DEVICE_AUTH", flow="login")`
+
+#### **mpin_screen_mpin_entered**
+- **Context**: User completed MPIN entry
+- **Properties**: 
+  - `flow`: Authentication flow type
+  - `method`: "pin"
+  - `screen`: "verify"
+- **Timing**: After MPIN digits entered
+- **Screen**: MPIN validation phase
+- **User State**: MPIN submitted for validation
+
+#### **mpin_validated**
+- **Context**: MPIN authentication result
+- **Properties**: 
+  - `flow`: "login"
+  - `success`: true | false
+- **Timing**: After MPIN processing
+- **Screen**: Authentication completion
+- **User State**: Authenticated or failed authentication
+
+#### **threat_detected**
+- **Context**: Security threat identification
+- **Properties**: 
+  - `threat_type`: Type of threat detected
+  - `threat_level`: Severity of threat (numeric score)
+  - `action_taken`: Response to threat ("Log")
+  - `threat_name`: "Voice Call Detected!" | other threats
+  - `blocked_apps`: Array of blocked applications
+- **Debug Usage**: Security monitoring
+- **Timing**: During security scans
+- **Screen**: Any screen during threat detection
+- **User State**: Security monitoring active
+
+#### **auth_blocker_view_tapped**
+- **Context**: Authentication blocker interaction
+- **Properties**: 
+  - `blocker_type`: Type of authentication block
+- **Debug Usage**: Security flow tracking
+
+#### **vpn_data**
+- **Context**: VPN usage detection
+- **Properties**: 
+  - `vpn_status`: VPN active/inactive
+  - `vpn_provider`: VPN service if detected
+- **Debug Usage**: Security compliance monitoring
+
+#### **phone_verification_complete**
+- **Context**: Phone number verification completion
+- **Properties**: 
+  - `verification_method`: "SMS" | "call" | "flash_call"
+  - `verification_duration`: Time taken for verification
+  - `success`: boolean verification result
+- **Timing**: After phone verification process
+- **Screen**: Phone verification completion screen
+- **User State**: Phone number verified
+- **Debug Usage**: Phone verification success tracking
+
+#### **app_login_complete**
+- **Context**: User login process completion
+- **Properties**: 
+  - `login_method`: Method used for login ("biometric" | "pin" | "password")
+  - `login_duration`: Time taken to complete login
+  - `login_success`: Boolean indicating login success
+  - `user_type`: Type of user logged in ("returning" | "new")
+- **Timing**: Login process completion
+- **Screen**: Post-login screen
+- **User State**: Successfully authenticated
+- **Debug Usage**: Login completion success tracking
+
+#### **phone_number_submitted**
+- **Context**: Phone number submission for verification
+- **Properties**: 
+  - `number_format`: Format of submitted number
+  - `country_code`: Country code used
+  - `submission_method`: Method of submission ("manual" | "auto")
+- **Timing**: Phone number submission
+- **Screen**: Phone verification interface
+- **User State**: Submitting phone for verification
+- **Debug Usage**: Phone submission tracking
+
+#### **sim_binding_initiation**
+- **Context**: SIM binding process start
+- **Properties**: 
+  - `sim_info`: SIM card information
+  - `binding_method`: Method used for binding
+  - `device_info`: Device information for binding
+- **Timing**: SIM binding start
+- **Screen**: SIM binding interface
+- **User State**: Starting SIM binding
+- **Debug Usage**: SIM binding initiation tracking
+
+#### **sim_binding_invalidated**
+- **Context**: SIM binding invalidation
+- **Properties**: 
+  - `invalidation_reason`: Reason for invalidation
+  - `previous_binding_status`: Previous binding state
+- **Timing**: SIM binding invalidation
+- **Screen**: SIM binding error state
+- **User State**: SIM binding failed
+- **Debug Usage**: SIM binding failure analysis
+
+#### **sim_binding_otp_read**
+- **Context**: OTP reading for SIM binding
+- **Properties**: 
+  - `otp_source`: Source of OTP ("auto_read" | "manual")
+  - `read_success`: Boolean indicating read success
+- **Timing**: OTP reading during SIM binding
+- **Screen**: SIM binding OTP interface
+- **User State**: OTP being processed
+- **Debug Usage**: SIM binding OTP tracking
+
+#### **permissions_popup_opened**
+- **Context**: System permissions popup display
+- **Properties**: 
+  - `permission_type`: Type of permission requested
+  - `popup_context`: Context triggering popup
+  - `mandatory_flag`: Whether permission is mandatory
+- **Timing**: Permission popup display
+- **Screen**: System permission dialog
+- **User State**: Reviewing permission request
+- **Debug Usage**: Permission popup tracking
+
+#### **permissions_popup_cta_clicked**
+- **Context**: Permission popup action button clicked
+- **Properties**: 
+  - `cta_action`: Action taken ("allow" | "deny" | "settings")
+  - `permission_type`: Permission being acted upon
+- **Timing**: Permission popup interaction
+- **Screen**: System permission dialog
+- **User State**: Making permission decision
+- **Debug Usage**: Permission decision tracking
+
+#### **login_screen_cta_status**
+- **Context**: Login screen CTA status update
+- **Properties**: 
+  - `status`: Current CTA status ("enabled" | "disabled" | "loading")
+  - `status_reason`: Reason for current status
+- **Timing**: Login CTA state change
+- **Screen**: Login interface
+- **User State**: Login CTA state monitoring
+- **Debug Usage**: Login CTA state tracking
+
+### 3. NAVIGATION & SCREEN FLOW
+
+#### **nav_bar_clicked**
+- **Context**: Bottom navigation interaction
+- **Properties**: 
+  - `current_screen`: Screen user is leaving ("send", "borrow", etc.)
+  - `next_screen`: Destination screen ("borrow", "send", etc.)
+  - `swipe_type`: "navBar" | "gesture"
+  - `red_dot_present`: "true" | "false" (notification indicator state)
+  - `bandwidth`: Network speed during navigation
+  - `speed_snap_info`: "UNKNOWN" | "GOOD" | "POOR"
+- **Implementation**: Navigation components, screen transition tracking
+- **Screen**: Bottom navigation bar
+- **User Journey**: Primary navigation method between main sections
+- **Debug Usage**: Navigation pattern analysis, user flow optimization
+- **Production Examples**: `nav_bar_clicked (current_screen="send", next_screen="borrow", swipe_type="navBar")`
+
+#### **nav_bar_swiped**
+- **Context**: Navigation via swipe gesture
+- **Properties**: Same as nav_bar_clicked
+- **Timing**: Swipe gesture completion
+- **Screen**: Screen transition
+- **User State**: Gesture-based navigation
+
+#### **back_clicked**
+- **Context**: Back button or gesture usage
+- **Properties**: 
+  - `source_screen`: Screen being exited
+  - `destination_screen`: Target screen or "previous"
+  - `back_type`: "hardware" | "software" | "gesture"
+- **Debug Usage**: User flow direction, exit pattern analysis
+
+#### **cross_clicked**
+- **Context**: Modal/screen dismissal
+- **Properties**:
+  - `screen_name`: Screen being closed
+  - `event_type`: "track" | "cta"
+- **Timing**: User dismissal action
+- **Screen**: Modal or overlay screen
+- **User State**: Screen dismissal
+
+#### **data_sync_perm**
+- **Context**: Data synchronization permissions status
+- **Properties**: 
+  - `contacts_permission`: boolean (false/true)
+  - `location_permission`: boolean (false/true)
+  - `sms_permission`: boolean (typically true)
+- **Implementation**: Permission manager, sync status tracking
+- **Screen**: Permission status overlay
+- **Debug Usage**: Permission state tracking, sync capability analysis
+- **Production Examples**: 
+  - Limited permissions: `data_sync_perm (contacts_permission=false, location_permission=false, sms_permission=true)`
+  - Full permissions: `data_sync_perm (contacts_permission=true, location_permission=true, sms_permission=true)`
+
+#### **full_screen_rendering**
+- **Context**: Screen render completion
+- **Properties**: 
+  - `trace_name`: Screen identifier (e.g., "savingsHome_rendering", "depositLanding_rendering")
+  - `load_time`: "0 ms" typically for successful renders
+  - `error_code`: Error if rendering failed
+  - `error_message`: Error details
+- **Timing**: After screen renders
+- **Screen**: Any screen post-render
+- **User State**: Screen fully loaded
+
+#### **error_shown**
+- **Context**: Error message display to user
+- **Properties**: 
+  - `error_type`: Type of error shown ("network" | "validation" | "system")
+  - `error_message`: Actual error text displayed
+  - `error_code`: Internal error code
+  - `screen_context`: Screen where error occurred
+  - `retry_available`: boolean indicating if retry option shown
+- **Timing**: When error is displayed to user
+- **Screen**: Any screen with error display
+- **User State**: Viewing error message
+- **Debug Usage**: Error frequency analysis, user error experience tracking
+
+### 4. UPI & PAYMENTS COMPREHENSIVE FLOW
+
+#### **upi_home_screen_source_loaded**
+- **Context**: UPI main screen data loading completion
+- **Properties**: 
+  - `amount_prepopulated`: boolean (typically false)
+  - `no_of_bank_accounts`: Count of linked accounts (e.g., 3)
+  - `switch_skip_binding_flag_available`: Feature flag status (boolean)
+- **Implementation**: `UPIHomeFragment.trackScreenSourceLoaded()`
+- **Screen**: UPI home with pay/request options
+- **User Journey**: Entry point for UPI transactions
+- **Debug Usage**: UPI feature availability, account setup status
+- **Production Examples**: `upi_home_screen_source_loaded (amount_prepopulated=false, no_of_bank_accounts=3)`
+
+#### **upi_universal_send_screen_open**
+- **Context**: Universal send screen access
+- **Properties**: 
+  - `source`: Entry point to send screen
+  - `preloaded_amount`: Amount if pre-filled
+- **Screen**: Contact selection and amount entry
+- **Debug Usage**: Send flow initiation tracking
+
+#### **upi_universal_send_screen_reco_loaded**
+- **Context**: Send screen recommendations loaded
+- **Properties**: 
+  - `recommendation_count`: Number of suggested contacts
+  - `load_time`: Time to load recommendations
+- **Debug Usage**: Recommendation engine performance
+
+#### **upi_send_screen_search_bar_clicked**
+- **Context**: Contact search interaction
+- **Properties**: 
+  - `search_context`: "contacts" | "recent" | "favorites"
+- **Debug Usage**: Search engagement tracking
+
+#### **upi_send_screen_tile_click**
+- **Context**: Contact tile selection
+- **Properties**: 
+  - `contact_type`: "recent" | "favorite" | "suggested"
+  - `position`: Tile position in list
+- **Debug Usage**: Contact selection patterns
+
+#### **upi_send_account_selected**
+- **Context**: Bank account selection for sending
+- **Properties**: 
+  - `account_type`: "savings" | "current" | "wallet"
+  - `bank_name`: Selected bank identifier
+- **Debug Usage**: Account preference analysis
+
+#### **upi_home_pay_button_clicked**
+- **Context**: Pay button interaction on UPI home
+- **Properties**: 
+  - `button_context`: "quick_pay" | "scan_pay" | "contact_pay"
+- **Debug Usage**: Payment initiation method tracking
+
+#### **upi_home_request_button_clicked**
+- **Context**: Request money button clicked
+- **Properties**: 
+  - `request_type`: "contact" | "qr" | "link"
+- **Debug Usage**: Request flow initiation
+
+#### **upi_amount_entering_started**
+- **Context**: Amount input field interaction
+- **Properties**: 
+  - `input_method`: "keypad" | "voice" | "paste"
+  - `suggested_amount`: Pre-suggested amount if any
+- **Debug Usage**: Amount entry behavior analysis
+
+#### **upi_proceed_to_pay**
+- **Context**: Payment confirmation step
+- **Properties**: 
+  - `amount`: Transaction amount
+  - `recipient`: Target recipient
+  - `payment_method`: Selected payment mode
+- **Debug Usage**: Payment commitment tracking
+
+#### **upi_incoming_bootstrap**
+- **Context**: Incoming UPI payment processing start
+- **Properties**: 
+  - `sender_vpa`: Sender's VPA
+  - `amount`: Incoming amount
+- **Debug Usage**: Incoming payment flow tracking
+
+#### **upi_incoming_validation**
+- **Context**: Incoming payment validation
+- **Properties**: 
+  - `validation_status`: "success" | "failed"
+  - `validation_reason`: Specific validation result
+- **Debug Usage**: Payment validation analysis
+
+#### **upi_transaction_completed**
+- **Context**: UPI transaction completion
+- **Properties**: 
+  - `status`: "success" | "failed" | "pending"
+  - `amount`: Transaction amount
+  - `transaction_id`: Unique transaction identifier
+- **Debug Usage**: Transaction success rate analysis
+
+#### **upi_transaction_initiated**
+- **Context**: UPI transaction start
+- **Properties**: 
+  - `payment_method`: UPI method used
+  - `amount`: Transaction amount
+- **Debug Usage**: Transaction initiation tracking
+
+#### **upi_credit_transaction_incoming**
+- **Context**: Credit transaction received via UPI
+- **Properties**: 
+  - `amount`: Credited amount (e.g., 66000, 100000)
+  - `payer_name`: Source of credit ("slice")
+  - `payer_type`: "MERCHANT" | "INDIVIDUAL"
+  - `upi_transaction_type`: "TPAP" | "regular"
+- **Debug Usage**: Credit flow analysis, merchant transaction tracking
+- **Production Examples**: 
+  - Borrow credit: `upi_credit_transaction_incoming (amount=66000, payer_name="slice", payer_type="MERCHANT", upi_transaction_type="TPAP")`
+
+#### **upi_add_completed**
+- **Context**: UPI account addition completed
+- **Properties**: 
+  - `bank_name`: Added bank
+  - `account_type`: Type of account added
+- **Debug Usage**: Account onboarding success tracking
+
+#### **upi_txn_intent**
+- **Context**: UPI transaction intent processing
+- **Properties**: 
+  - `intent_data`: Transaction intent details
+  - `source_app`: Originating application
+- **Debug Usage**: Inter-app UPI flow tracking
+
+#### **upi_search_zero_state**
+- **Context**: Empty search state in UPI
+- **Properties**: 
+  - `search_context`: Where search is empty
+- **Debug Usage**: Search behavior analysis
+
+#### **upi_bottom_nav_tap_and_hold_prompt**
+- **Context**: UPI navigation gesture prompt
+- **Properties**: 
+  - `gesture_type`: Type of gesture prompted
+- **Debug Usage**: UI interaction pattern tracking
+
+#### **upi_settings_clicked**
+- **Context**: UPI settings access
+- **Properties**: 
+  - `settings_type`: Specific settings area
+- **Debug Usage**: Settings usage tracking
+
+#### **upi_settings_page_cta**
+- **Context**: UPI settings action button clicked
+- **Properties**: 
+  - `cta_type`: Type of action taken
+- **Debug Usage**: Settings engagement tracking
+
+#### **upi_settings_page_opened**
+- **Context**: UPI settings page view
+- **Properties**: 
+  - `settings_category`: Settings section accessed
+- **Debug Usage**: Settings navigation tracking
+
+#### **upi_home_screen_open**
+- **Context**: UPI home screen access (variant naming)
+- **Properties**: 
+  - `feature_flags`: Available UPI features
+  - `account_count`: Number of linked accounts
+  - `quick_actions_shown`: Quick action buttons displayed
+- **Timing**: UPI section entry
+- **Screen**: UPI home interface
+- **User State**: Accessing UPI features
+- **Debug Usage**: UPI engagement tracking
+- **Note**: Similar to `upi_home_screen_source_loaded` but different implementation
+
+#### **upi_search_option_selected**
+- **Context**: UPI search option selection
+- **Properties**: 
+  - `search_option`: Type of search option selected
+  - `search_context`: Context of search ("contacts" | "merchants" | "recent")
+- **Timing**: Search option selection
+- **Screen**: UPI search interface
+- **User State**: Selecting search criteria
+- **Debug Usage**: UPI search behavior tracking
+
+#### **upi_search_results_fetched**
+- **Context**: UPI search results retrieval
+- **Properties**: 
+  - `result_count`: Number of search results
+  - `search_term`: Search query used
+  - `result_types`: Types of results returned
+  - `fetch_time`: Time to retrieve results
+- **Timing**: Search results display
+- **Screen**: UPI search results
+- **User State**: Reviewing search results
+- **Debug Usage**: UPI search performance tracking
+
+#### **upi_send_screen_source_clicked**
+- **Context**: UPI send screen source selection
+- **Properties**: 
+  - `source_type`: Type of source clicked ("contact" | "recent" | "qr")
+  - `source_position`: Position in source list
+- **Timing**: Payment source selection
+- **Screen**: UPI send interface
+- **User State**: Selecting payment recipient
+- **Debug Usage**: Payment source preference tracking
+
+#### **purple_scanner_clicked**
+- **Context**: Scanner access from purple screen
+- **Properties**: 
+  - `scanner_type`: Type of scanner accessed ("qr" | "barcode")
+  - `access_source`: Source of scanner access
+- **Timing**: Scanner feature access
+- **Screen**: Purple screen with scanner option
+- **User State**: Initiating scan operation
+- **Debug Usage**: Scanner usage tracking
+
+#### **purple_send_clicked**
+- **Context**: Send action from purple screen
+- **Properties**: 
+  - `send_type`: Type of send action
+  - `quick_action`: Whether this is a quick action
+- **Timing**: Send action initiation
+- **Screen**: Purple screen with send option
+- **User State**: Initiating send operation
+- **Debug Usage**: Quick send action tracking
+
+#### **request_bottomsheet_opened**
+- **Context**: Money request bottom sheet display
+- **Properties**: 
+  - `request_context`: Context of request ("split_bill" | "payment_request")
+  - `suggested_amounts`: Pre-suggested request amounts
+- **Timing**: Request flow initiation
+- **Screen**: Request money bottom sheet
+- **User State**: Creating payment request
+- **Debug Usage**: Request flow tracking
+
+#### **request_card_clicked**
+- **Context**: Request money card interaction
+- **Properties**: 
+  - `card_type`: Type of request card
+  - `card_position`: Position in list
+- **Timing**: Request card selection
+- **Screen**: Request interface
+- **User State**: Selecting request option
+- **Debug Usage**: Request card engagement
+
+#### **purple_ba_bottomsheet_cta**
+- **Context**: Purple screen bank account bottom sheet CTA
+- **Properties**: 
+  - `cta_type`: Type of CTA clicked
+  - `account_context`: Bank account context
+- **Timing**: Bank account sheet CTA interaction
+- **Screen**: Purple screen bank account sheet
+- **User State**: Taking bank account action
+- **Debug Usage**: Bank account CTA tracking
+
+#### **purple_top_left_cta**
+- **Context**: Purple screen top-left corner CTA
+- **Properties**: 
+  - `cta_function`: Function of top-left CTA
+  - `cta_visibility`: Visibility state of CTA
+- **Timing**: Top-left CTA interaction
+- **Screen**: Purple screen top section
+- **User State**: Using top navigation
+- **Debug Usage**: Purple screen navigation tracking
+
+### 5. BORROW & LENDING COMPREHENSIVE FLOW
+
+#### **borrow_page_opened**
+- **Context**: Borrow feature main screen
+- **Properties**: 
+  - `user_state`: "approved" | "pending" | "rejected"
+  - `user_status`: "approved" | current borrow eligibility
+  - `loan_status`: Existing loan state (empty string if none)
+  - `borrow_ineligible_reason`: Reason if ineligible (empty string if eligible)
+  - `flow`: "borrow" | "repay" | "details"
+  - `load_time`: Page load duration (typically 1)
+  - `product_type`: "borrow"
+  - `state`: Current borrow state (empty string)
+  - `from_section`: Source section (empty string)
+- **Implementation**: `BorrowFragment`, eligibility checking
+- **Screen**: Borrow dashboard with loan options
+- **User Journey**: Entry to lending features
+- **Debug Usage**: Loan eligibility analysis, user state tracking
+- **Production Examples**: `borrow_page_opened (user_state="approved", user_status="approved", loan_status="", load_time=1)`
+
+#### **borrow_page_borrow_clicked**
+- **Context**: Borrow button interaction
+- **Properties**: 
+  - `cta_name`: "Withdraw" | "Apply" | "Continue"
+  - `error_message`: Error if operation failed ("slice borrow is unavailable at the moment. Please try again later")
+  - `nbfc_name`: Lending partner ("[slicenesfb]")
+  - `user_status`: "approved" | current user approval status
+  - `flow`: "borrow"
+  - `loan_status`: Current loan status
+- **Debug Usage**: Borrow initiation tracking, error analysis
+- **Production Examples**: 
+  - Error case: `borrow_page_borrow_clicked (cta_name="Withdraw", error_message="slice borrow is unavailable at the moment. Please try again later")`
+
+#### **borrow_slider_swiped**
+- **Context**: Loan amount slider interaction
+- **Properties**: 
+  - `selected_amount`: Current slider value
+  - `interaction_type`: "swipe" | "tap" | "drag"
+- **Debug Usage**: Amount selection behavior
+- **Production Examples**: Multiple swipe events during amount selection
+
+#### **borrow_details_page_opened**
+- **Context**: Loan details and terms screen
+- **Properties**: 
+  - `default_amount`: Pre-selected loan amount ("1400", "500")
+  - `min_amount`: Minimum loan limit ("100")
+  - `max_amount`: Maximum loan limit ("1660", "660")
+  - `tenure_type`: "multi" | "fixed" | "flexible"
+  - `autopay_flag`: "already_setup" | "setup" | "not_setup"
+  - `insurance_toggle`: "on" | "off"
+  - `insurance_product_flag`: "on" | "off"
+  - `flow`: "borrow_slider" | "direct"
+  - `input_type`: "landing"
+  - `source`: Source of navigation (empty string)
+- **Screen**: Loan terms, repayment options, insurance
+- **Debug Usage**: Loan configuration analysis
+- **Production Examples**: 
+  - High amount: `borrow_details_page_opened (default_amount="1400", max_amount="1660", insurance_toggle="on")`
+  - Lower amount: `borrow_details_page_opened (default_amount="500", max_amount="660", insurance_toggle="off")`
+
+#### **borrow_details_confirm_clicked**
+- **Context**: Loan confirmation action
+- **Properties**: 
+  - `flow`: "borrow_slider" | "direct"
+  - `tenure_value`: Selected repayment tenure ("9")
+  - `toggle_state`: "enabled" | "disabled"
+  - `recommended_plan`: "yes" | "no"
+  - `autopay_flag`: "already_setup"
+  - `default_amount`: Confirmed amount
+  - `input_type`: "landing"
+  - `max_amount`: Available maximum
+  - `min_amount`: Available minimum
+- **Debug Usage**: Loan confirmation tracking
+- **Production Examples**: `borrow_details_confirm_clicked (tenure_value="9", recommended_plan="yes", toggle_state="disabled")`
+
+#### **borrow_details_all_docs_clicked**
+- **Context**: All documents view action
+- **Properties**: 
+  - `document_count`: Number of documents
+- **Debug Usage**: Document access tracking
+
+#### **borrow_details_doc_clicked**
+- **Context**: Individual document access
+- **Properties**: 
+  - `document_type`: Type of document accessed
+- **Debug Usage**: Document interaction analysis
+
+#### **borrow_order_otp_initiated**
+- **Context**: OTP generation for loan order
+- **Properties**: Backend event, minimal properties
+- **Event Type**: "backend"
+- **Debug Usage**: OTP flow initiation tracking
+- **Production Examples**: `borrow_order_otp_initiated` (backend event with timestamp)
+
+#### **borrow_order_otp_generated**
+- **Context**: OTP successfully generated
+- **Properties**: 
+  - `status`: "SUCCESS" | "FAILED"
+- **Event Type**: "backend"
+- **Debug Usage**: OTP generation success rate
+- **Production Examples**: `borrow_order_otp_generated (status="SUCCESS")`
+
+#### **borrow_otp_sent**
+- **Context**: OTP sent to user
+- **Properties**: 
+  - `status`: "SUCCESS" | "FAILED"
+- **Event Type**: "backend"
+- **Debug Usage**: OTP delivery tracking
+- **Production Examples**: `borrow_otp_sent (status="SUCCESS")`
+
+#### **borrow_otp_matched**
+- **Context**: OTP verification successful
+- **Properties**: 
+  - `status`: "SUCCESS" | "FAILED"
+- **Event Type**: "backend"
+- **Debug Usage**: OTP verification success rate
+- **Production Examples**: `borrow_otp_matched (status="SUCCESS")`
+
+#### **borrow_to_do_clicked**
+- **Context**: Borrow-related todo item clicked
+- **Properties**: 
+  - `flow`: "rds v2" | "onboarding"
+  - `to_do_type`: "RDS" | "permission" | "document"
+  - `primary_text`: Todo main text ("Activate borrow")
+  - `secondary_text`: Todo description ("Enable permissions")
+  - `source`: "todoCard" | "notification"
+- **Debug Usage**: Todo engagement tracking
+- **Production Examples**: `borrow_to_do_clicked (primary_text="Activate borrow", secondary_text="Enable permissions", to_do_type="RDS")`
+
+#### **borrow_transaction_clicked**
+- **Context**: Borrow transaction history access
+- **Properties**: 
+  - `transaction_type`: Type of transaction viewed
+- **Debug Usage**: Transaction history engagement
+
+#### **borrow_repay_clicked**
+- **Context**: Loan repayment action
+- **Properties**: 
+  - `repay_amount`: Amount being repaid
+  - `repay_method`: Payment method for repayment
+- **Debug Usage**: Repayment behavior tracking
+
+#### **credit_home_page_opened**
+- **Context**: Credit section access
+- **Properties**: 
+  - `borrow_application_status`: "NOT_STARTED"
+  - `cc_application_status`: "NOT_WAITLISTED"
+  - `pl_application_status`: "non_onboarded"
+  - `product`: "unassigned"
+- **Timing**: Credit tab access
+- **Screen**: Credit home page
+- **User State**: Exploring credit products
+
+#### **repay_plan_screen_opened**
+- **Context**: Repayment plan screen accessed
+- **Properties**: Repayment plan details
+- **Timing**: Repayment planning
+- **Screen**: Repayment plan screen
+- **User State**: Viewing repayment options
+
+#### **repay_plan_card_clicked**
+- **Context**: Repayment plan card selected
+- **Properties**: Plan selection details
+- **Timing**: Plan selection
+- **Screen**: Repayment plan options
+- **User State**: Selecting repayment plan
+
+#### **repay_plan_continue_clicked**
+- **Context**: Continue with repayment plan
+- **Properties**: Plan continuation context
+- **Timing**: Plan confirmation
+- **Screen**: Plan confirmation screen
+- **User State**: Confirming repayment plan
+
+#### **purple_ba_bottomsheet_open**
+- **Context**: Bank account bottom sheet opened
+- **Properties**: Bank account selection context
+- **Timing**: Account selection
+- **Screen**: Bank account selection sheet
+- **User State**: Choosing bank account
+
+#### **loan_level_detail_screen_opened**
+- **Context**: Individual loan details screen
+- **Properties**: 
+  - `loan_id`: Specific loan identifier
+  - `loan_status`: Current loan status ("active" | "pending" | "completed")
+  - `loan_amount`: Loan amount value
+  - `tenure_remaining`: Remaining repayment period
+- **Timing**: Loan detail access
+- **Screen**: Individual loan details page
+- **User State**: Viewing specific loan information
+- **Debug Usage**: Loan detail engagement tracking
+
+#### **loan_level_repay_clicked**
+- **Context**: Repayment action from loan details
+- **Properties**: 
+  - `loan_id`: Loan being repaid
+  - `repay_type`: "partial" | "full" | "emi"
+  - `available_amount`: Available repayment amount
+- **Timing**: Repayment initiation from loan details
+- **Screen**: Loan details repayment section
+- **User State**: Initiating loan repayment
+- **Debug Usage**: Loan-specific repayment tracking
+
+#### **loan_level_repay_summary_opened**
+- **Context**: Loan repayment summary screen
+- **Properties**: 
+  - `loan_id`: Loan being repaid
+  - `repay_amount`: Amount to be repaid
+  - `due_amount`: Outstanding due amount
+  - `payment_method`: Selected payment method
+- **Timing**: Repayment summary viewing
+- **Screen**: Repayment summary page
+- **User State**: Reviewing repayment details
+- **Debug Usage**: Repayment summary engagement
+
+#### **loan_level_repay_summary_pay_clicked**
+- **Context**: Final repayment confirmation
+- **Properties**: 
+  - `loan_id`: Loan being repaid
+  - `final_amount`: Confirmed repayment amount
+  - `payment_method`: Final payment method
+- **Timing**: Repayment execution
+- **Screen**: Repayment confirmation
+- **User State**: Executing loan repayment
+- **Debug Usage**: Repayment completion tracking
+
+#### **repayment_dialer_page_open**
+- **Context**: Repayment via phone dialer
+- **Properties**: 
+  - `repayment_number`: Phone number for repayment
+  - `loan_context`: Associated loan information
+- **Timing**: Dialer-based repayment initiation
+- **Screen**: Phone dialer for repayment
+- **User State**: Using phone for repayment
+- **Debug Usage**: Alternative repayment method tracking
+
+#### **repayment_dialer_pay_clicked**
+- **Context**: Dialer repayment execution
+- **Properties**: 
+  - `call_initiated`: boolean indicating call start
+  - `repayment_amount`: Amount for dialer repayment
+- **Timing**: Dialer repayment confirmation
+- **Screen**: Dialer repayment interface
+- **User State**: Executing dialer repayment
+- **Debug Usage**: Dialer repayment success tracking
+
+#### **repayment_enter_amount_bottomsheet_opened**
+- **Context**: Custom repayment amount entry
+- **Properties**: 
+  - `default_amount`: Pre-filled amount
+  - `min_amount`: Minimum repayment amount
+  - `max_amount`: Maximum repayment amount
+  - `due_amount`: Outstanding due amount
+- **Timing**: Custom amount entry for repayment
+- **Screen**: Amount entry bottom sheet
+- **User State**: Entering custom repayment amount
+- **Debug Usage**: Custom repayment amount behavior
+
+#### **repayment_enter_amount_continue_clicked**
+- **Context**: Custom repayment amount confirmation
+- **Properties**: 
+  - `entered_amount`: User-entered amount
+  - `validation_status`: Amount validation result
+- **Timing**: Custom amount confirmation
+- **Screen**: Amount confirmation
+- **User State**: Confirming custom repayment amount
+- **Debug Usage**: Custom amount repayment tracking
+
+#### **borrow_details_plans_screen_open**
+- **Context**: Borrow plans details screen access
+- **Properties**: 
+  - `available_plans`: Number of available plans
+  - `default_plan`: Default plan selected
+  - `plan_types`: Types of plans available
+- **Timing**: Plans screen access
+- **Screen**: Borrow plans interface
+- **User State**: Reviewing borrow plans
+- **Debug Usage**: Borrow plans engagement tracking
+
+#### **borrow_details_plans_screen_confirm_clicked**
+- **Context**: Borrow plans confirmation
+- **Properties**: 
+  - `selected_plan`: Plan selected for confirmation
+  - `plan_details`: Details of selected plan
+  - `confirmation_method`: Method of confirmation
+- **Timing**: Plan confirmation action
+- **Screen**: Borrow plans confirmation
+- **User State**: Confirming borrow plan
+- **Debug Usage**: Borrow plans conversion tracking
+
+### 6. PAYMENT GATEWAY & CHECKOUT FLOW
+
+#### **payment_bottomsheet_opened**
+- **Context**: Payment method selection sheet
+- **Properties**: 
+  - `amount_in_slice_savings_bottomsheet`: Slice savings amount (1000, 660)
+  - `dsa_bottomsheet_type`: "not enabled" | "enabled"
+  - `flow`: "borrow_slice_savings" | "payment" | "topup"
+  - `slice_saving_shown`: "no" | "yes"
+  - `slice_saving_status`: "NOT_ONBOARDED" | "ONBOARDED"
+- **Screen**: Bottom sheet with payment options
+- **Debug Usage**: Payment method selection analysis
+- **Production Examples**: `payment_bottomsheet_opened (amount_in_slice_savings_bottomsheet=660, slice_saving_status="NOT_ONBOARDED")`
+
+#### **payment_bottomsheet_continue_clicked**
+- **Context**: Payment method confirmation
+- **Properties**: 
+  - `mode_selected`: "sliceUPI" | "card" | "wallet"
+  - `flow`: "borrow_slice_savings" | payment context
+  - `amount_in_slice_savings_bottomsheet`: Slice savings amount
+  - `dsa_bottomsheet_type`: "not enabled"
+  - `slice_saving_shown`: "no"
+  - `slice_saving_status`: "NOT_ONBOARDED"
+- **Debug Usage**: Payment method preference tracking
+- **Production Examples**: `payment_bottomsheet_continue_clicked (mode_selected="sliceUPI", flow="borrow_slice_savings")`
+
+#### **ps_payment_screen_opened**
+- **Context**: Payment screen access
+- **Properties**: 
+  - `payment_context`: Context of payment ("bill" | "transfer" | "purchase")
+  - `available_methods`: Available payment methods
+  - `amount`: Payment amount
+- **Timing**: Payment screen access
+- **Screen**: Main payment interface
+- **User State**: Initiating payment process
+- **Debug Usage**: Payment screen engagement tracking
+
+#### **ps_payment_option_clicked**
+- **Context**: Payment option selection
+- **Properties**: 
+  - `payment_option`: Selected payment method
+  - `option_position`: Position in payment options list
+- **Timing**: Payment method selection
+- **Screen**: Payment options screen
+- **User State**: Selecting payment method
+- **Debug Usage**: Payment method preference analysis
+
+### 7. TRANSACTION PROCESSING & STATUS
+
+#### **transaction_initiated**
+- **Context**: Transaction processing start
+- **Properties**: 
+  - `flow`: "borrow" | "payment" | "transfer"
+  - `type`: "credit" | "debit"
+- **Event Type**: "backend"
+- **Debug Usage**: Transaction initiation tracking
+- **Production Examples**: `transaction_initiated (flow="borrow", type="credit")`
+
+#### **transaction_completed**
+- **Context**: Transaction processing completion
+- **Properties**: 
+  - `status`: "CONFIRMED" | "FAILED" | "PENDING"
+  - `flow`: "borrow" | transaction context
+  - `type`: "credit" | "debit"
+- **Event Type**: "backend"
+- **Debug Usage**: Transaction success rate analysis
+- **Production Examples**: `transaction_completed (status="CONFIRMED", flow="borrow", type="credit")`
+
+#### **transaction_loading_page_opened**
+- **Context**: Transaction processing screen
+- **Properties**: 
+  - `flow`: "borrow_transaction" | "payment_transaction"
+- **Screen**: Loading/processing UI
+- **Debug Usage**: Transaction processing time analysis
+- **Production Examples**: Multiple instances during transaction processing
+
+#### **transaction_status_page_opened**
+- **Context**: Transaction result screen
+- **Properties**: 
+  - `status`: "success" | "failed" | "pending"
+  - `cta_options`: Available actions ("done", "retry")
+  - `marketing_card_shown`: "no" | "yes"
+  - `flow`: "borrow_transaction" | transaction context
+- **Screen**: Success/failure result page
+- **Debug Usage**: Transaction outcome tracking
+- **Production Examples**: `transaction_status_page_opened (status="success", cta_options="done", marketing_card_shown="no")`
+
+#### **txn_api_response**
+- **Context**: Transaction API response received
+- **Properties**: 
+  - `api_response_code`: HTTP response code
+  - `response_time`: API response duration
+- **Debug Usage**: API performance monitoring
+
+### 8. OTP & VERIFICATION FLOW
+
+#### **otp_page_opened**
+- **Context**: OTP entry screen display
+- **Properties**: 
+  - `flow`: "borrow_transaction" | "authentication" | "verification"
+  - `type`: "sms" | "email" | "call"
+  - `product_type`: "borrow" | "payment" | "general"
+  - `load_time`: Screen load duration (typically 1)
+- **Screen**: OTP input interface
+- **Debug Usage**: OTP flow tracking
+- **Production Examples**: `otp_page_opened (flow="borrow_transaction", type="sms", product_type="borrow", load_time=1)`
+
+#### **otp_entered**
+- **Context**: OTP input by user
+- **Properties**: 
+  - `flow`: "borrow_transaction" | context of OTP requirement
+  - `type`: "sms" | OTP delivery method
+  - `product_type`: "borrow" | feature requiring OTP
+- **Debug Usage**: OTP entry engagement
+- **Production Examples**: `otp_entered (flow="borrow_transaction", type="sms", product_type="borrow")`
+
+#### **otp_page_pin_input_clicked**
+- **Context**: OTP digit input interaction
+- **Properties**: 
+  - `number`: Specific digit entered (masked, e.g., "9953", "5564")
+  - `flow`: "borrow_transaction" | OTP context
+  - `type`: "sms" | OTP delivery method
+  - `product_type`: "borrow"
+- **Debug Usage**: OTP entry behavior analysis
+- **Production Examples**: `otp_page_pin_input_clicked (number="5564", flow="borrow_transaction", type="sms")`
+
+### 9. SYNC & DATA MANAGEMENT
+
+#### **sync_started**
+- **Context**: Data synchronization initiation
+- **Properties**: 
+  - `sync_type`: "RECURRING" | "MANUAL" | "BACKGROUND"
+  - `total_sms_count`: SMS messages to sync (e.g., 14, 25)
+  - `total_batches_count`: Sync batch count (typically 1)
+  - `batch_size`: Items per batch (typically 200)
+  - `product_type`: "TPAP_app_launch" | specific feature
+  - `timestamp`: Sync start timestamp
+- **Debug Usage**: Sync performance tracking
+- **Production Examples**: 
+  - Initial sync: `sync_started (sync_type="RECURRING", total_sms_count=14, batch_size=200, product_type="TPAP_app_launch")`
+
+#### **sync_completed**
+- **Context**: Data synchronization completion
+- **Properties**: 
+  - `sync_completion_percentage`: Success percentage (typically 100)
+  - `sync_type`: "RECURRING" | type of sync performed
+  - `total_batches_count`: Batches processed
+  - `total_sms_count`: Messages synced
+  - `batch_size`: Batch size used
+  - `product_type`: "TPAP_app_launch"
+  - `timestamp`: Completion timestamp
+- **Debug Usage**: Sync success rate analysis
+- **Production Examples**: `sync_completed (sync_completion_percentage=100, total_sms_count=14)`
+
+#### **background_sync**
+- **Context**: Background data synchronization
+- **Properties**: 
+  - `sync_duration`: Time taken for sync
+  - `data_types_synced`: Types of data synchronized
+- **Debug Usage**: Background sync efficiency
+
+#### **contacts_sync_started**
+- **Context**: Contact synchronization initiation
+- **Properties**: 
+  - `contact_count`: Number of contacts to sync
+- **Debug Usage**: Contact sync tracking
+
+#### **contacts_sync_completed**
+- **Context**: Contacts data sync completion
+- **Properties**: Contacts sync results
+- **Timing**: Contacts sync completion
+- **Screen**: Background contacts sync complete
+- **User State**: Contacts synchronized
+
+#### **app_sync_started**
+- **Context**: Application data sync start
+- **Properties**: 
+  - `flow`: "BORROW" | "" | general app sync
+- **Debug Usage**: App-level sync tracking
+- **Production Examples**: 
+  - Borrow flow: `app_sync_started (flow="BORROW")`
+  - General sync: `app_sync_started (flow="")`
+
+#### **app_sync_completed**
+- **Context**: Application data sync completion
+- **Properties**: 
+  - `duration`: Sync duration in seconds (e.g., 5, 6)
+  - `app_count`: Number of apps processed (e.g., 400)
+  - `flow`: "BORROW" | context of sync
+- **Debug Usage**: App sync performance
+- **Production Examples**: `app_sync_completed (duration=5, app_count=400, flow="BORROW")`
+
+#### **location_sync_started**
+- **Context**: Location data sync initiation
+- **Properties**: 
+  - `flow`: "BORROW" | "" | general location sync
+- **Debug Usage**: Location sync tracking
+- **Production Examples**: Multiple instances with different flow contexts
+
+#### **location_sync_completed**
+- **Context**: Location data sync completion
+- **Properties**: 
+  - `duration`: Sync duration (e.g., 3 seconds)
+  - `flow`: "BORROW" | "" | context of location sync
+- **Debug Usage**: Location sync performance
+- **Production Examples**: `location_sync_completed (duration=3, flow="BORROW")`
+
+### 10. PERMISSIONS & SECURITY
+
+#### **app_permissions_page_opened**
+- **Context**: Permissions request screen
+- **Properties**: 
+  - `flow`: "borrow" | "onboarding" | "settings"
+  - `permission_type`: Specific permission being requested (e.g., "[android.permission.ACCESS_FINE_LOCATION]")
+- **Screen**: Permission request UI
+- **Debug Usage**: Permission request tracking
+- **Production Examples**: `app_permissions_page_opened (flow="borrow", permission_type="[android.permission.ACCESS_FINE_LOCATION]")`
+
+#### **app_permissions_page_continue_clicked**
+- **Context**: Permission request continuation
+- **Properties**: 
+  - `flow`: "borrow" | context of permission request
+- **Debug Usage**: Permission grant flow tracking
+- **Production Examples**: `app_permissions_page_continue_clicked (flow="borrow")`
+
+#### **permissions_popup_allow_clicked**
+- **Context**: System permission dialog acceptance
+- **Properties**: 
+  - `permission_type`: "android.permission.ACCESS_FINE_LOCATION" | specific permission
+  - `flow`: "borrow" | context requiring permission
+- **Debug Usage**: Permission grant success tracking
+- **Production Examples**: `permissions_popup_allow_clicked (permission_type="android.permission.ACCESS_FINE_LOCATION", flow="borrow")`
+
+#### **apps_extracted**
+- **Context**: Installed apps data extraction
+- **Properties**: 
+  - `app_count`: Number of apps found (e.g., 400)
+  - `flow`: "BORROW" | context requiring app data
+- **Debug Usage**: App data collection tracking
+- **Production Examples**: `apps_extracted (app_count=400, flow="BORROW")`
+
+#### **contact_permission_popup**
+- **Context**: Contact permission request popup
+- **Properties**: Permission request context
+- **Timing**: Permission request
+- **Screen**: Permission popup
+- **User State**: Granting/denying contacts access
+
+#### **contact_permission_allow_clicked**
+- **Context**: Contact permission granted
+- **Properties**: 
+  - `permission_source`: Source requesting contact permission
+  - `grant_result`: Permission grant result
+- **Timing**: Contact permission acceptance
+- **Screen**: Contact permission dialog
+- **User State**: Granting contact access
+- **Debug Usage**: Contact permission success tracking
+
+### 11. TODO & TASK MANAGEMENT
+
+#### **todo_display**
+- **Context**: Todo item display to user
+- **Properties**: 
+  - `flow`: "SAVINGS_ONBOARDING" | "rds v2"
+  - `page_source`: "borrow_home" | source screen
+  - `type`: "optional" | "mandatory"
+  - `status`: Todo completion status (empty string)
+- **Screen**: Todo cards on various screens
+- **Debug Usage**: Todo engagement analysis
+- **Production Examples**: 
+  - Mandatory todo: `todo_display (flow="rds v2", page_source="borrow_home", type="mandatory")`
+  - Optional todo: `todo_display (flow="SAVINGS_ONBOARDING", page_source="borrow_home", type="optional")`
+
+#### **to_do_clicked**
+- **Context**: Generic todo item interaction
+- **Properties**: 
+  - `todo_type`: Type of todo clicked
+  - `source_screen`: Screen containing todo
+- **Debug Usage**: Todo completion tracking
+
+### 12. HELP & SUPPORT SYSTEM
+
+#### **chatbot_open**
+- **Context**: Chatbot/support chat initiation
+- **Properties**: 
+  - `entry_point`: Source of chat access ("faq_category")
+  - `user_issue_type`: Predicted issue category
+  - `faq_category`: "Fixed deposits" | category context
+- **Screen**: Chat interface
+- **Debug Usage**: Support engagement tracking
+- **Timing**: Support chat initiation
+- **User State**: Engaging with AI support
+
+#### **chatbot_first_screen_options_shown**
+- **Context**: Initial chatbot options display
+- **Properties**: 
+  - `option_count`: Number of options shown
+  - `entry_point`: "FAQ"
+  - `load_time`: 10390 (milliseconds)
+  - `message_id`: Unique message identifier
+  - `submenu_options`: "[Savings account and deposits, Borrow, UPI, General, Fraud]"
+- **Debug Usage**: Support flow initiation
+- **Timing**: Chatbot initialization
+- **Screen**: Chatbot welcome
+- **User State**: Viewing support options
+
+#### **chatbot_option_clicked**
+- **Context**: Chatbot option selection
+- **Properties**: 
+  - `option_text`: Selected option
+  - `option_category`: Option category
+  - `message_id`: Message identifier
+  - `option`: Selected option text
+  - `screen`: "chat"
+  - `view_type`: "LIST_ITEM" | "BUTTON"
+- **Debug Usage**: Support topic analysis
+- **Timing**: User interaction with chatbot
+- **Screen**: Chatbot conversation
+- **User State**: Navigating chatbot flow
+
+#### **chatbot_livechat_csat_option_shown**
+- **Context**: Live chat satisfaction survey display
+- **Properties**: 
+  - `survey_type`: Type of satisfaction survey
+- **Debug Usage**: Support quality tracking
+- **Timing**: After live chat session
+- **Screen**: CSAT survey screen
+- **User State**: Providing feedback
+
+#### **chatbot_notification_sent**
+- **Context**: Chatbot notification delivery
+- **Properties**: 
+  - `notification_type`: Type of notification
+- **Debug Usage**: Support notification tracking
+- **Timing**: System notification trigger
+- **Screen**: Background notification
+- **User State**: Receiving chatbot notification
+
+#### **chatbot_red_dot_active**
+- **Context**: Support notification indicator active
+- **Properties**: 
+  - `notification_count`: Number of unread notifications
+- **Debug Usage**: Support attention tracking
+- **Timing**: During chatbot session
+- **Screen**: Chatbot interface
+- **User State**: Active chat session
+
+#### **chatbot_ticket_created**
+- **Context**: Support ticket generation
+- **Properties**: 
+  - `ticket_category`: Issue category
+  - `priority`: Ticket priority level
+- **Debug Usage**: Support ticket analysis
+- **Timing**: Support escalation
+- **Screen**: Chatbot ticket creation
+- **User State**: Creating support ticket
+
+#### **live_chat_available**
+- **Context**: Live chat option becomes available
+- **Properties**: Live chat availability context
+- **Timing**: Support system check
+- **Screen**: Chat interface
+- **User State**: Live chat option available
+
+#### **ivr_call_disposed**
+- **Context**: IVR call session ended
+- **Properties**: Call disposition details
+- **Timing**: Call completion
+- **Screen**: Call interface
+- **User State**: Call session ended
+
+#### **ivr_agent_connected**
+- **Context**: IVR agent connection established
+- **Properties**: 
+  - `agent_id`: Connected agent identifier
+  - `connection_time`: Time to connect to agent
+  - `queue_time`: Time spent in queue
+- **Timing**: Agent connection
+- **Screen**: IVR call interface
+- **User State**: Connected to support agent
+- **Debug Usage**: IVR agent connection tracking
+
+#### **ivr_csat_selected**
+- **Context**: IVR customer satisfaction rating
+- **Properties**: 
+  - `satisfaction_rating`: Rating provided (1-5 scale)
+  - `feedback_category`: Category of feedback
+- **Timing**: Post-call satisfaction survey
+- **Screen**: IVR satisfaction interface
+- **User State**: Providing feedback
+- **Debug Usage**: IVR service quality tracking
+
+#### **ivr_mainmenu_selected**
+- **Context**: IVR main menu option selection
+- **Properties**: 
+  - `menu_option`: Selected main menu option
+  - `option_number`: Menu option number pressed
+- **Timing**: IVR main menu navigation
+- **Screen**: IVR main menu
+- **User State**: Navigating IVR system
+- **Debug Usage**: IVR menu usage tracking
+
+#### **ivr_submenu_selected**
+- **Context**: IVR submenu option selection
+- **Properties**: 
+  - `submenu_option`: Selected submenu option
+  - `parent_menu`: Parent menu context
+- **Timing**: IVR submenu navigation
+- **Screen**: IVR submenu
+- **User State**: Drilling down in IVR
+- **Debug Usage**: IVR submenu navigation analysis
+
+#### **ivr_usercall_connected**
+- **Context**: User call connection to IVR
+- **Properties**: 
+  - `call_source`: Source of call initiation
+  - `connection_status`: Call connection result
+- **Timing**: Call initiation
+- **Screen**: Call interface
+- **User State**: Initiating support call
+- **Debug Usage**: IVR call initiation tracking
+
+#### **attachment_clicked**
+- **Context**: Support attachment interaction
+- **Properties**: 
+  - `attachment_type`: Type of attachment ("image" | "document" | "link")
+  - `attachment_size`: Size of attachment
+  - `attachment_source`: Source of attachment
+- **Timing**: Attachment interaction
+- **Screen**: Support chat interface
+- **User State**: Viewing attachment
+- **Debug Usage**: Support attachment engagement
+
+#### **chatbot_attachment_upload_status**
+- **Context**: Chatbot attachment upload status
+- **Properties**: 
+  - `upload_status`: Status of upload ("success" | "failed" | "in_progress")
+  - `file_type`: Type of file uploaded
+  - `upload_duration`: Time taken for upload
+- **Timing**: Attachment upload completion
+- **Screen**: Chatbot interface
+- **User State**: Uploading support document
+- **Debug Usage**: Support attachment upload tracking
+
+#### **dialer_chips_clicked**
+- **Context**: Dialer contact chips interaction
+- **Properties**: 
+  - `chip_type`: Type of chip clicked ("recent" | "favorite" | "suggested")
+  - `contact_info`: Contact information
+- **Timing**: Chip selection
+- **Screen**: Dialer interface
+- **User State**: Selecting contact from chips
+- **Debug Usage**: Dialer contact selection tracking
+
+### 13. ACTIVITY CENTER & NOTIFICATIONS
+
+#### **activity_centre_clicked**
+- **Context**: Activity center access
+- **Properties**: 
+  - `entry_point`: Source of access
+  - `notification_count`: Unread notifications
+- **Screen**: Activity/notification center
+- **Debug Usage**: Notification engagement
+- **Timing**: User accessing activity center
+- **User State**: Viewing activity overview
+
+#### **activity_centre_details_page_opened**
+- **Context**: Activity detail view
+- **Properties**: 
+  - `activity_type`: Type of activity viewed
+- **Debug Usage**: Activity detail engagement
+- **Timing**: Activity detail access
+- **Screen**: Activity details page
+- **User State**: Viewing specific activity
+
+#### **activity_centre_details_location_card**
+- **Context**: Location-based activity card view
+- **Properties**: 
+  - `location_type`: Type of location activity
+- **Debug Usage**: Location-based activity tracking
+- **Timing**: Location data display
+- **Screen**: Activity details with location
+- **User State**: Viewing location information
+
+#### **activity_centre_details_page_share_clicked**
+- **Context**: Activity sharing action
+- **Properties**: 
+  - `share_method`: Method used for sharing
+- **Debug Usage**: Activity sharing behavior
+
+#### **activity_centre_help_clicked**
+- **Context**: Help access from activity center
+- **Properties**: 
+  - `help_context`: Context of help request
+- **Debug Usage**: Activity-related help needs
+
+#### **activity_centre_line_item_clicked**
+- **Context**: Individual activity item click
+- **Properties**: 
+  - `item_type`: Type of activity item
+- **Debug Usage**: Activity item engagement
+
+### 14. SAVINGS & BANKING FEATURES
+
+#### **sa_homepage_open**
+- **Context**: Savings account home screen
+- **Properties**: 
+  - `account_balance_is_zero`: "False" | "True"
+  - `account_status`: "ACTIVE" | other status
+  - `card_name`: Marketing card displayed
+  - `deposit_exists`: "true" | "false"
+  - `eligible_for_rotation`: "yes" | "no"
+  - `interest_rate_value`: "6.00" (percentage)
+  - `marketing_card`: "active_deposit"
+  - `to_do_card`: Active todo card name
+- **Timing**: Savings tab access
+- **Screen**: Savings home page
+- **User State**: Viewing savings overview
+
+#### **sa_balance_clicked**
+- **Context**: User clicked on savings balance
+- **Properties**: Standard screen properties
+- **Timing**: User interaction with balance
+- **Screen**: Savings home -> Savings details transition
+- **User State**: Viewing balance details
+
+#### **sa_details_page_open**
+- **Context**: Savings account details screen
+- **Properties**: 
+  - `account_balance_is_zero`: Balance status
+  - `card_status`: "ORDER PHYSICAL CARD" | other
+  - `hold_amount_present`: "false" | "true"
+  - `to_do_card`: Current todo item
+  - `upi_status`: "ACTIVE" | other
+- **Timing**: After balance click
+- **Screen**: Savings details page
+- **User State**: Viewing detailed savings info
+
+#### **sa_passbook_clicked**
+- **Context**: Passbook access request
+- **Properties**: Standard tracking properties
+- **Timing**: User clicks passbook option
+- **Screen**: Savings details -> Passbook transition
+- **User State**: Requesting transaction history
+
+#### **balance_rotation_triggered**
+- **Context**: Balance animation start
+- **Properties**: 
+  - `interest_earned`: "₹3" (earned amount)
+  - `new_balance`: "₹21,228" (updated balance)
+- **Timing**: Balance update animation
+- **Screen**: Savings home
+- **User State**: Viewing balance update
+
+#### **balance_rotation_completed**
+- **Context**: Balance animation end
+- **Properties**: 
+  - `rotation_duration`: "1000" (milliseconds)
+- **Timing**: Animation completion
+- **Screen**: Savings home
+- **User State**: Balance update visible
+
+#### **savings_account_onboarding_successful**
+- **Context**: Savings account setup completion
+- **Properties**: 
+  - `account_type`: Type of savings account
+  - `onboarding_duration`: Time taken for setup
+- **Debug Usage**: Savings onboarding success tracking
+
+#### **savings_account_upi_upgraded**
+- **Context**: UPI upgrade for savings account
+- **Properties**: 
+  - `upgrade_type`: Type of UPI upgrade
+- **Debug Usage**: UPI upgrade tracking
+
+#### **sa_upi_details_clicked**
+- **Context**: Savings account UPI details access
+- **Properties**: 
+  - `details_section`: Specific section accessed
+- **Debug Usage**: UPI details engagement
+
+#### **select_bank_page_opened**
+- **Context**: Bank selection screen
+- **Properties**: 
+  - `available_banks`: Number of banks available
+- **Debug Usage**: Bank selection process
+
+#### **upgrade_to_banking_cta_clicked**
+- **Context**: Banking upgrade action
+- **Properties**: 
+  - `upgrade_type`: Type of banking upgrade
+- **Debug Usage**: Banking upgrade tracking
+
+#### **sa_account_details_clicked**
+- **Context**: Savings account details access
+- **Properties**: 
+  - `details_type`: Type of details accessed
+  - `account_status`: Current account status
+- **Timing**: Account details interaction
+- **Screen**: Savings details page
+- **User State**: Viewing account information
+- **Debug Usage**: Account details engagement tracking
+
+#### **sa_card_details_clicked**
+- **Context**: Savings account card details access
+- **Properties**: 
+  - `card_type`: Type of card details viewed
+  - `card_status`: Current card status
+- **Timing**: Card details access
+- **Screen**: Card details section
+- **User State**: Viewing card information
+- **Debug Usage**: Card details engagement
+
+#### **sa_details_bottom_sheet_open**
+- **Context**: Savings details bottom sheet display
+- **Properties**: 
+  - `sheet_type`: Type of bottom sheet opened
+  - `sheet_content`: Content displayed in sheet
+- **Timing**: Bottom sheet display
+- **Screen**: Savings details bottom sheet
+- **User State**: Viewing additional savings information
+- **Debug Usage**: Bottom sheet usage tracking
+
+#### **keypad_open**
+- **Context**: Numeric keypad display
+- **Properties**: 
+  - `keypad_context`: Context requiring keypad ("amount_entry" | "pin_entry")
+  - `input_type`: Type of input expected
+- **Timing**: Keypad interface display
+- **Screen**: Keypad interface
+- **User State**: Numeric input required
+- **Debug Usage**: Keypad usage tracking
+
+#### **keypad_closed**
+- **Context**: Numeric keypad dismissal
+- **Properties**: 
+  - `close_reason`: Reason for keypad closure ("input_complete" | "cancel" | "back")
+  - `input_completed`: boolean indicating if input was completed
+- **Timing**: Keypad dismissal
+- **Screen**: Keypad interface closure
+- **User State**: Numeric input completed or cancelled
+- **Debug Usage**: Keypad completion tracking
+
+#### **sa_add_money_clicked**
+- **Context**: Add money action from savings account
+- **Properties**: 
+  - `add_money_source`: Source of add money action
+  - `current_balance`: Current account balance
+  - `suggested_amounts`: Suggested addition amounts
+- **Timing**: Add money action initiation
+- **Screen**: Savings account interface
+- **User State**: Adding money to account
+- **Debug Usage**: Add money engagement tracking
+
+#### **accounts_page_add_money_clicked**
+- **Context**: Add money from accounts page
+- **Properties**: 
+  - `account_type`: Type of account for money addition
+  - `page_context`: Context of accounts page
+- **Timing**: Add money action from accounts
+- **Screen**: Accounts management page
+- **User State**: Adding money to specific account
+- **Debug Usage**: Account-specific add money tracking
+
+#### **accounts_bottomsheet_add_money_clicked**
+- **Context**: Add money from accounts bottom sheet
+- **Properties**: 
+  - `bottomsheet_context`: Context of bottom sheet display
+  - `account_selected`: Account selected for addition
+- **Timing**: Add money action from bottom sheet
+- **Screen**: Accounts bottom sheet
+- **User State**: Adding money via bottom sheet
+- **Debug Usage**: Bottom sheet add money conversion
+
+### 15. DEPOSITS & INVESTMENT
+
+#### **deposits_home**
+- **Context**: Deposits landing screen
+- **Properties**: 
+  - `previous_screen`: "savings_l0"
+  - `to_do_shown`: 1 (todo items visible)
+- **Timing**: Deposits section access
+- **Screen**: Deposits home
+- **User State**: Viewing deposits overview
+
+#### **deposits_home_other_options**
+- **Context**: Deposits additional options
+- **Properties**: 
+  - `selection`: "All deposits"
+- **Timing**: User exploring deposit options
+- **Screen**: Deposits home
+- **User State**: Exploring deposit types
+
+#### **all_deposits_page_open**
+- **Context**: All deposits listing
+- **Properties**: 
+  - `deposit_type`: "activate"
+- **Timing**: Comprehensive deposits view
+- **Screen**: All deposits page
+- **User State**: Viewing all deposit options
+
+#### **deposit_details_screen_open**
+- **Context**: Specific deposit details
+- **Properties**: 
+  - `type`: "active"
+- **Timing**: Deposit selection
+- **Screen**: Deposit details page
+- **User State**: Viewing specific deposit
+
+#### **marketing_card_clicked**
+- **Context**: Marketing card interaction
+- **Properties**: 
+  - `card_name`: "active_deposit"
+  - `flow`: "Deposits"
+  - `marketing_card`: Card identifier
+- **Timing**: User engagement with marketing
+- **Screen**: Any screen with marketing cards
+- **User State**: Marketing engagement
+
+#### **deposit_creation_continue_clicked**
+- **Context**: Deposit creation process continuation
+- **Properties**: 
+  - `deposit_amount`: Amount for new deposit
+  - `deposit_tenure`: Selected tenure for deposit
+  - `interest_rate`: Applicable interest rate
+- **Timing**: Deposit creation continuation
+- **Screen**: Deposit creation flow
+- **User State**: Proceeding with deposit creation
+- **Debug Usage**: Deposit creation flow tracking
+
+#### **deposit_pdp_screen_opened**
+- **Context**: Deposit product details page
+- **Properties**: 
+  - `product_type`: Type of deposit product
+  - `interest_rate`: Product interest rate
+  - `minimum_amount`: Minimum deposit amount
+- **Timing**: Product details viewing
+- **Screen**: Deposit product details page
+- **User State**: Viewing deposit product information
+- **Debug Usage**: Product detail engagement
+
+#### **deposit_pdp_cta**
+- **Context**: Deposit product details call-to-action
+- **Properties**: 
+  - `cta_type`: Type of action taken
+  - `product_selected`: Selected deposit product
+- **Timing**: Product selection action
+- **Screen**: Deposit product details
+- **User State**: Taking action on deposit product
+- **Debug Usage**: Product conversion tracking
+
+#### **deposit_summary_screen**
+- **Context**: Deposit summary review screen
+- **Properties**: 
+  - `summary_type`: Type of deposit summary
+  - `deposit_details`: Summary of deposit configuration
+- **Timing**: Deposit summary review
+- **Screen**: Deposit summary page
+- **User State**: Reviewing deposit details
+- **Debug Usage**: Deposit summary engagement
+
+#### **deposits_creation_screen**
+- **Context**: Deposit creation interface
+- **Properties**: 
+  - `creation_type`: Type of deposit being created
+  - `available_products`: Available deposit products
+- **Timing**: Deposit creation initiation
+- **Screen**: Deposit creation interface
+- **User State**: Creating new deposit
+- **Debug Usage**: Deposit creation tracking
+
+#### **deposits_custom_plan_page**
+- **Context**: Custom deposit plan configuration
+- **Properties**: 
+  - `plan_type`: Type of custom plan
+  - `customization_options`: Available customization options
+- **Timing**: Custom plan configuration
+- **Screen**: Custom deposit plan page
+- **User State**: Configuring custom deposit
+- **Debug Usage**: Custom plan usage tracking
+
+#### **custom_plan_tile_clicked**
+- **Context**: Custom plan tile selection
+- **Properties**: 
+  - `tile_type`: Type of custom plan tile
+  - `plan_details`: Details of selected plan
+- **Timing**: Custom plan selection
+- **Screen**: Custom plan options
+- **User State**: Selecting custom deposit plan
+- **Debug Usage**: Custom plan selection analysis
+
+### 16. PASSBOOK & TRANSACTIONS
+
+#### **passbook_page_open**
+- **Context**: Passbook/transaction history screen
+- **Properties**: 
+  - `download_button_disabled`: "false" | "true"
+  - `flow`: "Savings"
+  - `load_time`: "0 sec"
+  - `source`: "savings_l1"
+  - `state`: "transactions_present" | "no_transactions"
+- **Timing**: Passbook access
+- **Screen**: Passbook page
+- **User State**: Viewing transaction history
+
+#### **passbook_transaction_clicked**
+- **Context**: Specific transaction selected in passbook
+- **Properties**: Transaction details and context
+- **Timing**: User selecting transaction
+- **Screen**: Passbook transaction list
+- **User State**: Viewing transaction details
+
+#### **transaction_view_details_clicked**
+- **Context**: Transaction details view action
+- **Properties**: 
+  - `transaction_type`: Type of transaction being viewed
+  - `transaction_amount`: Amount of transaction
+  - `transaction_status`: Status of transaction
+  - `view_source`: Source of details view action
+- **Timing**: Transaction details access
+- **Screen**: Transaction list or summary
+- **User State**: Viewing transaction details
+- **Debug Usage**: Transaction detail engagement tracking
+
+### 17. SPEND ANALYTICS & INSIGHTS
+
+#### **spend_analytics_page_open**
+- **Context**: Spend analytics main screen
+- **Properties**: 
+  - `analytics_period`: Time period being viewed
+  - `account_count`: Number of accounts analyzed
+- **Screen**: Spending insights and analytics
+- **Debug Usage**: Analytics engagement tracking
+
+#### **spend_analytics_account_selection_screen_open**
+- **Context**: Account selection for analytics
+- **Properties**: 
+  - `available_accounts`: Number of accounts
+- **Debug Usage**: Account selection for analytics
+
+#### **spend_analytics_account_selection_screen_continue_click**
+- **Context**: Account selection confirmation
+- **Properties**: 
+  - `selected_accounts`: Number of accounts selected
+- **Debug Usage**: Analytics setup completion
+
+#### **spend_analytics_account_switch_click**
+- **Context**: Switching accounts in analytics
+- **Properties**: 
+  - `from_account`: Previous account
+  - `to_account`: New account
+- **Debug Usage**: Account switching behavior
+
+#### **spend_analytics_month_selection_click**
+- **Context**: Time period selection
+- **Properties**: 
+  - `selected_month`: Chosen time period
+- **Debug Usage**: Analytics period preferences
+
+### 18. CARD MANAGEMENT
+
+#### **card_settings_home**
+- **Context**: Card settings main screen
+- **Properties**: 
+  - `card_count`: Number of cards
+  - `available_settings`: Settings options available
+- **Screen**: Card management dashboard
+- **Debug Usage**: Card settings engagement
+
+#### **card_settings_home_cta**
+- **Context**: Card settings home call-to-action
+- **Properties**: 
+  - `cta_type`: Type of CTA clicked
+  - `card_context`: Card context for action
+- **Timing**: Card settings CTA interaction
+- **Screen**: Card settings home
+- **User State**: Taking card action
+- **Debug Usage**: Card settings CTA tracking
+
+#### **card_settings_spend_limits_screen**
+- **Context**: Card spend limits screen access
+- **Properties**: 
+  - `current_limits`: Current spend limits
+  - `limit_types`: Types of limits available
+- **Timing**: Spend limits screen access
+- **Screen**: Card spend limits interface
+- **User State**: Managing spend limits
+- **Debug Usage**: Spend limits engagement tracking
+
+### 19. VIDEO KYC & VERIFICATION
+
+#### **video_kyc_agent_start_video_call**
+- **Context**: Video KYC call initiation
+- **Properties**: 
+  - `agent_id`: Assigned agent identifier
+  - `call_type`: Type of video verification
+- **Debug Usage**: Video KYC process tracking
+
+#### **video_kyc_agent_approve_kyc**
+- **Context**: Video KYC approval
+- **Properties**: 
+  - `approval_status`: KYC approval result
+  - `agent_id`: Approving agent
+- **Debug Usage**: KYC approval tracking
+
+### 20. AADHAAR & DOCUMENT VERIFICATION
+
+#### **aadhaar_xml_completed**
+- **Context**: Aadhaar XML processing completion
+- **Properties**: 
+  - `processing_status`: Success/failure status
+  - `processing_time`: Time taken for processing
+- **Debug Usage**: Aadhaar verification tracking
+
+#### **appln_digilocker_started**
+- **Context**: DigiLocker integration initiation
+- **Properties**: 
+  - `document_type`: Type of document being fetched
+- **Debug Usage**: DigiLocker usage tracking
+
+#### **appln_digilocker_aadhaar_otp_submit**
+- **Context**: DigiLocker Aadhaar OTP submission
+- **Properties**: 
+  - `otp_attempt`: Attempt number
+- **Debug Usage**: DigiLocker OTP flow
+
+#### **appln_digilocker_complete**
+- **Context**: DigiLocker process completion
+- **Properties**: 
+  - `completion_status`: Success/failure
+  - `documents_fetched`: Number of documents retrieved
+- **Debug Usage**: DigiLocker success tracking
+
+#### **ckyc_completed**
+- **Context**: Centralized KYC process completion
+- **Properties**: 
+  - `kyc_status`: KYC completion status
+  - `verification_method`: Method used for verification
+  - `completion_time`: Time taken for CKYC completion
+- **Timing**: CKYC process completion
+- **Screen**: KYC completion screen
+- **User State**: KYC verification completed
+- **Debug Usage**: CKYC completion tracking
+
+#### **current_address_completed**
+- **Context**: Current address verification completion
+- **Properties**: 
+  - `verification_method`: Address verification method used
+  - `address_type`: Type of address verified
+  - `verification_status`: Success/failure status
+- **Timing**: Address verification completion
+- **Screen**: Address verification completion
+- **User State**: Address verification completed
+- **Debug Usage**: Address verification success tracking
+
+### 21. ADD MONEY & TOP-UP
+
+#### **add_money_v2_screen_opened**
+- **Context**: Add money interface access
+- **Properties**: 
+  - `available_methods`: Payment methods available
+  - `suggested_amounts`: Pre-suggested amounts
+- **Screen**: Money addition interface
+- **Debug Usage**: Add money engagement
+
+#### **add_money_v2_continue_clicked**
+- **Context**: Add money confirmation
+- **Properties**: 
+  - `amount`: Amount being added
+  - `method`: Payment method selected
+- **Debug Usage**: Add money completion tracking
+
+#### **add_money_paymode_clicked**
+- **Context**: Payment mode selection for adding money
+- **Properties**: 
+  - `paymode_selected`: Selected payment method
+  - `available_paymodes`: Available payment options
+  - `paymode_position`: Position in payment methods list
+- **Timing**: Payment method selection
+- **Screen**: Add money payment methods
+- **User State**: Selecting payment mode for top-up
+- **Debug Usage**: Payment method preference for add money
+
+### 22. ERROR HANDLING & PERFORMANCE
+
+#### **app_crash**
+- **Context**: Application crash occurrence
+- **Properties**: 
+  - `crash_type`: Type of crash
+  - `stack_trace`: Error stack trace
+  - `screen_at_crash`: Screen when crash occurred
+- **Debug Usage**: Crash analysis and prevention
+
+#### **app_open_screen_error**
+- **Context**: App opening screen error
+- **Properties**: 
+  - `error_type`: Specific error encountered
+  - `error_message`: Error details
+- **Debug Usage**: App startup error tracking
+
+### 23. BOTTOMSHEET & UI COMPONENTS
+
+#### **bottomsheet_cta_clicked**
+- **Context**: Bottom sheet action button click
+- **Properties**: 
+  - `cta_text`: Button text
+  - `bottomsheet_type`: Type of bottom sheet
+- **Debug Usage**: Bottom sheet engagement
+
+#### **bottomsheet_view**
+- **Context**: Bottom sheet display
+- **Properties**: 
+  - `bottomsheet_type`: Type of bottom sheet shown
+  - `context`: Context triggering bottom sheet
+- **Debug Usage**: Bottom sheet usage tracking
+
+#### **toast_message**
+- **Context**: Toast notification display
+- **Properties**: 
+  - `message_type`: Type of toast message
+  - `message_text`: Toast content
+- **Debug Usage**: User notification tracking
+
+### 24. TILE & WIDGET INTERACTIONS
+
+#### **tile_clicked**
+- **Context**: UI tile/card interaction
+- **Properties**: 
+  - `tile_type`: Type of tile clicked
+  - `tile_position`: Position in list/grid
+  - `tile_content`: Content of tile
+- **Debug Usage**: UI element engagement tracking
+
+### 25. AVC (ACCOUNT VERIFICATION CENTER)
+
+#### **avc_page_loaded**
+- **Context**: Account verification center access
+- **Properties**: 
+  - `verification_status`: Current verification state
+  - `pending_verifications`: Outstanding verifications
+- **Screen**: Account verification dashboard
+- **Debug Usage**: Verification process tracking
+- **Timing**: Analytics section access
+- **User State**: Viewing financial insights
+
+### 26. SIM BINDING
+
+#### **sim_binding_response**
+- **Context**: SIM binding process response
+- **Properties**: 
+  - `binding_status`: Success/failure of binding
+  - `sim_info`: SIM card information
+- **Debug Usage**: SIM binding success tracking
+
+### 27. HELP & SUPPORT DETAILED
+
+#### **profile_page_opened**
+- **Context**: User profile screen access
+- **Properties**: 
+  - `source`: "{savings}" (originating section)
+- **Timing**: Profile section access
+- **Screen**: Profile page
+- **User State**: Viewing profile information
+
+#### **help_home_screen**
+- **Context**: Help center main page
+- **Properties**: Standard tracking properties
+- **Timing**: Help section access
+- **Screen**: Help home
+- **User State**: Seeking support
+
+#### **help_category_clicked**
+- **Context**: Help category selection
+- **Properties**: 
+  - `clicked_on`: "Fixed deposits"
+- **Timing**: Category navigation
+- **Screen**: Help categories
+- **User State**: Exploring specific help topic
+
+#### **help_faq_category_screen**
+- **Context**: FAQ category page
+- **Properties**: 
+  - `category`: "Fixed deposits"
+  - `cta_present`: "chatbot"
+- **Timing**: FAQ section viewing
+- **Screen**: FAQ category page
+- **User State**: Reading FAQ content
+
+#### **help_chat_cta_clicked**
+- **Context**: Chat support initiation
+- **Properties**: 
+  - `source`: "list-faq"
+- **Timing**: Support escalation
+- **Screen**: FAQ -> Chat transition
+- **User State**: Requesting live support
+
+#### **help_chat_icon_clicked**
+- **Context**: Help chat icon clicked
+- **Properties**: Chat icon context
+- **Timing**: Direct chat access
+- **Screen**: Any screen with chat icon
+- **User State**: Initiating help chat
+
+#### **help_query_clicked**
+- **Context**: Specific help query selected
+- **Properties**: Query details and context
+- **Timing**: Help query selection
+- **Screen**: Help queries list
+- **User State**: Viewing specific help topic
+
+#### **help_query_screen**
+- **Context**: Help query details screen
+- **Properties**: Query screen context
+- **Timing**: Help query viewing
+- **Screen**: Query details page
+- **User State**: Reading help content
+
+#### **hns_icon_clicked**
+- **Context**: Help and Support icon clicked
+- **Properties**: HnS access context
+- **Timing**: Support section access
+- **Screen**: Any screen with HnS icon
+- **User State**: Accessing support
+
+#### **help_faq_clicked**
+- **Context**: FAQ item selection
+- **Properties**: 
+  - `faq_category`: Category of FAQ selected
+  - `faq_question`: Specific FAQ question
+- **Timing**: FAQ item access
+- **Screen**: FAQ list
+- **User State**: Viewing specific FAQ
+- **Debug Usage**: FAQ engagement tracking
+
+#### **help_faq_screen**
+- **Context**: FAQ details screen
+- **Properties**: 
+  - `faq_content`: FAQ content details
+  - `helpful_rating`: User helpfulness rating if provided
+- **Timing**: FAQ content viewing
+- **Screen**: FAQ details page
+- **User State**: Reading FAQ content
+- **Debug Usage**: FAQ content effectiveness tracking
+
+### 28. NUDGES & NOTIFICATIONS
+
+#### **nudge_shown**
+- **Context**: Promotional nudge display
+- **Properties**: 
+  - `event_position`: "SAVINGS"
+  - `event_value`: "savings_daily_interest"
+  - `nudge_type`: "red_dot"
+- **Timing**: During screen display
+- **Screen**: Any screen with nudges
+- **User State**: Viewing promotional content
+
+#### **nudge_clicked**
+- **Context**: Nudge interaction
+- **Properties**: Same as nudge_shown
+- **Timing**: User nudge engagement
+- **Screen**: Nudge interaction
+- **User State**: Engaging with promotion
+
+### 29. ONBOARDING & PROFILE
+
+#### **invite_page_open**
+- **Context**: Invite/referral page access
+- **Properties**: 
+  - `invite_source`: Source of invite page access
+  - `available_methods`: Available sharing methods
+  - `referral_code`: User's referral code
+- **Timing**: Invite page access
+- **Screen**: Invite/referral page
+- **User State**: Viewing referral options
+- **Debug Usage**: Referral engagement tracking
+
+#### **profile_action_center_clicked**
+- **Context**: Profile action center access
+- **Properties**: 
+  - `action_type`: Type of action center accessed
+  - `available_actions`: Actions available in center
+- **Timing**: Action center access
+- **Screen**: Profile action center
+- **User State**: Accessing profile actions
+- **Debug Usage**: Profile action engagement
+
+#### **profile_action_center_opened**
+- **Context**: Profile action center display
+- **Properties**: 
+  - `center_type`: Type of action center opened
+  - `action_count`: Number of available actions
+- **Timing**: Action center display
+- **Screen**: Profile action center interface
+- **User State**: Viewing available actions
+- **Debug Usage**: Action center usage tracking
+
+#### **profile_invite_code_clicked**
+- **Context**: Invite code interaction
+- **Properties**: 
+  - `code_action`: Action taken with invite code ("copy" | "share")
+  - `invite_code`: The invite code used
+- **Timing**: Invite code interaction
+- **Screen**: Profile invite section
+- **User State**: Using invite code
+- **Debug Usage**: Invite code usage tracking
+
+#### **purple_page_opened**
+- **Context**: Purple/splash page display (variant naming)
+- **Properties**: 
+  - `page_load_time`: Time taken to load purple page
+  - `user_state`: User authentication state during page load
+  - `flow_context`: Context of purple page display
+- **Timing**: App startup or navigation to purple screen
+- **Screen**: Purple/splash screen interface
+- **User State**: Loading app or specific feature
+- **Debug Usage**: Purple screen performance tracking
+- **Production Examples**: Related to `purple_screen` event with additional context
+
+#### **app_logout_clicked**
+- **Context**: User logout action initiation
+- **Properties**: 
+  - `logout_source`: Source of logout action ("settings" | "timeout" | "manual")
+  - `session_duration`: Length of current session before logout
+  - `logout_reason`: Reason for logout ("user_action" | "timeout" | "security")
+- **Timing**: User logout initiation
+- **Screen**: Settings or profile screen
+- **User State**: Ending session
+- **Debug Usage**: Logout behavior tracking
+
+#### **login_screen_opened**
+- **Context**: Login screen display
+- **Properties**: 
+  - `login_method_available`: Available login methods
+  - `auto_login_attempted`: Whether auto-login was attempted
+  - `previous_screen`: Screen before login
+- **Timing**: Login screen access
+- **Screen**: Login interface
+- **User State**: Attempting authentication
+- **Debug Usage**: Login flow initiation tracking
+
+#### **login_screen_cta_clicked**
+- **Context**: Login screen call-to-action interaction
+- **Properties**: 
+  - `cta_type`: Type of login CTA clicked
+  - `login_method`: Selected login method
+- **Timing**: Login action initiation
+- **Screen**: Login interface
+- **User State**: Taking login action
+- **Debug Usage**: Login method preference tracking
+
+#### **enter_phone_number_screen_open**
+- **Context**: Phone number entry screen display
+- **Properties**: 
+  - `number_prefilled`: Whether phone number is pre-filled
+  - `country_code`: Default country code
+  - `validation_rules`: Phone number validation requirements
+- **Timing**: Phone number entry step
+- **Screen**: Phone number input interface
+- **User State**: Entering contact information
+- **Debug Usage**: Phone number entry flow tracking
+
+#### **enter_phone_number_screen_continue_clicked**
+- **Context**: Phone number entry continuation
+- **Properties**: 
+  - `number_entered`: Whether valid number was entered
+  - `validation_passed`: Phone number validation result
+- **Timing**: Phone number submission
+- **Screen**: Phone number input interface
+- **User State**: Submitting phone number
+- **Debug Usage**: Phone number entry completion tracking
+
+#### **credit_score_page_opened**
+- **Context**: Credit score information page access
+- **Properties**: 
+  - `score_available`: Whether credit score data is available
+  - `score_range`: Credit score range if available
+  - `last_updated`: Last score update timestamp
+- **Timing**: Credit score section access
+- **Screen**: Credit score information page
+- **User State**: Viewing credit information
+- **Debug Usage**: Credit score engagement tracking
+
+#### **permissions_pdp_page_opened**
+- **Context**: Permissions product detail page display
+- **Properties**: 
+  - `permission_types`: Types of permissions being requested
+  - `mandatory_permissions`: Required permissions
+  - `optional_permissions`: Optional permissions
+- **Timing**: Permission information display
+- **Screen**: Permission details page
+- **User State**: Reviewing permission requirements
+- **Debug Usage**: Permission education tracking
+
+#### **permissions_pdp_page_cta_clicked**
+- **Context**: Permissions page call-to-action interaction
+- **Properties**: 
+  - `cta_action`: Action taken ("grant" | "skip" | "learn_more")
+  - `permissions_selected`: Permissions user agreed to
+- **Timing**: Permission decision action
+- **Screen**: Permission details page
+- **User State**: Making permission decision
+- **Debug Usage**: Permission grant conversion tracking
+
+#### **enter_phone_number_screen_popup_opened**
+- **Context**: Phone number entry popup display
+- **Properties**: 
+  - `popup_trigger`: Trigger for popup display
+  - `number_validation`: Validation requirements
+- **Timing**: Phone number popup display
+- **Screen**: Phone number popup
+- **User State**: Entering phone number via popup
+- **Debug Usage**: Phone number popup tracking
+
+#### **google_playstore_triggered**
+- **Context**: Google Play Store navigation triggered
+- **Properties**: 
+  - `trigger_source`: Source triggering Play Store
+  - `target_app`: Target app in Play Store
+  - `trigger_context`: Context of trigger
+- **Timing**: Play Store navigation
+- **Screen**: External Play Store
+- **User State**: Navigating to Play Store
+- **Debug Usage**: Play Store navigation tracking
+
+#### **ios_sms_controller_closed**
+- **Context**: iOS SMS controller dismissal
+- **Properties**: 
+  - `close_reason`: Reason for controller closure
+  - `sms_sent`: Whether SMS was sent
+- **Timing**: SMS controller closure
+- **Screen**: iOS SMS interface
+- **User State**: SMS controller dismissed
+- **Debug Usage**: iOS SMS flow tracking
+
+### 30. ONBOARDING PROCESS (OP)
+
+#### **op_land**
+- **Context**: Onboarding process landing
+- **Properties**: 
+  - `onboarding_step`: Current step in onboarding
+  - `user_type`: Type of user onboarding ("new" | "returning")
+- **Timing**: Onboarding step entry
+- **Screen**: Onboarding interface
+- **User State**: Progressing through onboarding
+- **Debug Usage**: Onboarding flow tracking
+
+#### **op_back**
+- **Context**: Onboarding process back navigation
+- **Properties**: 
+  - `previous_step`: Step being navigated back from
+  - `target_step`: Step being navigated back to
+- **Timing**: Onboarding back navigation
+- **Screen**: Onboarding interface
+- **User State**: Navigating back in onboarding
+- **Debug Usage**: Onboarding navigation pattern analysis
+
+#### **op_cta_action**
+- **Context**: Onboarding call-to-action button click
+- **Properties**: 
+  - `cta_type`: Type of CTA clicked
+  - `step_context`: Onboarding step context
+- **Timing**: CTA interaction
+- **Screen**: Onboarding interface
+- **User State**: Taking action in onboarding
+- **Debug Usage**: Onboarding conversion tracking
+
+#### **op_message**
+- **Context**: Onboarding message display
+- **Properties**: 
+  - `message_type`: Type of onboarding message
+  - `message_content`: Content of message
+- **Timing**: Message display
+- **Screen**: Onboarding interface
+- **User State**: Viewing onboarding message
+- **Debug Usage**: Onboarding message effectiveness
+
+#### **op_missing_data**
+- **Context**: Missing data in onboarding
+- **Properties**: 
+  - `missing_fields`: Fields missing data
+  - `data_type`: Type of missing data
+- **Timing**: Data validation
+- **Screen**: Onboarding form
+- **User State**: Data entry incomplete
+- **Debug Usage**: Onboarding data completion analysis
+
+#### **op_permission**
+- **Context**: Onboarding permission request
+- **Properties**: 
+  - `permission_type`: Type of permission requested
+  - `request_context`: Context of permission request
+- **Timing**: Permission request
+- **Screen**: Onboarding permission interface
+- **User State**: Granting/denying permissions
+- **Debug Usage**: Onboarding permission tracking
+
+#### **op_type**
+- **Context**: Onboarding type selection
+- **Properties**: 
+  - `selected_type`: Type of onboarding selected
+  - `available_types`: Available onboarding types
+- **Timing**: Onboarding type selection
+- **Screen**: Type selection interface
+- **User State**: Selecting onboarding path
+- **Debug Usage**: Onboarding path analysis
+
+#### **op_digio_gateway_event**
+- **Context**: Digio gateway integration event
+- **Properties**: 
+  - `gateway_action`: Action performed via Digio
+  - `integration_status`: Status of Digio integration
+- **Timing**: Digio gateway interaction
+- **Screen**: Digio integration interface
+- **User State**: Using Digio services
+- **Debug Usage**: Digio integration tracking
+
+### 31. VIDEO CALLS & COMMUNICATION
+
+#### **op_vcip_land**
+- **Context**: Video call in progress landing
+- **Properties**: 
+  - `call_type`: Type of video call
+  - `agent_info`: Information about connected agent
+- **Timing**: Video call interface entry
+- **Screen**: Video call interface
+- **User State**: In video call
+- **Debug Usage**: Video call session tracking
+
+#### **op_vcip_back**
+- **Context**: Video call interface back navigation
+- **Properties**: 
+  - `call_status`: Status when navigating back
+  - `call_duration`: Duration of call session
+- **Timing**: Video call back navigation
+- **Screen**: Video call interface
+- **User State**: Leaving video call
+- **Debug Usage**: Video call navigation tracking
+
+#### **op_vcip_cta_action**
+- **Context**: Video call CTA interaction
+- **Properties**: 
+  - `cta_type`: Type of CTA in video call
+  - `call_context`: Context of video call
+- **Timing**: CTA interaction during call
+- **Screen**: Video call interface
+- **User State**: Taking action during video call
+- **Debug Usage**: Video call engagement tracking
+
+#### **op_vcip_message**
+- **Context**: Video call message display
+- **Properties**: 
+  - `message_type`: Type of message in video call
+  - `sender`: Sender of message (agent/system)
+- **Timing**: Message display during call
+- **Screen**: Video call interface
+- **User State**: Receiving message during call
+- **Debug Usage**: Video call communication tracking
+
+#### **op_vcip_time_select**
+- **Context**: Video call time selection
+- **Properties**: 
+  - `selected_time`: Selected appointment time
+  - `available_slots`: Available time slots
+- **Timing**: Appointment time selection
+- **Screen**: Time selection interface
+- **User State**: Scheduling video call
+- **Debug Usage**: Video call scheduling tracking
+
+#### **op_vcip_view_more_slots_clicked**
+- **Context**: View more appointment slots action
+- **Properties**: 
+  - `current_slots_shown`: Currently displayed slots
+  - `additional_slots_requested`: Request for more slots
+- **Timing**: More slots request
+- **Screen**: Appointment scheduling
+- **User State**: Exploring more appointment options
+- **Debug Usage**: Appointment slot availability analysis
+
+#### **op_vcip_cq_test**
+- **Context**: Video call quality test
+- **Properties**: 
+  - `quality_metrics`: Call quality measurements
+  - `test_results`: Quality test results
+- **Timing**: Call quality assessment
+- **Screen**: Video call quality test
+- **User State**: Testing video call quality
+- **Debug Usage**: Video call quality monitoring
+
+### 32. EXPLORE & REWARDS
+
+#### **explore_page_loaded**
+- **Context**: Explore section page load
+- **Properties**: 
+  - `content_categories`: Available content categories
+  - `featured_content`: Featured content on page
+  - `load_time`: Page load duration
+- **Timing**: Explore section access
+- **Screen**: Explore page
+- **User State**: Browsing explore content
+- **Debug Usage**: Explore engagement tracking
+
+#### **explore_card_clicked**
+- **Context**: Explore content card interaction
+- **Properties**: 
+  - `card_type`: Type of explore card clicked
+  - `card_position`: Position of card in list
+  - `card_content`: Content of clicked card
+- **Timing**: Card interaction
+- **Screen**: Explore page
+- **User State**: Engaging with explore content
+- **Debug Usage**: Explore content engagement analysis
+
+#### **rewards_homescreen_open**
+- **Context**: Rewards section main screen
+- **Properties**: 
+  - `available_rewards`: Number of available rewards
+  - `user_points`: Current user reward points
+  - `featured_rewards`: Featured rewards displayed
+- **Timing**: Rewards section access
+- **Screen**: Rewards home page
+- **User State**: Viewing rewards overview
+- **Debug Usage**: Rewards engagement tracking
+
+## ADVANCED USER JOURNEY ANALYSIS
+
+### Primary User Flow Patterns
+
+#### **Fresh App Launch Pattern**:
+```
+app_open (from="fresh") → purple_screen (flow="app_open") → 
+mpin_verify_screen (method="DEVICE_AUTH") → app_intent_details → 
+timer_pre_auth → mpin_verify_screen_entered → 
+upi_home_screen_source_loaded
+```
+
+#### **Background Return Pattern**:
+```
+app_open (from="background", time_duration=X) → 
+[same_screen_as_before] → [resume_previous_flow]
+```
+
+#### **Complete Borrow Flow**:
+```
+borrow_page_opened → borrow_page_borrow_clicked → borrow_slider_swiped → 
+borrow_details_page_opened → borrow_details_confirm_clicked → 
+payment_bottomsheet_opened → payment_bottomsheet_continue_clicked → 
+borrow_order_otp_initiated → borrow_order_otp_generated → borrow_otp_sent → 
+otp_page_opened → otp_entered → borrow_otp_matched → 
+transaction_initiated → transaction_loading_page_opened → 
+transaction_completed → upi_credit_transaction_incoming → 
+transaction_status_page_opened
+```
+
+#### **Permission Flow Pattern**:
+```
+app_permissions_page_opened → app_permissions_page_continue_clicked → 
+permissions_popup_allow_clicked → app_sync_started → apps_extracted → 
+location_sync_started → location_sync_completed → app_sync_completed
+```
+
+#### **Savings Navigation Pattern**:
+```
+nav_bar_clicked(current_screen="send", next_screen="savings") → 
+sa_homepage_open → sa_balance_clicked → sa_details_page_open → 
+sa_passbook_clicked → passbook_page_open
+```
+
+#### **UPI Payment Pattern**:
+```
+upi_home_screen_source_loaded → upi_universal_send_screen_open → 
+upi_universal_send_screen_reco_loaded → upi_send_screen_search_bar_clicked → 
+upi_send_screen_tile_click → upi_send_account_selected → 
+upi_amount_entering_started → upi_proceed_to_pay
+```
+
+#### **Help & Support Pattern**:
+```
+help_home_screen → help_category_clicked → help_faq_category_screen → 
+help_chat_cta_clicked → chatbot_open → chatbot_first_screen_options_shown → 
+chatbot_option_clicked
+```
+
+#### **Deposit Exploration Pattern**:
+```
+marketing_card_clicked → deposits_home → deposits_home_other_options → 
+all_deposits_page_open → deposit_details_screen_open
+```
+
+### Screen Location Identification
+
+#### **Current Screen Detection Logic**:
+1. **Latest Screen Event**: Use most recent `*_page_opened` or `*_screen` event
+2. **Navigation Context**: Track `nav_bar_clicked` with `next_screen` property
+3. **Flow Context**: Use `flow` property to understand user journey stage
+4. **Session Continuity**: Track session_id for flow continuation
+5. **Render Completion**: Use `full_screen_rendering` for confirmed screen state
+
+#### **User Location Indicators**:
+- **Savings Home**: `sa_homepage_open` + `full_screen_rendering(trace_name="savingsHome_rendering")`
+- **UPI Send**: `upi_home_screen_source_loaded` + `nav_bar_clicked(current_screen="send")`
+- **Deposits**: `deposits_home` + `full_screen_rendering(trace_name="depositLanding_rendering")`
+- **Authentication**: `mpin_verify_screen` + `mpin_screen_mpin_entered`
+- **Support**: `chatbot_open` + `chatbot_first_screen_options_shown`
+- **Credit**: `credit_home_page_opened`
+- **Borrow**: `borrow_page_opened` + `repay_plan_screen_opened`
+- **Activity Center**: `activity_centre_clicked` + `activity_centre_details_page_opened`
+- **Help**: `help_home_screen` + `help_category_clicked`
+
+#### **User Intention Analysis**:
+1. **Payment Intent**: `upi_*` events → User wants to make payment
+2. **Borrow Intent**: `borrow_*` events → User needs loan
+3. **Help Intent**: `chatbot_*` events → User needs assistance
+4. **Setup Intent**: `*_onboarding_*` → User completing setup
+5. **Financial Management**: `sa_balance_clicked` → `sa_details_page_open` → `sa_passbook_clicked`
+6. **Help Seeking**: `help_home_screen` → `help_category_clicked` → `chatbot_open`
+7. **Deposit Exploration**: `marketing_card_clicked` → `deposits_home` → `all_deposits_page_open`
+8. **Payment Flow**: `upi_universal_send_screen_open` → `upi_amount_entering_started` → `upi_proceed_to_pay`
+9. **Loan Management**: `
+================================================================================
+### EVENTS-SEQUENCE5 COMPREHENSIVE ANALYSIS - DETAILED USER JOURNEY DATA
+================================================================================
+
+#### **SEQUENCE5 DATA OVERVIEW:**
+- **Format**: Complete individual user journey with full property tracking
+- **User ID**: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+- **Device**: OnePlus CPH2585, Android 15, Hyderabad, Telangana, India
+- **Network**: IND airtel, 4G connectivity, Screen: 1080x2208 (480 DPI)
+- **App Version**: 17.0.0 (build 981)
+- **Time Period**: 30 days analysis, 134 total events tracked
+
+### 268. **sim_binding_request**
+- **Context**: SIM binding process initiation request
+- **Properties**: 
+  - is_sim_binding_skipped: Boolean flag (False = binding required)
+  - request_timestamp: Precise timing of binding request
+  - device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+- **Timing**: Immediately after phone_number_submitted
+- **Screen**: SIM binding interface
+- **User State**: Requesting SIM authentication binding
+- **Debug Usage**: SIM binding request flow tracking
+- **Production Example**: sim_binding_request (is_sim_binding_skipped=False)
+
+### 269. **sim_binding_token_received**
+- **Context**: Authentication token receipt for SIM binding
+- **Properties**: 
+  - token_type: Authentication token classification
+  - token_validity: Token expiration timeframe
+  - binding_session_id: Unique session for binding process
+- **Timing**: After sim_binding_initiation
+- **Screen**: SIM binding processing interface
+- **User State**: Token received, awaiting OTP
+- **Debug Usage**: Token flow reliability tracking
+
+### 270. **sim_binding_otp_triggered**
+- **Context**: OTP generation trigger for SIM verification
+- **Properties**: 
+  - otp_method: Delivery method ("sms" | "call")
+  - trigger_timestamp: Exact OTP generation time
+  - retry_count: Number of OTP attempts
+- **Timing**: During SIM binding verification
+- **Screen**: OTP generation interface
+- **User State**: OTP being generated for verification
+- **Debug Usage**: OTP generation success rate tracking
+
+### 271. **sim_binding_sms_sent** (Multiple Occurrences)
+- **Context**: SIM binding SMS delivery (occurs 2 times for reliability)
+- **Properties**: 
+  - sms_delivery_status: Delivery confirmation status
+  - delivery_attempt: Attempt number (1st and 2nd delivery)
+  - sms_content_type: SMS message classification
+  - carrier_response: Network carrier feedback
+- **Timing**: During SIM binding verification process
+- **Screen**: Background SMS delivery
+- **User State**: SMS being delivered to device
+- **Debug Usage**: SMS delivery reliability and duplicate tracking
+- **Production Pattern**: Double delivery for enhanced reliability
+
+### 272. **sim_binding_polling_start**
+- **Context**: SIM binding status polling initiation
+- **Properties**: 
+  - polling_interval: Frequency of status checks (milliseconds)
+  - max_poll_attempts: Maximum polling iterations
+  - poll_timeout: Total polling timeout duration
+- **Timing**: After sim_binding_otp_read
+- **Screen**: Background polling process
+- **User State**: System actively checking binding status
+- **Debug Usage**: Polling efficiency and timeout analysis
+
+### 273. **sim_binding_otp_validated**
+- **Context**: SIM binding OTP validation success confirmation
+- **Properties**: 
+  - validation_status: OTP validation result ("success" | "failed")
+  - validation_timestamp: Exact validation completion time
+  - validation_method: Method used for OTP validation
+- **Timing**: After OTP processing and validation
+- **Screen**: OTP validation interface
+- **User State**: OTP successfully validated
+- **Debug Usage**: OTP validation success rate tracking
+
+### 274. **sim_binding_sms_delivered**
+- **Context**: SIM binding SMS delivery confirmation
+- **Properties**: 
+  - delivery_confirmation: Final SMS delivery status
+  - delivery_timestamp: SMS delivery completion time
+  - carrier_response: Carrier delivery confirmation
+- **Timing**: SMS delivery process completion
+- **Screen**: Background delivery confirmation
+- **User State**: SMS successfully delivered to device
+- **Debug Usage**: SMS delivery success rate analysis
+
+### 275. **sim_binding_terminal_state**
+- **Context**: SIM binding process final completion state
+- **Properties**: 
+  - terminal_status: Final binding outcome ("completed" | "failed")
+  - completion_reason: Reason for process completion
+  - binding_duration: Total time for entire binding process
+  - is_sim_binding_skipped: Final skip status (False)
+- **Timing**: SIM binding process finalization
+- **Screen**: SIM binding completion interface
+- **User State**: SIM binding process completely finished
+- **Debug Usage**: Complete SIM binding flow analysis
+
+### 276. **game_error**
+- **Context**: Game or interactive feature functionality error
+- **Properties**: 
+  - asset_size: Game asset size causing issues (2104791 bytes = 2.1MB)
+  - bandwidth: Network bandwidth during error (-1 = connection issue)
+  - network_type: Network type during error ("4G")
+  - speed_snap_info: Network quality assessment ("GOOD")
+  - session_id: Session identifier when error occurred
+  - error_context: Specific context where game error happened
+- **Timing**: During game or interactive feature usage
+- **Screen**: Game or interactive feature interface
+- **User State**: Experiencing game functionality error
+- **Debug Usage**: Game performance optimization and asset management
+- **Production Example**: game_error (asset_size=2104791, bandwidth=-1, network_type="4G")
+
+### 277. **op_vcip_hide_slots_clicked**
+- **Context**: Video call appointment slots hiding action
+- **Properties**: 
+  - slots_visible_before: Number of slots visible before hiding
+  - hide_reason: Reason for hiding appointment slots
+  - flow: "onboarding" context identifier
+  - module: "VCIP" (Video Call In Progress)
+- **Timing**: During video call appointment scheduling
+- **Screen**: Video call appointment slot interface
+- **User State**: Managing appointment slot visibility
+- **Debug Usage**: Video call UI interaction optimization
+
+### 278. **op_vcip_date_select**
+- **Context**: Video call appointment date selection
+- **Properties**: 
+  - selected_date: Specific date chosen for appointment
+  - available_dates: Total dates available for selection
+  - flow: "onboarding" process identifier
+  - module: "VCIP" module classification
+  - date_selection_method: Method used for date selection
+- **Timing**: During appointment scheduling process
+- **Screen**: Date selection interface for video calls
+- **User State**: Selecting preferred appointment date
+- **Debug Usage**: Video call scheduling behavior analysis
+
+### 279. **op_vcip_view_more_slots_clicked**
+- **Context**: Video call appointment slots expansion action
+- **Properties**: 
+  - additional_slots_shown: Number of additional slots displayed
+  - current_slots_count: Currently visible appointment slots
+  - flow: "onboarding" context
+  - module: "VCIP" classification
+- **Timing**: During appointment slot exploration
+- **Screen**: Video call appointment expansion interface
+- **User State**: Exploring additional appointment options
+- **Debug Usage**: Video call slot availability optimization
+
+### 280. **leaderboard_card_clicked**
+- **Context**: Leaderboard feature card interaction
+- **Properties**: 
+  - card_position: Position of leaderboard card in interface
+  - card_type: Type of leaderboard displayed
+  - user_rank: Current user ranking if available
+  - leaderboard_category: Category of leaderboard accessed
+- **Timing**: Leaderboard feature engagement
+- **Screen**: Rewards or explore section interface
+- **User State**: Accessing leaderboard features
+- **Debug Usage**: Leaderboard engagement and ranking analysis
+
+### 281. **leaderboard_page_opened**
+- **Context**: Detailed leaderboard view access
+- **Properties**: 
+  - leaderboard_type: Specific type of leaderboard viewed
+  - ranking_period: Time period for ranking calculations
+  - user_position: User's current position in leaderboard
+  - total_participants: Total participants in leaderboard
+- **Timing**: After leaderboard card interaction
+- **Screen**: Detailed leaderboard page
+- **User State**: Viewing comprehensive ranking information
+- **Debug Usage**: Leaderboard feature usage optimization
+
+### 282. **profile_photo_clicked**
+- **Context**: Profile photo management interaction
+- **Properties**: 
+  - photo_status: Current photo status ("uploaded" | "default" | "none")
+  - photo_source: Source of current profile photo
+  - edit_available: Whether photo editing is available
+- **Timing**: Profile management activities
+- **Screen**: Profile management interface
+- **User State**: Managing profile photo settings
+- **Debug Usage**: Profile photo engagement tracking
+
+### 283. **personal_details_page_opened**
+- **Context**: Personal details management screen access
+- **Properties**: 
+  - details_completion: Percentage of personal details completed
+  - editable_fields: Fields available for editing
+  - verification_status: Current verification status of details
+- **Timing**: Profile management flow
+- **Screen**: Personal details management interface
+- **User State**: Managing personal information
+- **Debug Usage**: Personal details completion tracking
+
+### 284. **profile_cta_clicked**
+- **Context**: Profile call-to-action interaction
+- **Properties**: 
+  - cta_type: Type of CTA clicked in profile section
+  - cta_position: Position of CTA in interface layout
+  - action_taken: Specific action triggered by CTA
+- **Timing**: Profile action execution
+- **Screen**: Profile interface with CTAs
+- **User State**: Taking profile-related actions
+- **Debug Usage**: Profile CTA effectiveness analysis
+
+### 285. **op_type**
+- **Context**: Onboarding type selection or classification
+- **Properties**: 
+  - onboarding_type: Specific type of onboarding selected
+  - flow: "onboarding" context identifier
+  - user_category: User category for onboarding classification
+  - type_selection_method: Method used for type determination
+- **Timing**: During onboarding flow progression
+- **Screen**: Onboarding type selection interface
+- **User State**: Selecting or being classified for onboarding type
+- **Debug Usage**: Onboarding path optimization analysis
+
+### 286. **profile_invite_code_clicked**
+- **Context**: Profile invite code feature interaction
+- **Properties**: 
+  - invite_code_status: Current invite code status
+  - code_generation_available: Whether code generation is available
+  - sharing_options: Available sharing methods for invite code
+- **Timing**: Profile feature exploration
+- **Screen**: Profile invite section
+- **User State**: Accessing invite code functionality
+- **Debug Usage**: Invite feature engagement tracking
+
+### 287. **invite_page_open**
+- **Context**: Invite page detailed view access
+- **Properties**: 
+  - invite_type: Type of invite functionality accessed
+  - available_methods: Available invitation methods
+  - user_invite_history: Previous invitation activity
+- **Timing**: After invite code interaction
+- **Screen**: Detailed invite page interface
+- **User State**: Managing invitation features
+- **Debug Usage**: Invite page usage optimization
+
+================================================================================
+### SEQUENCE5 DETAILED FLOW PATTERNS
+================================================================================
+
+#### **Complete Authentication & SIM Binding Flow (30-step process)**:
+```
+app_open (from="fresh") → app_intent_details (user_login_status=False) → 
+login_screen_opened → login_screen_cta_status → login_screen_cta_clicked → 
+permissions_pdp_page_opened → permissions_popup_opened → 
+permissions_pdp_page_cta_clicked → enter_phone_number_screen_open → 
+enter_phone_number_screen_continue_clicked → phone_number_submitted → 
+sim_binding_request → sim_binding_initiation → sim_binding_token_received → 
+sim_binding_otp_triggered → sim_binding_sms_sent → sim_binding_otp_read → 
+sim_binding_polling_start → sim_binding_sms_sent → sim_binding_otp_validated → 
+sim_binding_sms_delivered → sim_binding_terminal_state → 
+app_login_complete → sim_binding_response → phone_verification_complete → 
+sync_started → sync_completed
+```
+
+#### **Video Call Scheduling Complex Pattern (12-step process)**:
+```
+op_vcip_land → op_vcip_hide_slots_clicked → op_vcip_time_select → 
+op_vcip_date_select → op_vcip_time_select → op_vcip_hide_slots_clicked → 
+op_vcip_date_select → op_vcip_time_select → op_vcip_time_select → 
+op_vcip_cta_action → op_vcip_view_more_slots_clicked → op_vcip_time_select → 
+op_vcip_cta_action
+```
+
+#### **Profile Management Complete Flow (9-step process)**:
+```
+rewards_homescreen_open → profile_page_opened → profile_photo_clicked → 
+personal_details_page_opened → profile_cta_clicked → bottomsheet_view → 
+profile_page_opened → profile_invite_code_clicked → invite_page_open → 
+profile_page_opened
+```
+
+#### **Onboarding Complete Flow with Banking Upgrade (15-step process)**:
+```
+upgrade_to_banking_cta_clicked → op_land → op_cta_action → op_land → 
+op_cta_action → op_cta_action → op_cta_action → op_cta_action → 
+op_land → op_cta_action → op_cta_action → op_land → op_type → 
+op_type → op_land → ckyc_completed → op_cta_action
+```
+
+================================================================================
+### SEQUENCE5 ERROR PATTERNS & PERFORMANCE INSIGHTS
+================================================================================
+
+#### **Error Context Analysis**:
+- **Game Error Timing**: Occurs during UPI CL registration process
+- **Network Issues**: bandwidth: -1 indicates severe connectivity problems
+- **Asset Loading**: Large asset size (2.1MB) causing performance degradation
+- **Error Recovery**: System continues normal flow despite game error
+- **Session Continuity**: Session maintained through error (session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8)
+
+#### **SIM Binding Success Pattern Analysis**:
+- **Dual SMS Delivery**: SMS sent twice for enhanced reliability
+- **Active Polling**: Continuous status polling for binding confirmation
+- **Multi-step Validation**: Token → OTP → Validation → Delivery → Terminal state
+- **Complete Success**: All 11 binding events complete successfully
+- **Zero Failures**: is_sim_binding_skipped: False throughout process
+
+#### **Video Call Scheduling Complexity**:
+- **Multiple Date/Time Selections**: Users frequently change appointment times
+- **Slot Management**: Hide/show slots functionality heavily used
+- **User Indecision**: Multiple time_select events indicate scheduling difficulty
+- **Flow Persistence**: Users continue through complex scheduling process
+
+#### **Device & Network Context (Production Data)**:
+- **Device**: OnePlus CPH2585, Android 15 (VANILLA_ICE_CREAM)
+- **Network**: IND airtel, 4G connectivity with variable quality
+- **Location**: Hyderabad, Telangana, India
+- **App Version**: 17.0.0 (build 981)
+- **Screen**: 1080x2208 resolution, 480 DPI
+- **Connectivity**: WiFi: False, Bluetooth: False, NFC: True
+
+
+================================================================================
+### SEQUENCE5 PRODUCTION TIMING ANALYSIS
+================================================================================
+
+#### **Event Timing Patterns (Real User Data)**:
+- **App Launch**: 2025-07-24 23:58:51 (timestamp: 1753381731.578)
+- **Authentication Flow**: 22-second process from login to completion
+- **SIM Binding Duration**: 30-second complete binding process
+- **Game Error**: Occurs 22 seconds after app launch
+- **Profile Exploration**: Extended 5-minute session with multiple interactions
+- **Session Continuity**: Single session spans entire user journey
+
+#### **Performance Benchmarks**:
+- **Cold Start**: Fast app launch with immediate intent processing
+- **Authentication**: Efficient 22-second login with SIM binding
+- **Error Recovery**: Immediate continuation after game error
+- **Feature Discovery**: Natural progression from core to advanced features
+

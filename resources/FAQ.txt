@@ -1,0 +1,23 @@
+How do you know if user was successfully able to login?
+app_open event followed by mpin_verify_screen and then mpin_verify_screen_entered.
+
+How do you know if the user was able to complete sign up?
+order of events should be [app_open, login_screen_opened, login_screen_cta_clicked, permissions_pdp_page_opened, enter_phone_number_screen_open, enter_phone_number_screen_continue_clicked, phone_verification_complete, email_validated, mpin_screen_opened, mpin_screen_mpin_entered], if phone_verification_complete event is missing then user is getting stuck while verifying phone number, if email_validated is missing it means user is not able to validate email
+
+
+What is the reason for failure of users sim-binding?
+The simbinding journey starts with sim_binding_request event and ends with sim_binding_terminal_state event
+First we need to check terminal state event `sim_binding_terminal_state` properties the `response` should be `failure`, if it is `success` then there was no issue in sim binding. In case of failure look at failure_reason property, below are the different failure reasons
+INCORRECT_SIM_SELECTION (when user selects an incorrect SIM on their device)
+SMS_EXPIRED (when time limit for an SMS validate expires)
+UNKOWN_ERROR 
+UPSTREAM_FAILURE 
+RATE_LIMIT_ERROR (daily limit of sim binding is exhausted)
+BE_TIME_EXPIRED (when the timer runs out in BE)
+TOGGLE_APP (when user switches to some other app from slice app)
+UNABLE_SEND_SMS (when user does not have an SMS pack on their SIM card)
+AEROPLANE_MODE (when user turns on airplane mode on device during SIM binding)
+FE_TIME_EXPIRED (this could be due to multiple reasons, if sim_binding_otp_read event is missing then OTP is not being read on the users device, if we are seeing sim_binding_play_integrity_token_error event then there is an issue in generating play integrity token)
+
+How to know if user is having issue with creation of a session on the app?
+If we see session_token_fetch_failed event that indicates that session creation failed for the user, now we need to check the event properties if status_code is 403 then the user is trying to access the app from outside india, also check error_message property, if message could indicate connectivity issue for the user.

@@ -1,0 +1,6605 @@
+================================================================================
+📋 EVENTS DATA FOR DISTINCT_ID: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+📅 Generated: 2025-07-25 03:34:53
+📊 Total Events: 134
+🗓️ Days Analyzed: 30
+================================================================================
+
+EVENT #001 - app_open
+Time: 2025-07-24 23:58:51
+Timestamp: 1753381731.578
+Properties:
+  time: 1753381731.578
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381737210
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  from: fresh
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381737281
+  network_type: 
+  platform: android
+  session_id: 
+--------------------------------------------------------------------------------
+
+EVENT #002 - app_intent_details
+Time: 2025-07-24 23:58:51
+Timestamp: 1753381731.606
+Properties:
+  time: 1753381731.606
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381737210
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  intent_uri: null
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381737287
+  network_type: 
+  platform: android
+  session_id: 
+  user_login_status: False
+  user_ppi_onboarding_status: 
+  user_tpap_onboarding_status: False
+--------------------------------------------------------------------------------
+
+EVENT #003 - login_screen_opened
+Time: 2025-07-24 23:58:51
+Timestamp: 1753381731.666
+Properties:
+  time: 1753381731.666
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381737210
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: screen
+  hyperlink_count: 2
+  hyperlinks: [T&C, Privacy Policy]
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381737287
+  network_type: 
+  platform: android
+  session_id: 
+--------------------------------------------------------------------------------
+
+EVENT #004 - login_screen_cta_status
+Time: 2025-07-24 23:58:53
+Timestamp: 1753381733.927
+Properties:
+  time: 1753381733.927
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381737210
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  error: 0
+  event_type: track
+  failure_reason: 
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381737281
+  network_type: 
+  platform: android
+  session_id: 
+  speed_snap_info: UNKNOWN
+  status: api_success
+--------------------------------------------------------------------------------
+
+EVENT #005 - login_screen_cta_clicked
+Time: 2025-07-24 23:58:53
+Timestamp: 1753381733.93
+Properties:
+  time: 1753381733.93
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381737210
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381737281
+  network_type: 
+  permission_screen_to_be_shown: True
+  phone_permission_given: False
+  platform: android
+  session_id: 
+  sms_permission_given: False
+  speed_snap_info: UNKNOWN
+--------------------------------------------------------------------------------
+
+EVENT #006 - permissions_pdp_page_opened
+Time: 2025-07-24 23:58:53
+Timestamp: 1753381733.969
+Properties:
+  time: 1753381733.969
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381737210
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  deny_enabled: True
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: login_or_signup
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381737282
+  network_type: 
+  number_of_permissions: 2
+  phone: False
+  platform: android
+  session_id: 
+  sms: False
+  speed_snap_info: UNKNOWN
+--------------------------------------------------------------------------------
+
+EVENT #007 - permissions_popup_opened
+Time: 2025-07-24 23:58:55
+Timestamp: 1753381735.248
+Properties:
+  time: 1753381735.248
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381737210
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: login_or_signup
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381737281
+  network_type: 
+  permission_type: android.permission.SEND_SMS
+  platform: android
+  popup_type: Confirm
+  session_id: 
+  speed_snap_info: UNKNOWN
+--------------------------------------------------------------------------------
+
+EVENT #008 - permissions_pdp_page_cta_clicked
+Time: 2025-07-24 23:58:55
+Timestamp: 1753381735.279
+Properties:
+  time: 1753381735.279
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381737210
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: login_or_signup
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381737282
+  network_type: 
+  platform: android
+  session_id: 
+  speed_snap_info: UNKNOWN
+--------------------------------------------------------------------------------
+
+EVENT #009 - app_open
+Time: 2025-07-24 23:58:56
+Timestamp: 1753381736.197
+Properties:
+  time: 1753381736.197
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381737964
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  from: background
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381738033
+  network_type: 
+  platform: android
+  session_id: 
+  speed_snap_info: UNKNOWN
+--------------------------------------------------------------------------------
+
+EVENT #010 - permissions_popup_opened
+Time: 2025-07-24 23:58:56
+Timestamp: 1753381736.199
+Properties:
+  time: 1753381736.199
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381737964
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: login_or_signup
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381738033
+  network_type: 
+  permission_type: android.permission.READ_PHONE_STATE
+  platform: android
+  popup_type: Confirm
+  session_id: 
+  speed_snap_info: UNKNOWN
+--------------------------------------------------------------------------------
+
+EVENT #011 - permissions_popup_cta_clicked
+Time: 2025-07-24 23:58:56
+Timestamp: 1753381736.228
+Properties:
+  time: 1753381736.228
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381737964
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  cta: allow
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: login_or_signup
+  location_accuracy: none
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381738034
+  network_type: 
+  permission_type: android.permission.SEND_SMS
+  platform: android
+  popup_type: Confirm
+  session_id: 
+  speed_snap_info: UNKNOWN
+--------------------------------------------------------------------------------
+
+EVENT #012 - enter_phone_number_screen_open
+Time: 2025-07-24 23:58:57
+Timestamp: 1753381737.167
+Properties:
+  time: 1753381737.167
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381739171
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: login_or_signup
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381739234
+  network_type: 4G
+  platform: android
+  session_id: 
+  speed_snap_info: UNKNOWN
+--------------------------------------------------------------------------------
+
+EVENT #013 - permissions_popup_cta_clicked
+Time: 2025-07-24 23:58:57
+Timestamp: 1753381737.181
+Properties:
+  time: 1753381737.181
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381739171
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  cta: allow
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: login_or_signup
+  location_accuracy: none
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381739234
+  network_type: 4G
+  permission_type: android.permission.READ_PHONE_STATE
+  platform: android
+  popup_type: Confirm
+  session_id: 
+  speed_snap_info: UNKNOWN
+--------------------------------------------------------------------------------
+
+EVENT #014 - app_open
+Time: 2025-07-24 23:58:57
+Timestamp: 1753381737.184
+Properties:
+  time: 1753381737.184
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381739171
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  from: background
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381739234
+  network_type: 4G
+  platform: android
+  session_id: 
+  speed_snap_info: UNKNOWN
+--------------------------------------------------------------------------------
+
+EVENT #015 - enter_phone_number_screen_popup_opened
+Time: 2025-07-24 23:58:57
+Timestamp: 1753381737.38
+Properties:
+  time: 1753381737.38
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381739171
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: login_or_signup
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381739243
+  network_type: 4G
+  platform: android
+  session_id: 
+  speed_snap_info: UNKNOWN
+--------------------------------------------------------------------------------
+
+EVENT #016 - app_open
+Time: 2025-07-24 23:58:58
+Timestamp: 1753381738.795
+Properties:
+  time: 1753381738.795
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381749990
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  from: background
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381750031
+  network_type: 4G
+  platform: android
+  session_id: 
+  speed_snap_info: UNKNOWN
+--------------------------------------------------------------------------------
+
+EVENT #017 - enter_phone_number_screen_continue_clicked
+Time: 2025-07-24 23:58:59
+Timestamp: 1753381739.361
+Properties:
+  time: 1753381739.361
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381749990
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: login_or_signup
+  mobile_data: active
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381750031
+  network_type: 4G
+  phone_number_selected: prefilled
+  phone_permission_given: True
+  platform: android
+  session_id: 
+  sms_permission_given: True
+  speed_snap_info: UNKNOWN
+  success: True
+--------------------------------------------------------------------------------
+
+EVENT #018 - phone_number_submitted
+Time: 2025-07-24 23:59:00
+Timestamp: 1753381740.538
+Properties:
+  time: 1753381740.538
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381740793
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  config: {
+  "background": [],
+  "foreground": [
+    "SBP",
+    "PHONE_OTP"
+  ]
+}
+  mp_processing_time_ms: 1753381740842
+  user_type: existing
+--------------------------------------------------------------------------------
+
+EVENT #019 - sim_binding_request
+Time: 2025-07-24 23:59:00
+Timestamp: 1753381740.693
+Properties:
+  time: 1753381740.693
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381749990
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: phone_verification
+  is_auto_retry: False
+  is_show_error: False
+  is_sim_binding_skipped: False
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381750042
+  network_type: 4G
+  platform: android
+  product: UPI
+  reinitiate: True
+  session_id: 
+  speed_snap_info: UNKNOWN
+--------------------------------------------------------------------------------
+
+EVENT #020 - sim_binding_initiation
+Time: 2025-07-24 23:59:02
+Timestamp: 1753381742.253
+Properties:
+  time: 1753381742.253
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381742853
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  mandatory: []
+  mp_processing_time_ms: 1753381742865
+  optional: [
+  "UPI"
+]
+  product: [
+  "UPI"
+]
+  source: Transaction
+--------------------------------------------------------------------------------
+
+EVENT #021 - sim_binding_token_received
+Time: 2025-07-24 23:59:02
+Timestamp: 1753381742.253
+Properties:
+  time: 1753381742.253
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381742853
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  duration: -239
+  mp_processing_time_ms: 1753381742867
+  product: UPI
+  source: [
+  "UPI_INTERNAL"
+]
+  success: True
+  token_length: 52
+  vmn_carrier: [
+  "VI"
+]
+  vmn_number: [
+  "7406089222"
+]
+  vmn_total: 1
+--------------------------------------------------------------------------------
+
+EVENT #022 - sim_binding_otp_triggered
+Time: 2025-07-24 23:59:02
+Timestamp: 1753381742.361
+Properties:
+  time: 1753381742.361
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381742666
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  mp_processing_time_ms: 1753381742720
+--------------------------------------------------------------------------------
+
+EVENT #023 - sim_binding_sms_sent
+Time: 2025-07-24 23:59:03
+Timestamp: 1753381743.309
+Properties:
+  time: 1753381743.309
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381749990
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  duration: 1753381743303
+  event_type: track
+  flow: phone_verification
+  is_from_fallback_otp: False
+  is_mandatory: False
+  is_sent_check_possible: True
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381750042
+  network_type: 4G
+  platform: android
+  product: UPI
+  session_id: 
+  speed_snap_info: UNKNOWN
+  vmn_sent: 1
+  vmn_total: 1
+--------------------------------------------------------------------------------
+
+EVENT #024 - sim_binding_otp_read
+Time: 2025-07-24 23:59:03
+Timestamp: 1753381743.521
+Properties:
+  time: 1753381743.521
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381749990
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  is_otp_found: True
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381750042
+  network_type: 4G
+  num_sms_segments: 1
+  platform: android
+  product_hash: 7b06e0
+  sender: CP-SLCEIT-S
+  session_id: 
+  speed_snap_info: UNKNOWN
+--------------------------------------------------------------------------------
+
+EVENT #025 - sim_binding_polling_start
+Time: 2025-07-24 23:59:03
+Timestamp: 1753381743.608
+Properties:
+  time: 1753381743.608
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381749990
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  duration: 1206
+  event_type: track
+  flow: phone_verification
+  mandatory: []
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381750058
+  network_type: 4G
+  optional: [UPI]
+  platform: android
+  product: [UPI]
+  session_id: 
+  speed_snap_info: UNKNOWN
+--------------------------------------------------------------------------------
+
+EVENT #026 - sim_binding_sms_sent
+Time: 2025-07-24 23:59:03
+Timestamp: 1753381743.61
+Properties:
+  time: 1753381743.61
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381749990
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  duration: 1753381743605
+  event_type: track
+  flow: phone_verification
+  is_from_fallback_otp: True
+  is_mandatory: False
+  is_sent_check_possible: True
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381750058
+  network_type: 4G
+  platform: android
+  product: UPI
+  session_id: 
+  speed_snap_info: UNKNOWN
+  vmn_sent: 1
+  vmn_total: 1
+--------------------------------------------------------------------------------
+
+EVENT #027 - sim_binding_otp_validated
+Time: 2025-07-24 23:59:03
+Timestamp: 1753381743.611
+Properties:
+  time: 1753381743.611
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381749990
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  is_valid: True
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381750058
+  network_type: 4G
+  platform: android
+  session_id: 
+  speed_snap_info: UNKNOWN
+--------------------------------------------------------------------------------
+
+EVENT #028 - sim_binding_sms_delivered
+Time: 2025-07-24 23:59:03
+Timestamp: 1753381743.839
+Properties:
+  time: 1753381743.839
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381749990
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  duration: 1753381743834
+  event_type: track
+  flow: phone_verification
+  is_mandatory: False
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381750042
+  network_type: 4G
+  platform: android
+  product: UPI
+  session_id: 
+  speed_snap_info: UNKNOWN
+  vmn_delivered: 1
+  vmn_total: 1
+--------------------------------------------------------------------------------
+
+EVENT #029 - sim_binding_terminal_state
+Time: 2025-07-24 23:59:05
+Timestamp: 1753381745.036
+Properties:
+  time: 1753381745.036
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381749990
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  duration: 2627
+  event_type: track
+  flow: phone_verification
+  is_mandatory: False
+  is_sim_binding_skipped: False
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381750058
+  network_type: 4G
+  platform: android
+  product: UPI
+  remaining_attempts: 2
+  response: SUCCESS
+  session_id: 
+  speed_snap_info: UNKNOWN
+--------------------------------------------------------------------------------
+
+EVENT #030 - enter_phone_number_screen_open
+Time: 2025-07-24 23:59:05
+Timestamp: 1753381745.048
+Properties:
+  time: 1753381745.048
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381749990
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: login_or_signup
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381750059
+  network_type: 4G
+  platform: android
+  session_id: 
+  speed_snap_info: UNKNOWN
+--------------------------------------------------------------------------------
+
+EVENT #031 - app_login_complete
+Time: 2025-07-24 23:59:05
+Timestamp: 1753381745.594
+Properties:
+  time: 1753381745.594
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381749990
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  failure_reason: success
+  mode: phone_verification
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381750058
+  network_type: 4G
+  next_screen: MPIN_LOGIN
+  platform: android
+  session_id: 
+  speed_snap_info: GOOD
+  status: success
+--------------------------------------------------------------------------------
+
+EVENT #032 - sim_binding_response
+Time: 2025-07-24 23:59:06
+Timestamp: 1753381746.01
+Properties:
+  time: 1753381746.01
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381746421
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  error_reason: 
+  is_mandatory: False
+  is_sim_binding_skipped: False
+  mp_processing_time_ms: 1753381746455
+  product: UPI
+  remaining_attempts: 2
+  response: SUCCESS
+  response_source: vmn
+--------------------------------------------------------------------------------
+
+EVENT #033 - phone_verification_complete
+Time: 2025-07-24 23:59:06
+Timestamp: 1753381746.119
+Properties:
+  time: 1753381746.119
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381746259
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  flow: login_or_signup
+  mp_processing_time_ms: 1753381746309
+  user_type: existing
+  verification_type: SBP
+--------------------------------------------------------------------------------
+
+EVENT #034 - sync_started
+Time: 2025-07-24 23:59:06
+Timestamp: 1753381746.564
+Properties:
+  time: 1753381746.564
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381750126
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  batch_size: 200
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381750176
+  network_type: 4G
+  platform: android
+  product_type: Login_or_signup
+  session_id: 
+  speed_snap_info: GOOD
+  sync_type: FRESH
+  timestamp: 1753381746467
+  total_batches_count: 8
+  total_sms_count: 1545
+--------------------------------------------------------------------------------
+
+EVENT #035 - sync_completed
+Time: 2025-07-24 23:59:08
+Timestamp: 1753381748.564
+Properties:
+  time: 1753381748.564
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381750126
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  batch_size: 200
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381750176
+  network_type: 4G
+  platform: android
+  product_type: Login_or_signup
+  session_id: 
+  speed_snap_info: GOOD
+  sync_completion_percentage: 100
+  sync_type: FRESH
+  timestamp: 1753381748553
+  total_batches_count: 8
+  total_sms_count: 1545
+--------------------------------------------------------------------------------
+
+EVENT #036 - app_closed
+Time: 2025-07-24 23:59:09
+Timestamp: 1753381749.165
+Properties:
+  time: 1753381749.165
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381754980
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  closing_option: background
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381755019
+  network_type: 4G
+  platform: android
+  session_id: 
+  speed_snap_info: UNKNOWN
+--------------------------------------------------------------------------------
+
+EVENT #037 - app_open
+Time: 2025-07-24 23:59:11
+Timestamp: 1753381751.154
+Properties:
+  time: 1753381751.154
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381754980
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  from: background
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381755020
+  network_type: 4G
+  platform: android
+  session_id: 
+  speed_snap_info: UNKNOWN
+  time_duration: 1915
+--------------------------------------------------------------------------------
+
+EVENT #038 - mpin_screen_mpin_entered
+Time: 2025-07-24 23:59:12
+Timestamp: 1753381752.641
+Properties:
+  time: 1753381752.641
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381754980
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: login
+  method: pin
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381755019
+  network_type: 4G
+  platform: android
+  screen: verify
+  session_id: 
+  speed_snap_info: UNKNOWN
+--------------------------------------------------------------------------------
+
+EVENT #039 - timer_pre_auth
+Time: 2025-07-24 23:59:13
+Timestamp: 1753381753.132
+Properties:
+  time: 1753381753.132
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381754980
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  cold_startup_time: 491
+  dark_mode: enabled
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  first_activity_name: com.slice.android.main.SingleActivity
+  font_scale: 1
+  haptics_enabled: 1
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381755019
+  mqtt_enabled: True
+  network_type: 4G
+  platform: android
+  screen_name: splash
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  time_app_on_create_end_to_first_activity_create: 132
+  time_app_on_create_end_to_first_draw: 608
+  time_content_provider_to_app_start: 78
+  time_first_activity_create_to_draw: 476
+  time_first_activity_create_to_resume: 165
+  time_first_activity_resume_to_draw: 311
+  time_spent_application: 337
+  time_spent_splash: 10854
+  time_spent_total: 11191
+  time_to_first_draw: 845
+  total_time_app_on_create: 159
+  total_time_first_activity_on_create: 165
+  user_type: login_user
+--------------------------------------------------------------------------------
+
+EVENT #040 - game_error
+Time: 2025-07-24 23:59:13
+Timestamp: 1753381753.31
+Properties:
+  time: 1753381753.31
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381754981
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  asset_size: 2104791
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381755020
+  network_type: 4G
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #041 - upi_cl_registered
+Time: 2025-07-24 23:59:13
+Timestamp: 1753381753.321
+Properties:
+  time: 1753381753.321
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381754981
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381755019
+  network_type: 4G
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  success: True
+--------------------------------------------------------------------------------
+
+EVENT #042 - nav_bar_swiped
+Time: 2025-07-24 23:59:13
+Timestamp: 1753381753.603
+Properties:
+  time: 1753381753.603
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381754981
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  current_screen: send
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381755019
+  network_type: 4G
+  next_screen: accountsV2
+  platform: android
+  red_dot_present: false
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  swipe_type: navBar
+--------------------------------------------------------------------------------
+
+EVENT #043 - mpin_validated
+Time: 2025-07-24 23:59:14
+Timestamp: 1753381754.028
+Properties:
+  time: 1753381754.028
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381754462
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  flow: login
+  mp_processing_time_ms: 1753381754473
+  success: True
+--------------------------------------------------------------------------------
+
+EVENT #044 - app_open
+Time: 2025-07-24 23:59:14
+Timestamp: 1753381754.167
+Properties:
+  time: 1753381754.167
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381763109
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  from: background
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381763157
+  network_type: 4G
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  time_duration: 4966
+--------------------------------------------------------------------------------
+
+EVENT #045 - upgrade_to_banking_cta_clicked
+Time: 2025-07-24 23:59:21
+Timestamp: 1753381761.952
+Properties:
+  time: 1753381761.952
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381793351
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  cta_text: upgrade_to_banking
+  cta_type: start
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow_type: savings_migration
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381793400
+  network_type: 4G
+  platform: android
+  screen: accounts
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #046 - op_land
+Time: 2025-07-24 23:59:22
+Timestamp: 1753381762.234
+Properties:
+  time: 1753381762.234
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381793351
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  cta_active_count: 1
+  cta_count: 2
+  cta_pattern: arrow-tnc
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: screen
+  flow: onboarding
+  flow_type: slicex_onboarding
+  is_bottom_sheet: False
+  module: PDP_hype
+  module_index: 0
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381793416
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: accept
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #047 - op_cta_action
+Time: 2025-07-24 23:59:23
+Timestamp: 1753381763.291
+Properties:
+  time: 1753381763.291
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381793351
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  cta_action: tap
+  cta_active_count: 1
+  cta_count: 2
+  cta_pattern: arrow-tnc
+  cta_text: 
+  cta_type: Primary
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: onboarding
+  flow_type: slicex_onboarding
+  module: PDP_hype
+  module_index: 0
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381793400
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: accept
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #048 - op_land
+Time: 2025-07-24 23:59:23
+Timestamp: 1753381763.315
+Properties:
+  time: 1753381763.315
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381793351
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  cta_active_count: 1
+  cta_count: 2
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: screen
+  flow: onboarding
+  flow_type: slicex_onboarding
+  is_bottom_sheet: False
+  module: TNC_CONSENT
+  module_index: 0
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381793400
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: tnc_bottomsheet
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #049 - upi_cl_registered
+Time: 2025-07-24 23:59:23
+Timestamp: 1753381763.746
+Properties:
+  time: 1753381763.746
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381793351
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381793416
+  network_type: 4G
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  success: True
+--------------------------------------------------------------------------------
+
+EVENT #050 - op_cta_action
+Time: 2025-07-24 23:59:24
+Timestamp: 1753381764.246
+Properties:
+  time: 1753381764.246
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381793351
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  cta_action: select
+  cta_active_count: 1
+  cta_count: 2
+  cta_text: NESFB_CKYC_TNC_V1
+  cta_type: Primary
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: onboarding
+  flow_type: slicex_onboarding
+  module: TNC_CONSENT
+  module_index: 0
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381793400
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: tnc_bottomsheet
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #051 - op_cta_action
+Time: 2025-07-24 23:59:24
+Timestamp: 1753381764.254
+Properties:
+  time: 1753381764.254
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381793351
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  cta_action: select
+  cta_active_count: 1
+  cta_count: 2
+  cta_text: NESFB_CKYC_TNC_V1
+  cta_type: Primary
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: onboarding
+  flow_type: slicex_onboarding
+  module: TNC_CONSENT
+  module_index: 0
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381793400
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: tnc_bottomsheet
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #052 - op_cta_action
+Time: 2025-07-24 23:59:24
+Timestamp: 1753381764.57
+Properties:
+  time: 1753381764.57
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381793351
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  cta_action: select
+  cta_active_count: 1
+  cta_count: 2
+  cta_text: INDIAN_CITIZEN_TNC_V1
+  cta_type: Primary
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: onboarding
+  flow_type: slicex_onboarding
+  module: TNC_CONSENT
+  module_index: 0
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381793416
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: tnc_bottomsheet
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #053 - op_cta_action
+Time: 2025-07-24 23:59:24
+Timestamp: 1753381764.847
+Properties:
+  time: 1753381764.847
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381793351
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  cta_action: Click
+  cta_active_count: 1
+  cta_count: 2
+  cta_target_resource: https://api.nesfb.com/banking/onboarding/slice-x/v1/consent
+  cta_target_type: API
+  cta_text: Continue
+  cta_type: Primary
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: onboarding
+  flow_type: slicex_onboarding
+  module: TNC_CONSENT
+  module_index: 0
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381793416
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: tnc_bottomsheet
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #054 - op_land
+Time: 2025-07-24 23:59:26
+Timestamp: 1753381766.917
+Properties:
+  time: 1753381766.917
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381793351
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  cta_active_count: 1
+  cta_count: 1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: screen
+  flow: onboarding
+  flow_type: migration
+  module: employment_verification
+  module_index: 4
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381793416
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: Confirm
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #055 - op_cta_action
+Time: 2025-07-24 23:59:29
+Timestamp: 1753381769.839
+Properties:
+  time: 1753381769.839
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381793352
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  cta_action: Click
+  cta_active_count: 1
+  cta_count: 1
+  cta_text: Annual income
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: onboarding
+  flow_type: migration
+  module: employment_verification
+  module_index: 4
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381793416
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: Confirm
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #056 - op_cta_action
+Time: 2025-07-24 23:59:31
+Timestamp: 1753381771.489
+Properties:
+  time: 1753381771.489
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381793352
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  cta_action: Click
+  cta_active_count: 1
+  cta_count: 1
+  cta_target_resource: https://api.nesfb.com/banking/onboarding/slice-x/v1/employment
+  cta_target_type: API
+  cta_text: continue
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: onboarding
+  flow_type: migration
+  module: employment_verification
+  module_index: 4
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381793416
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: Confirm
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #057 - op_land
+Time: 2025-07-24 23:59:31
+Timestamp: 1753381771.552
+Properties:
+  time: 1753381771.552
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381793352
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  cta_active_count: 2
+  cta_count: 2
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: screen
+  flow: onboarding
+  flow_type: migration
+  is_bottom_sheet: False
+  module: guardian_verification
+  module_index: -1
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381793416
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: otp
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #058 - op_type
+Time: 2025-07-24 23:59:40
+Timestamp: 1753381780.778
+Properties:
+  time: 1753381780.778
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381793352
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  cta_active_count: 2
+  cta_count: 2
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: onboarding
+  flow_type: migration
+  input_name: OTP
+  mode: start
+  module: guardian_verification
+  module_index: -1
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381793416
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: otp
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  system_prompt: 
+--------------------------------------------------------------------------------
+
+EVENT #059 - op_type
+Time: 2025-07-24 23:59:42
+Timestamp: 1753381782.501
+Properties:
+  time: 1753381782.501
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381793352
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  cta_active_count: 2
+  cta_count: 2
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: onboarding
+  flow_type: migration
+  input_name: OTP
+  mode: finish
+  module: guardian_verification
+  module_index: -1
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381793416
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: otp
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  system_prompt: 
+--------------------------------------------------------------------------------
+
+EVENT #060 - op_land
+Time: 2025-07-24 23:59:43
+Timestamp: 1753381783.617
+Properties:
+  time: 1753381783.617
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381793469
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  cta_active_count: 1
+  cta_count: 1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: screen
+  flow: onboarding
+  flow_type: migration
+  is_bottom_sheet: False
+  module: VerifyDetails
+  module_index: 4
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381793510
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: VerifyDetails
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #061 - ckyc_completed
+Time: 2025-07-24 23:59:44
+Timestamp: 1753381784.674
+Properties:
+  time: 1753381784.674
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381785071
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  event_type: BE
+  mp_processing_time_ms: 1753381785088
+--------------------------------------------------------------------------------
+
+EVENT #062 - op_cta_action
+Time: 2025-07-24 23:59:45
+Timestamp: 1753381785.118
+Properties:
+  time: 1753381785.118
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381793470
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  cta_action: Click
+  cta_active_count: 1
+  cta_count: 1
+  cta_target_resource: https://api.nesfb.com/banking/onboarding/slice-x/v1/verify-details
+  cta_target_type: API
+  cta_text: Button_Next
+  cta_type: Primary
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: onboarding
+  flow_type: migration
+  module: VerifyDetails
+  module_index: 4
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381793510
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: VerifyDetails
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #063 - op_vcip_land
+Time: 2025-07-24 23:59:46
+Timestamp: 1753381786.192
+Properties:
+  time: 1753381786.192
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381793470
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  cta_active_count: 1
+  cta_count: 1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: screen
+  flow: onboarding
+  flow_type: default
+  is_bottom_sheet: FALSE
+  module: schedule
+  module_index: 10
+  module_type: inHouse
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381793497
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: schedule_call
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  time_stamp: 1753381786189
+--------------------------------------------------------------------------------
+
+EVENT #064 - current_address_completed
+Time: 2025-07-24 23:59:46
+Timestamp: 1753381786.55
+Properties:
+  time: 1753381786.55
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381786920
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  event_type: BE
+  mp_processing_time_ms: 1753381786938
+--------------------------------------------------------------------------------
+
+EVENT #065 - op_vcip_cta_action
+Time: 2025-07-24 23:59:52
+Timestamp: 1753381792.251
+Properties:
+  time: 1753381792.251
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381823653
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  cta_action: click
+  cta_active_count: 1
+  cta_count: 1
+  cta_text: Schedule
+  cta_type: Primary
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: onboarding
+  flow_type: default
+  input: 2025-07-25T02:30:00.000Zhttps://api.nesfb.com/banking/kyc-gipl/vkyc/v2/book-slot?vkyc_type=default&room_id=68827b9a252d7b52c5065f9e
+  module: schedule
+  module_index: 10
+  module_type: inHouse
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381823678
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: schedule_call
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  time_stamp: 1753381792242
+--------------------------------------------------------------------------------
+
+EVENT #066 - op_vcip_land
+Time: 2025-07-24 23:59:52
+Timestamp: 1753381792.447
+Properties:
+  time: 1753381792.447
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381823653
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: screen
+  is_bottom_sheet: FALSE
+  module: schedule
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381823680
+  network_type: 4G
+  platform: android
+  screen: schedule_confirmation
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #067 - op_vcip_cta_action
+Time: 2025-07-24 23:59:55
+Timestamp: 1753381795.186
+Properties:
+  time: 1753381795.186
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381823653
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  cta_action: click
+  cta_text: Alright
+  cta_type: Primary
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  module: schedule
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381823684
+  network_type: 4G
+  platform: android
+  screen: schedule_confirmation
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #068 - op_vcip_back
+Time: 2025-07-24 23:59:55
+Timestamp: 1753381795.207
+Properties:
+  time: 1753381795.207
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381823653
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  back_type: System
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  module: schedule
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381823683
+  network_type: 4G
+  platform: android
+  screen: schedule_confirmation
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #069 - upgrade_to_banking_cta_clicked
+Time: 2025-07-25 00:00:02
+Timestamp: 1753381802.86
+Properties:
+  time: 1753381802.86
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381823654
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  cta_text: upgrade_to_banking
+  cta_type: start
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow_type: savings_migration
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381823684
+  network_type: 4G
+  platform: android
+  screen: accounts
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #070 - op_vcip_land
+Time: 2025-07-25 00:00:03
+Timestamp: 1753381803.365
+Properties:
+  time: 1753381803.365
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381823654
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  cta_active_count: 1
+  cta_count: 1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: screen
+  flow: onboarding
+  flow_type: default
+  is_bottom_sheet: FALSE
+  module: schedule
+  module_index: 10
+  module_type: inHouse
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381823680
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: schedule_call
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  time_stamp: 1753381803361
+--------------------------------------------------------------------------------
+
+EVENT #071 - op_vcip_hide_slots_clicked
+Time: 2025-07-25 00:00:07
+Timestamp: 1753381807.471
+Properties:
+  time: 1753381807.471
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381823654
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  cta_active_count: 1
+  cta_count: 1
+  cta_text: Hide slots
+  cta_type: tertiary
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: onboarding
+  flow_type: default
+  module: VCIP
+  module_index: 10
+  module_type: inHouse
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381823681
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: schedule_screen
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  time_stamp: 1753381807466
+--------------------------------------------------------------------------------
+
+EVENT #072 - op_vcip_time_select
+Time: 2025-07-25 00:00:07
+Timestamp: 1753381807.475
+Properties:
+  time: 1753381807.475
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381823654
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  cta_active_count: 1
+  cta_count: 1
+  cta_text: 08:00 AM
+  cta_type: selection
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: onboarding
+  flow_type: default
+  module: VCIP
+  module_index: 10
+  module_type: inHouse
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381823683
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: schedule_screen
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  time_stamp: 1753381807466
+--------------------------------------------------------------------------------
+
+EVENT #073 - op_vcip_date_select
+Time: 2025-07-25 00:00:07
+Timestamp: 1753381807.478
+Properties:
+  time: 1753381807.478
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381823654
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  cta_active_count: 1
+  cta_count: 1
+  cta_text: 26 Jul
+  cta_type: selection
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: onboarding
+  flow_type: default
+  module: VCIP
+  module_index: 10
+  module_type: inHouse
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381823680
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: schedule_screen
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  time_stamp: 1753381807465
+--------------------------------------------------------------------------------
+
+EVENT #074 - op_vcip_time_select
+Time: 2025-07-25 00:00:08
+Timestamp: 1753381808.169
+Properties:
+  time: 1753381808.169
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381823654
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  cta_active_count: 1
+  cta_count: 1
+  cta_text: 08:00 AM
+  cta_type: selection
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: onboarding
+  flow_type: default
+  module: VCIP
+  module_index: 10
+  module_type: inHouse
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381823680
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: schedule_screen
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  time_stamp: 1753381808165
+--------------------------------------------------------------------------------
+
+EVENT #075 - op_vcip_hide_slots_clicked
+Time: 2025-07-25 00:00:08
+Timestamp: 1753381808.173
+Properties:
+  time: 1753381808.173
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381823654
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  cta_active_count: 1
+  cta_count: 1
+  cta_text: Hide slots
+  cta_type: tertiary
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: onboarding
+  flow_type: default
+  module: VCIP
+  module_index: 10
+  module_type: inHouse
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381823683
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: schedule_screen
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  time_stamp: 1753381808165
+--------------------------------------------------------------------------------
+
+EVENT #076 - op_vcip_date_select
+Time: 2025-07-25 00:00:08
+Timestamp: 1753381808.176
+Properties:
+  time: 1753381808.176
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381823654
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  cta_active_count: 1
+  cta_count: 1
+  cta_text: 26 Jul
+  cta_type: selection
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: onboarding
+  flow_type: default
+  module: VCIP
+  module_index: 10
+  module_type: inHouse
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381823683
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: schedule_screen
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  time_stamp: 1753381808164
+--------------------------------------------------------------------------------
+
+EVENT #077 - op_vcip_time_select
+Time: 2025-07-25 00:00:11
+Timestamp: 1753381811.588
+Properties:
+  time: 1753381811.588
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381823654
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  cta_active_count: 1
+  cta_count: 1
+  cta_text: 08:15 AM
+  cta_type: selection
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: onboarding
+  flow_type: default
+  module: VCIP
+  module_index: 10
+  module_type: inHouse
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381823677
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: schedule_screen
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  time_stamp: 1753381811573
+--------------------------------------------------------------------------------
+
+EVENT #078 - op_vcip_time_select
+Time: 2025-07-25 00:00:12
+Timestamp: 1753381812.956
+Properties:
+  time: 1753381812.956
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381823804
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  cta_active_count: 1
+  cta_count: 1
+  cta_text: 09:15 AM
+  cta_type: selection
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: onboarding
+  flow_type: default
+  module: VCIP
+  module_index: 10
+  module_type: inHouse
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381823854
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: schedule_screen
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  time_stamp: 1753381812946
+--------------------------------------------------------------------------------
+
+EVENT #079 - op_vcip_cta_action
+Time: 2025-07-25 00:00:16
+Timestamp: 1753381816.074
+Properties:
+  time: 1753381816.074
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381823804
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  cta_action: click
+  cta_active_count: 1
+  cta_count: 1
+  cta_text: Schedule
+  cta_type: Primary
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: onboarding
+  flow_type: default
+  input: 2025-07-26T03:45:00.000Zhttps://api.nesfb.com/banking/kyc-gipl/vkyc/v2/book-slot?vkyc_type=default&room_id=68827b9a252d7b52c5065f9e
+  module: schedule
+  module_index: 10
+  module_type: inHouse
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381823853
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: schedule_call
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  time_stamp: 1753381816063
+--------------------------------------------------------------------------------
+
+EVENT #080 - op_vcip_land
+Time: 2025-07-25 00:00:16
+Timestamp: 1753381816.276
+Properties:
+  time: 1753381816.276
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381823804
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: screen
+  is_bottom_sheet: FALSE
+  module: schedule
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381823853
+  network_type: 4G
+  platform: android
+  screen: schedule_confirmation
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #081 - op_vcip_cta_action
+Time: 2025-07-25 00:00:20
+Timestamp: 1753381820.689
+Properties:
+  time: 1753381820.689
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381823804
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  cta_action: click
+  cta_text: Alright
+  cta_type: Primary
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  module: schedule
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381823853
+  network_type: 4G
+  platform: android
+  screen: schedule_confirmation
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #082 - op_vcip_back
+Time: 2025-07-25 00:00:20
+Timestamp: 1753381820.701
+Properties:
+  time: 1753381820.701
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381823804
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  back_type: System
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  module: schedule
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381823854
+  network_type: 4G
+  platform: android
+  screen: schedule_confirmation
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #083 - op_vcip_land
+Time: 2025-07-25 00:00:24
+Timestamp: 1753381824.55
+Properties:
+  time: 1753381824.55
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381854990
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  cta_active_count: 1
+  cta_count: 1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: screen
+  flow: onboarding
+  flow_type: default
+  is_bottom_sheet: FALSE
+  module: schedule
+  module_index: 10
+  module_type: inHouse
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381855071
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: schedule_call
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  time_stamp: 1753381824546
+--------------------------------------------------------------------------------
+
+EVENT #084 - op_vcip_cta_action
+Time: 2025-07-25 00:00:25
+Timestamp: 1753381825.673
+Properties:
+  time: 1753381825.673
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381854990
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  cta_action: click
+  cta_active_count: 1
+  cta_count: 1
+  cta_text: Schedule
+  cta_type: Primary
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: onboarding
+  flow_type: default
+  input: 2025-07-25T02:30:00.000Zhttps://api.nesfb.com/banking/kyc-gipl/vkyc/v2/book-slot?vkyc_type=default&room_id=68827b9a252d7b52c5065f9e
+  module: schedule
+  module_index: 10
+  module_type: inHouse
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381855071
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: schedule_call
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  time_stamp: 1753381825666
+--------------------------------------------------------------------------------
+
+EVENT #085 - op_vcip_land
+Time: 2025-07-25 00:00:25
+Timestamp: 1753381825.903
+Properties:
+  time: 1753381825.903
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381854990
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: screen
+  is_bottom_sheet: FALSE
+  module: schedule
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381855055
+  network_type: 4G
+  platform: android
+  screen: schedule_confirmation
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #086 - op_vcip_cta_action
+Time: 2025-07-25 00:00:26
+Timestamp: 1753381826.216
+Properties:
+  time: 1753381826.216
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381854990
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  cta_action: click
+  cta_text: Alright
+  cta_type: Primary
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  module: schedule
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381855055
+  network_type: 4G
+  platform: android
+  screen: schedule_confirmation
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #087 - op_vcip_back
+Time: 2025-07-25 00:00:26
+Timestamp: 1753381826.222
+Properties:
+  time: 1753381826.222
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381854990
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  back_type: System
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  module: schedule
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381855055
+  network_type: 4G
+  platform: android
+  screen: schedule_confirmation
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #088 - nav_bar_clicked
+Time: 2025-07-25 00:00:29
+Timestamp: 1753381829.749
+Properties:
+  time: 1753381829.749
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381854990
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  current_screen: accountsV2
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381855055
+  network_type: 4G
+  next_screen: explore
+  platform: android
+  red_dot_present: false
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  swipe_type: navBar
+--------------------------------------------------------------------------------
+
+EVENT #089 - explore_page_loaded
+Time: 2025-07-25 00:00:30
+Timestamp: 1753381830.052
+Properties:
+  time: 1753381830.052
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381854991
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  components_loaded: [REWARDS, SPEND, BBPS, INVITE_AND_EARN, CREDIT_SCORE, AUTOPAY]
+  components_not_loaded: []
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  is_account_onboarded: True
+  is_borrow_onboarded: True
+  is_offers_onboarded: True
+  is_spend_rollout: False
+  is_upi_onboarded: True
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381855071
+  network_type: 4G
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  source: live
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #090 - nav_bar_clicked
+Time: 2025-07-25 00:00:31
+Timestamp: 1753381831.08
+Properties:
+  time: 1753381831.08
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381854991
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  current_screen: explore
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381855055
+  network_type: 4G
+  next_screen: accountsV2
+  platform: android
+  red_dot_present: false
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  swipe_type: navBar
+--------------------------------------------------------------------------------
+
+EVENT #091 - nav_bar_clicked
+Time: 2025-07-25 00:00:31
+Timestamp: 1753381831.937
+Properties:
+  time: 1753381831.937
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381854991
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  current_screen: accountsV2
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381855071
+  network_type: 4G
+  next_screen: null
+  platform: android
+  red_dot_present: false
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  swipe_type: navBar
+--------------------------------------------------------------------------------
+
+EVENT #092 - nav_bar_clicked
+Time: 2025-07-25 00:00:32
+Timestamp: 1753381832.999
+Properties:
+  time: 1753381832.999
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381854991
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  current_screen: accountsV2
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381855071
+  network_type: 4G
+  next_screen: explore
+  platform: android
+  red_dot_present: false
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  swipe_type: navBar
+--------------------------------------------------------------------------------
+
+EVENT #093 - explore_page_loaded
+Time: 2025-07-25 00:00:33
+Timestamp: 1753381833.057
+Properties:
+  time: 1753381833.057
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381855173
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  components_loaded: [REWARDS, SPEND, BBPS, INVITE_AND_EARN, CREDIT_SCORE, AUTOPAY]
+  components_not_loaded: []
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  is_account_onboarded: True
+  is_borrow_onboarded: True
+  is_offers_onboarded: True
+  is_spend_rollout: False
+  is_upi_onboarded: True
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381855234
+  network_type: 4G
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  source: cache
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #094 - explore_page_loaded
+Time: 2025-07-25 00:00:33
+Timestamp: 1753381833.283
+Properties:
+  time: 1753381833.283
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381855173
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  components_loaded: [REWARDS, SPEND, BBPS, INVITE_AND_EARN, CREDIT_SCORE, AUTOPAY]
+  components_not_loaded: []
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  is_account_onboarded: True
+  is_borrow_onboarded: True
+  is_offers_onboarded: True
+  is_spend_rollout: False
+  is_upi_onboarded: True
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381855234
+  network_type: 4G
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  source: live
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #095 - purple_screen
+Time: 2025-07-25 00:00:33
+Timestamp: 1753381833.985
+Properties:
+  time: 1753381833.985
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381855173
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: in_app
+  location_permission_granted: False
+  location_precise_granted: False
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381855234
+  network_type: 4G
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  upi_flow: s2s
+--------------------------------------------------------------------------------
+
+EVENT #096 - nav_bar_clicked
+Time: 2025-07-25 00:00:34
+Timestamp: 1753381834.004
+Properties:
+  time: 1753381834.004
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381855173
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  current_screen: explore
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381855234
+  network_type: 4G
+  next_screen: send
+  platform: android
+  red_dot_present: false
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  swipe_type: navBar
+--------------------------------------------------------------------------------
+
+EVENT #097 - upi_home_screen_source_loaded
+Time: 2025-07-25 00:00:34
+Timestamp: 1753381834.777
+Properties:
+  time: 1753381834.777
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381855173
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  amount_prepopulated: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381855234
+  network_type: 4G
+  no_of_bank_accounts: 0
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  switch_skip_binding_flag_available: False
+--------------------------------------------------------------------------------
+
+EVENT #098 - sync_started
+Time: 2025-07-25 00:00:34
+Timestamp: 1753381834.919
+Properties:
+  time: 1753381834.919
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381855173
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  batch_size: 200
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381855234
+  network_type: 4G
+  platform: android
+  product_type: TPAP_app_launch
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  sync_type: RECURRING
+  timestamp: 1753381834909
+  total_batches_count: 1
+  total_sms_count: 1
+--------------------------------------------------------------------------------
+
+EVENT #099 - nav_bar_clicked
+Time: 2025-07-25 00:00:35
+Timestamp: 1753381835.013
+Properties:
+  time: 1753381835.013
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381855173
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  current_screen: send
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381855234
+  network_type: 4G
+  next_screen: borrow
+  platform: android
+  red_dot_present: false
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  swipe_type: navBar
+--------------------------------------------------------------------------------
+
+EVENT #100 - data_sync_perm
+Time: 2025-07-25 00:00:35
+Timestamp: 1753381835.056
+Properties:
+  time: 1753381835.056
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381855173
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  contacts_permission: False
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: screen
+  location_permission: False
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381855234
+  network_type: 4G
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  sms_permission: True
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #101 - sync_completed
+Time: 2025-07-25 00:00:35
+Timestamp: 1753381835.089
+Properties:
+  time: 1753381835.089
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381855174
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  batch_size: 200
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381855234
+  network_type: 4G
+  platform: android
+  product_type: TPAP_app_launch
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  sync_completion_percentage: 100
+  sync_type: RECURRING
+  timestamp: 1753381835078
+  total_batches_count: 1
+  total_sms_count: 1
+--------------------------------------------------------------------------------
+
+EVENT #102 - borrow_page_opened
+Time: 2025-07-25 00:00:35
+Timestamp: 1753381835.291
+Properties:
+  time: 1753381835.291
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381855174
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  borrow_ineligible_reason: 
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: screen
+  flow: borrow
+  from_section: 
+  load_time: 1
+  loan_status: 
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381855234
+  network_type: 4G
+  platform: android
+  product_type: borrow
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  state: 
+  user_state: approved
+  user_status: approved
+--------------------------------------------------------------------------------
+
+EVENT #103 - app_sync_started
+Time: 2025-07-25 00:00:35
+Timestamp: 1753381835.295
+Properties:
+  time: 1753381835.295
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381855174
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: 
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381855234
+  network_type: 4G
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #104 - todo_display
+Time: 2025-07-25 00:00:35
+Timestamp: 1753381835.313
+Properties:
+  time: 1753381835.313
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381855174
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: REKYC
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381855235
+  network_type: 4G
+  page_source: borrow_home
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  status: 
+  type: mandatory
+--------------------------------------------------------------------------------
+
+EVENT #105 - apps_extracted
+Time: 2025-07-25 00:00:35
+Timestamp: 1753381835.333
+Properties:
+  time: 1753381835.333
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381855174
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_count: 500
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: 
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381855221
+  network_type: 4G
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #106 - app_sync_completed
+Time: 2025-07-25 00:00:38
+Timestamp: 1753381838.735
+Properties:
+  time: 1753381838.735
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381855325
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_count: 500
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  duration: 3
+  event_type: track
+  flow: 
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381855364
+  network_type: 4G
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #107 - borrow_page_opened
+Time: 2025-07-25 00:00:39
+Timestamp: 1753381839.021
+Properties:
+  time: 1753381839.021
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381855325
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  borrow_ineligible_reason: 
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: screen
+  flow: borrow
+  from_section: 
+  load_time: 1
+  loan_status: 
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381855364
+  network_type: 4G
+  platform: android
+  product_type: borrow
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  state: 
+  user_state: approved
+  user_status: approved
+--------------------------------------------------------------------------------
+
+EVENT #108 - todo_display
+Time: 2025-07-25 00:00:39
+Timestamp: 1753381839.037
+Properties:
+  time: 1753381839.037
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381855325
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: REKYC
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381855364
+  network_type: 4G
+  page_source: borrow_home
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  status: 
+  type: mandatory
+--------------------------------------------------------------------------------
+
+EVENT #109 - nav_bar_swiped
+Time: 2025-07-25 00:00:39
+Timestamp: 1753381839.604
+Properties:
+  time: 1753381839.604
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381855325
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  current_screen: borrow
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381855364
+  network_type: 4G
+  next_screen: accountsV2
+  platform: android
+  red_dot_present: false
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  swipe_type: navBar
+--------------------------------------------------------------------------------
+
+EVENT #110 - op_vcip_land
+Time: 2025-07-25 00:00:46
+Timestamp: 1753381846.19
+Properties:
+  time: 1753381846.19
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381855325
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  cta_active_count: 1
+  cta_count: 1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: screen
+  flow: onboarding
+  flow_type: default
+  is_bottom_sheet: FALSE
+  module: schedule
+  module_index: 10
+  module_type: inHouse
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381855364
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: schedule_call
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  time_stamp: 1753381846187
+--------------------------------------------------------------------------------
+
+EVENT #111 - op_vcip_view_more_slots_clicked
+Time: 2025-07-25 00:00:48
+Timestamp: 1753381848.219
+Properties:
+  time: 1753381848.219
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381855325
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  cta_active_count: 1
+  cta_count: 1
+  cta_text: View more slots
+  cta_type: tertiary
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: onboarding
+  flow_type: default
+  module: VCIP
+  module_index: 10
+  module_type: inHouse
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381855364
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: schedule_screen
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  time_stamp: 1753381848204
+--------------------------------------------------------------------------------
+
+EVENT #112 - op_vcip_time_select
+Time: 2025-07-25 00:00:53
+Timestamp: 1753381853.64
+Properties:
+  time: 1753381853.64
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381855325
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  cta_active_count: 1
+  cta_count: 1
+  cta_text: 08:45 AM
+  cta_type: selection
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: onboarding
+  flow_type: default
+  module: VCIP
+  module_index: 10
+  module_type: inHouse
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381855349
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: schedule_screen
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  time_stamp: 1753381853630
+--------------------------------------------------------------------------------
+
+EVENT #113 - op_vcip_cta_action
+Time: 2025-07-25 00:00:54
+Timestamp: 1753381854.671
+Properties:
+  time: 1753381854.671
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381871210
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  cta_action: click
+  cta_active_count: 1
+  cta_count: 1
+  cta_text: Schedule
+  cta_type: Primary
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: onboarding
+  flow_type: default
+  input: 2025-07-25T06:30:00.000Zhttps://api.nesfb.com/banking/kyc-gipl/vkyc/v2/book-slot?vkyc_type=default&room_id=68827b9a252d7b52c5065f9e
+  module: schedule
+  module_index: 10
+  module_type: inHouse
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381871268
+  network_type: 4G
+  platform: android
+  product: savings_account
+  screen: schedule_call
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  time_stamp: 1753381854665
+--------------------------------------------------------------------------------
+
+EVENT #114 - op_vcip_land
+Time: 2025-07-25 00:00:54
+Timestamp: 1753381854.882
+Properties:
+  time: 1753381854.882
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381871210
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: screen
+  is_bottom_sheet: FALSE
+  module: schedule
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381871268
+  network_type: 4G
+  platform: android
+  screen: schedule_confirmation
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #115 - op_vcip_cta_action
+Time: 2025-07-25 00:00:58
+Timestamp: 1753381858.465
+Properties:
+  time: 1753381858.465
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381871210
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  cta_action: click
+  cta_text: Alright
+  cta_type: Primary
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  module: schedule
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381871255
+  network_type: 4G
+  platform: android
+  screen: schedule_confirmation
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #116 - op_vcip_back
+Time: 2025-07-25 00:00:58
+Timestamp: 1753381858.483
+Properties:
+  time: 1753381858.483
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381871210
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  back_type: System
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  module: schedule
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381871268
+  network_type: 4G
+  platform: android
+  screen: schedule_confirmation
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #117 - rewards_homescreen_open
+Time: 2025-07-25 00:01:07
+Timestamp: 1753381867.698
+Properties:
+  time: 1753381867.698
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381871210
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  account_status: MINI_ONBOARDING_COMPLETED
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  fires_count: 0
+  leaderboard: False
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381871268
+  network_type: 4G
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  source: accounts_home
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #118 - leaderboard_card_clicked
+Time: 2025-07-25 00:01:09
+Timestamp: 1753381869.329
+Properties:
+  time: 1753381869.329
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381871210
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381871268
+  network_type: 4G
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #119 - leaderboard_page_opened
+Time: 2025-07-25 00:01:09
+Timestamp: 1753381869.392
+Properties:
+  time: 1753381869.392
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381871210
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  contact_permission: False
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381871255
+  network_type: 4G
+  permission_dialogue_opened: True
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #120 - app_open
+Time: 2025-07-25 00:01:10
+Timestamp: 1753381870.574
+Properties:
+  time: 1753381870.574
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381886018
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_build: 981
+  app_version: 17.0.0
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  from: background
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381886055
+  network_type: 4G
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+  time_duration: 121422
+--------------------------------------------------------------------------------
+
+EVENT #121 - contacts_sync_started
+Time: 2025-07-25 00:01:10
+Timestamp: 1753381870.577
+Properties:
+  time: 1753381870.577
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381886019
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381886056
+  network_type: 4G
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #122 - rewards_homescreen_open
+Time: 2025-07-25 00:01:15
+Timestamp: 1753381875.076
+Properties:
+  time: 1753381875.076
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381886019
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  account_status: MINI_ONBOARDING_COMPLETED
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  fires_count: 0
+  leaderboard: False
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381886054
+  network_type: 4G
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  source: accounts_home
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #123 - profile_page_opened
+Time: 2025-07-25 00:01:17
+Timestamp: 1753381877.403
+Properties:
+  time: 1753381877.403
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381886019
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: page_open
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381886054
+  network_type: 4G
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  source: accounts
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #124 - contacts_sync_completed
+Time: 2025-07-25 00:01:17
+Timestamp: 1753381877.689
+Properties:
+  time: 1753381877.689
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381886019
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  contact_count: 1000
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  duration: 7
+  event_type: track
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381886054
+  network_type: 4G
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #125 - profile_photo_clicked
+Time: 2025-07-25 00:01:18
+Timestamp: 1753381878.021
+Properties:
+  time: 1753381878.021
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381886019
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: cta
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381886055
+  network_type: 4G
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  source: accounts
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #126 - personal_details_page_opened
+Time: 2025-07-25 00:01:18
+Timestamp: 1753381878.222
+Properties:
+  time: 1753381878.222
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381886019
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: page_open
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381886055
+  network_type: 4G
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #127 - profile_cta_clicked
+Time: 2025-07-25 00:01:18
+Timestamp: 1753381878.862
+Properties:
+  time: 1753381878.862
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381886019
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: cta
+  is_avatar_set: False
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381886055
+  network_type: 4G
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #128 - bottomsheet_view
+Time: 2025-07-25 00:01:18
+Timestamp: 1753381878.971
+Properties:
+  time: 1753381878.971
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381886019
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: track
+  flow: slice_avatar
+  journey: L1_profile_screen
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381886057
+  network_type: 4G
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #129 - profile_page_opened
+Time: 2025-07-25 00:01:54
+Timestamp: 1753381914.546
+Properties:
+  time: 1753381914.546
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381927724
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: page_open
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381927761
+  network_type: 4G
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  source: accounts
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #130 - profile_page_opened
+Time: 2025-07-25 00:01:54
+Timestamp: 1753381914.891
+Properties:
+  time: 1753381914.891
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381927724
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: page_open
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381927761
+  network_type: 4G
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  source: accounts
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #131 - profile_invite_code_clicked
+Time: 2025-07-25 00:01:56
+Timestamp: 1753381916.664
+Properties:
+  time: 1753381916.664
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381927724
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: cta
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381927763
+  network_type: 4G
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #132 - invite_page_open
+Time: 2025-07-25 00:01:56
+Timestamp: 1753381916.716
+Properties:
+  time: 1753381916.716
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381927724
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: page_open
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381927764
+  network_type: 4G
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #133 - profile_page_opened
+Time: 2025-07-25 00:01:59
+Timestamp: 1753381919.547
+Properties:
+  time: 1753381919.547
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381927724
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: page_open
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381927761
+  network_type: 4G
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  source: accounts
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+EVENT #134 - profile_page_opened
+Time: 2025-07-25 00:01:59
+Timestamp: 1753381919.693
+Properties:
+  time: 1753381919.693
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_release: 981
+  $app_version: 17.0.0
+  $app_version_string: 17.0.0
+  $bluetooth_enabled: False
+  $bluetooth_version: ble
+  $brand: OnePlus
+  $carrier: IND airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $had_persisted_distinct_id: False
+  $has_nfc: True
+  $has_telephone: True
+  $lib_version: 8.0.1
+  $manufacturer: OnePlus
+  $model: CPH2585
+  $mp_api_endpoint: api-in.mixpanel.com
+  $mp_api_timestamp_ms: 1753381927724
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  $screen_dpi: 480
+  $screen_height: 2208
+  $screen_width: 1080
+  $user_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $wifi: False
+  app_version: 981
+  bandwidth: -1
+  device_id: d0e6cabbab85647f
+  device_info: OnePlus CPH2585 15 VANILLA_ICE_CREAM
+  event_type: page_open
+  mp_country_code: IN
+  mp_processing_time_ms: 1753381927761
+  network_type: 4G
+  platform: android
+  session_id: 77ac0d59-3369-48fd-8b41-f7bc3b3bb9c8
+  source: accounts
+  speed_snap_info: GOOD
+--------------------------------------------------------------------------------
+
+================================================================================
+📊 SUMMARY
+================================================================================
+Total Events: 134
+Unique Event Types: 70
+Date Range: 30 days
+Session Duration: 188 seconds (3.1 minutes)
+
+Unique Event Types:
+  app_closed: 1 occurrences
+  app_intent_details: 1 occurrences
+  app_login_complete: 1 occurrences
+  app_open: 7 occurrences
+  app_sync_completed: 1 occurrences
+  app_sync_started: 1 occurrences
+  apps_extracted: 1 occurrences
+  borrow_page_opened: 2 occurrences
+  bottomsheet_view: 1 occurrences
+  ckyc_completed: 1 occurrences
+  contacts_sync_completed: 1 occurrences
+  contacts_sync_started: 1 occurrences
+  current_address_completed: 1 occurrences
+  data_sync_perm: 1 occurrences
+  enter_phone_number_screen_continue_clicked: 1 occurrences
+  enter_phone_number_screen_open: 2 occurrences
+  enter_phone_number_screen_popup_opened: 1 occurrences
+  explore_page_loaded: 3 occurrences
+  game_error: 1 occurrences
+  invite_page_open: 1 occurrences
+  leaderboard_card_clicked: 1 occurrences
+  leaderboard_page_opened: 1 occurrences
+  login_screen_cta_clicked: 1 occurrences
+  login_screen_cta_status: 1 occurrences
+  login_screen_opened: 1 occurrences
+  mpin_screen_mpin_entered: 1 occurrences
+  mpin_validated: 1 occurrences
+  nav_bar_clicked: 6 occurrences
+  nav_bar_swiped: 2 occurrences
+  op_cta_action: 8 occurrences
+  op_land: 5 occurrences
+  op_type: 2 occurrences
+  op_vcip_back: 4 occurrences
+  op_vcip_cta_action: 8 occurrences
+  op_vcip_date_select: 2 occurrences
+  op_vcip_hide_slots_clicked: 2 occurrences
+  op_vcip_land: 8 occurrences
+  op_vcip_time_select: 5 occurrences
+  op_vcip_view_more_slots_clicked: 1 occurrences
+  permissions_pdp_page_cta_clicked: 1 occurrences
+  permissions_pdp_page_opened: 1 occurrences
+  permissions_popup_cta_clicked: 2 occurrences
+  permissions_popup_opened: 2 occurrences
+  personal_details_page_opened: 1 occurrences
+  phone_number_submitted: 1 occurrences
+  phone_verification_complete: 1 occurrences
+  profile_cta_clicked: 1 occurrences
+  profile_invite_code_clicked: 1 occurrences
+  profile_page_opened: 5 occurrences
+  profile_photo_clicked: 1 occurrences
+  purple_screen: 1 occurrences
+  rewards_homescreen_open: 2 occurrences
+  sim_binding_initiation: 1 occurrences
+  sim_binding_otp_read: 1 occurrences
+  sim_binding_otp_triggered: 1 occurrences
+  sim_binding_otp_validated: 1 occurrences
+  sim_binding_polling_start: 1 occurrences
+  sim_binding_request: 1 occurrences
+  sim_binding_response: 1 occurrences
+  sim_binding_sms_delivered: 1 occurrences
+  sim_binding_sms_sent: 2 occurrences
+  sim_binding_terminal_state: 1 occurrences
+  sim_binding_token_received: 1 occurrences
+  sync_completed: 2 occurrences
+  sync_started: 2 occurrences
+  timer_pre_auth: 1 occurrences
+  todo_display: 2 occurrences
+  upgrade_to_banking_cta_clicked: 2 occurrences
+  upi_cl_registered: 2 occurrences
+  upi_home_screen_source_loaded: 1 occurrences
