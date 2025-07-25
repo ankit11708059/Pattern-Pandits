@@ -15,9 +15,10 @@ from pinecone import Pinecone
 from langchain_core.prompts import PromptTemplate
 
 DIMENSIONS = 512
-EVENT_CATALOG_INDEX = "event-catalog"
+# EVENT_CATALOG_INDEX = "event-catalog"  # Index not available
+EVENT_CATALOG_INDEX = None
 FAQ_INDEX = "faq"
-ANALYTICS_KNOWLEDGE_INDEX = "analytics-event-knowledge"
+ANALYTICS_KNOWLEDGE_INDEX = "analytics-events-knowledge-base-512"
 
 # Embedding + Pinecone clients (singleton)
 _OPENAI_KEY = os.getenv("OPENAI_API_KEY")
@@ -25,9 +26,34 @@ _PINECONE_KEY = os.getenv("PINECONE_API_KEY")
 
 try:
     _pc = Pinecone(api_key=_PINECONE_KEY, ssl_verify=False) if _PINECONE_KEY else None
-    _event_index = _pc.Index(EVENT_CATALOG_INDEX) if _pc else None
-    _faq_index = _pc.Index(FAQ_INDEX) if _pc else None
-    _analytics_index = _pc.Index(ANALYTICS_KNOWLEDGE_INDEX) if _pc else None
+    
+    # Initialize indexes individually with error handling
+    _event_index = None
+    _faq_index = None
+    _analytics_index = None
+    
+    if _pc:
+        try:
+            _analytics_index = _pc.Index(ANALYTICS_KNOWLEDGE_INDEX)
+            print(f"✅ Connected to analytics index: {ANALYTICS_KNOWLEDGE_INDEX}")
+        except Exception as e:
+            print(f"⚠️ Analytics index {ANALYTICS_KNOWLEDGE_INDEX} not available: {e}")
+        
+        try:
+            _faq_index = _pc.Index(FAQ_INDEX)
+            print(f"✅ Connected to FAQ index: {FAQ_INDEX}")
+        except Exception as e:
+            print(f"⚠️ FAQ index {FAQ_INDEX} not available: {e}")
+        
+        if EVENT_CATALOG_INDEX:
+            try:
+                _event_index = _pc.Index(EVENT_CATALOG_INDEX)
+                print(f"✅ Connected to event catalog index: {EVENT_CATALOG_INDEX}")
+            except Exception as e:
+                print(f"⚠️ Event catalog index {EVENT_CATALOG_INDEX} not available: {e}")
+        else:
+            print("ℹ️ Event catalog index disabled")
+            
 except Exception as e:
     print(f"Warning: Pinecone initialization error: {e}")
     _pc = None
@@ -72,29 +98,53 @@ def get_exact_event_description(event_name: str) -> str:
     Get EXACT event description from Pinecone vector database using event name as ID
     This ensures precise mapping from Mixpanel events to catalog descriptions
     """
-    if not _event_index or not event_name:
+    if not event_name:
+        return f"No event name provided"
+    
+    if not _event_index and not _analytics_index:
         return f"Event catalog not available for {event_name}"
     
     try:
-        # Method 1: Direct ID lookup in Pinecone index
-        print(f"🔍 Looking up exact event: {event_name}")
+        # Method 1: Direct ID lookup in event catalog index (if available)
+        if _event_index:
+            print(f"🔍 Looking up exact event catalog: {event_name}")
+            
+            # Query Pinecone by exact ID match
+            query_result = _event_index.query(
+                vector=[0.0] * DIMENSIONS,  # Dummy vector for ID-based lookup
+                filter={"event_name": {"$eq": event_name}},  # Exact ID match
+                top_k=1,
+                include_metadata=True
+            )
+            
+            if query_result.matches and len(query_result.matches) > 0:
+                match = query_result.matches[0]
+                if match.metadata and 'description' in match.metadata:
+                    description = match.metadata['description']
+                    print(f"✅ Found exact event catalog match for {event_name}")
+                    return description
         
-        # Query Pinecone by exact ID match
-        query_result = _event_index.query(
-            vector=[0.0] * DIMENSIONS,  # Dummy vector for ID-based lookup
-            filter={"event_name": {"$eq": event_name}},  # Exact ID match
-            top_k=1,
-            include_metadata=True
-        )
+        # Method 2: Direct ID lookup in analytics knowledge base (if available)
+        if _analytics_index:
+            print(f"🔍 Looking up exact analytics for event: {event_name}")
+            
+            # Query analytics index by exact ID match
+            query_result = _analytics_index.query(
+                vector=[0.0] * DIMENSIONS,  # Dummy vector for ID-based lookup
+                filter={"event_name": {"$eq": event_name}},  # Exact ID match
+                top_k=1,
+                include_metadata=True
+            )
+            
+            if query_result.matches and len(query_result.matches) > 0:
+                match = query_result.matches[0]
+                if match.metadata and 'description' in match.metadata:
+                    description = match.metadata['description']
+                    print(f"✅ Found exact analytics match for {event_name}")
+                    print(f"✅ Found analytics knowledge for '{event_name}': {description[:100]}...")
+                    return description
         
-        if query_result.matches and len(query_result.matches) > 0:
-            match = query_result.matches[0]
-            if match.metadata and 'description' in match.metadata:
-                description = match.metadata['description']
-                print(f"✅ Found exact match for {event_name}")
-                return description
-        
-        # Method 2: Try semantic search as fallback
+        # Method 3: Try semantic search as fallback
         print(f"🔍 Trying semantic search for: {event_name}")
         results = search_similar_events(event_name, k=1)
         if results and len(results) > 0:
@@ -103,7 +153,7 @@ def get_exact_event_description(event_name: str) -> str:
                 print(f"✅ Found semantic match for {event_name}")
                 return results[0]['description']
         
-        # Method 3: Generate description from event name
+        # Method 4: Generate description from event name
         print(f"🔧 Generating description for: {event_name}")
         return generate_description_from_event_name(event_name)
         
@@ -431,7 +481,7 @@ def summarize_session(df: pd.DataFrame) -> str:
     if _OPENAI_KEY is None:
         return "(OpenAI key missing — cannot generate summary)"
     
-    if _event_catalog_vs is None or _event_index is None:
+    if (_event_catalog_vs is None or _event_index is None) and (_analytics_vs is None or _analytics_index is None):
         return "(Pattern Pandits event catalog not available — using basic summary)"
     
     try:
@@ -466,10 +516,22 @@ def summarize_session(df: pd.DataFrame) -> str:
         
         # Calculate comprehensive timeframe
         if not df.empty and pd.notna(df["time"]).any():
-            start_time = df["time"].min().strftime("%Y-%m-%d %H:%M:%S")
-            end_time = df["time"].max().strftime("%Y-%m-%d %H:%M:%S")
-            duration = df["time"].max() - df["time"].min()
-            timeframe = f"{start_time} to {end_time} (Duration: {duration})"
+            try:
+                # Ensure time column is datetime
+                time_col = pd.to_datetime(df["time"], errors='coerce')
+                min_time = time_col.min()
+                max_time = time_col.max()
+                
+                if pd.notna(min_time) and pd.notna(max_time):
+                    start_time = min_time.strftime("%Y-%m-%d %H:%M:%S")
+                    end_time = max_time.strftime("%Y-%m-%d %H:%M:%S")
+                    duration = max_time - min_time
+                    timeframe = f"{start_time} to {end_time} (Duration: {duration})"
+                else:
+                    timeframe = "Unknown timeframe (invalid dates)"
+            except Exception as e:
+                print(f"Error in timeframe calculation: {e}")
+                timeframe = "Unknown timeframe"
         else:
             timeframe = "Unknown timeframe"
         
@@ -708,7 +770,7 @@ def get_enhanced_funnel_insights(funnel_events: list, funnel_data: dict) -> str:
     Returns:
         Enhanced AI insights string with event catalog context
     """
-    if _event_catalog_vs is None or _OPENAI_KEY is None:
+    if (_event_catalog_vs is None and _analytics_vs is None) or _OPENAI_KEY is None:
         return "Event catalog or OpenAI not available for enhanced insights"
     
     try:
@@ -789,7 +851,7 @@ Provide actionable, data-driven recommendations with specific next steps.
 def search_similar_events(query: str, k: int = 5) -> list:
     """
     Search for events in the Pattern Pandits catalog
-    First tries exact ID lookup, then generates description from event name if not found
+    First tries exact ID lookup in event catalog, then analytics knowledge base, then generates description from event name if not found
     
     Args:
         query: Search query (event name/ID)
@@ -798,54 +860,99 @@ def search_similar_events(query: str, k: int = 5) -> list:
     Returns:
         List with single event if exact match found, or generated description
     """
-    if _event_index is None or _emb_model is None:
-        # Generate description even without Pinecone
-        generated_desc = generate_description_from_event_name(query)
-        return [{
-            "event_name": query,
-            "description": generated_desc,
-            "relevance": "Generated from event name"
-        }]
-    
-    try:
-        # Step 1: Try exact ID lookup first
+    # Try event catalog first if available
+    if _event_index is not None and _emb_model is not None:
         try:
-            fetch_response = _event_index.fetch(ids=[query])
+            # Step 1: Try exact ID lookup in event catalog
+            try:
+                fetch_response = _event_index.fetch(ids=[query])
+                
+                if hasattr(fetch_response, 'vectors') and fetch_response.vectors and query in fetch_response.vectors:
+                    vector_data = fetch_response.vectors[query]
+                    if hasattr(vector_data, 'metadata') and vector_data.metadata:
+                        description = vector_data.metadata.get('description', '')
+                        event_name = vector_data.metadata.get('event_name', query)
+                        
+                        if description:
+                            print(f"✅ Found exact event catalog match for '{query}'")
+                            return [{
+                                "event_name": event_name,
+                                "description": description,
+                                "relevance": "Exact Event Catalog Match"
+                            }]
+            except Exception as e:
+                print(f"Event catalog lookup failed for '{query}': {e}")
+        except Exception:
+            pass
+    
+    # Try analytics knowledge base if event catalog not available or no match found
+    if _analytics_index is not None and _emb_model is not None:
+        try:
+            # Try exact ID lookup in analytics knowledge base
+            try:
+                fetch_response = _analytics_index.fetch(ids=[query])
+                
+                if hasattr(fetch_response, 'vectors') and fetch_response.vectors and query in fetch_response.vectors:
+                    vector_data = fetch_response.vectors[query]
+                    if hasattr(vector_data, 'metadata') and vector_data.metadata:
+                        description = vector_data.metadata.get('description', '')
+                        event_name = vector_data.metadata.get('event_name', query)
+                        
+                        if description:
+                            print(f"✅ Found exact analytics match for '{query}'")
+                            return [{
+                                "event_name": event_name,
+                                "description": description,
+                                "relevance": "Exact Analytics Match"
+                            }]
+            except Exception as e:
+                print(f"Direct analytics lookup failed for '{query}': {e}")
             
-            if hasattr(fetch_response, 'vectors') and fetch_response.vectors and query in fetch_response.vectors:
-                vector_data = fetch_response.vectors[query]
-                if hasattr(vector_data, 'metadata') and vector_data.metadata:
-                    description = vector_data.metadata.get('description', '')
-                    event_name = vector_data.metadata.get('event_name', query)
-                    
-                    if description:
-                        print(f"✅ Found exact ID match for '{query}'")
-                        return [{
-                            "event_name": event_name,
-                            "description": description,
-                            "relevance": "Exact ID Match"
-                        }]
-        except Exception as e:
-            print(f"Direct ID lookup failed for '{query}': {e}")
-        
-        # Step 2: If exact ID not found, generate description from event name
-        generated_desc = generate_description_from_event_name(query)
-        print(f"ℹ️ Generated description for '{query}'")
-        return [{
-            "event_name": query,
-            "description": generated_desc,
-            "relevance": "Generated from event name"
-        }]
-        
-    except Exception as e:
-        print(f"Error searching events for '{query}': {e}")
-        # Fallback to generated description
-        generated_desc = generate_description_from_event_name(query)
-        return [{
-            "event_name": query,
-            "description": generated_desc,
-            "relevance": "Generated fallback"
-        }]
+            # Try semantic search in analytics knowledge base
+            try:
+                print(f"🔍 Trying semantic search for: {query}")
+                print(f"🔍 Searching analytics knowledge for: {query}")
+                
+                search_results = _analytics_index.query(
+                    vector=_emb_model.embed_query(query),
+                    top_k=1,
+                    include_metadata=True
+                )
+                
+                if search_results.matches and len(search_results.matches) > 0:
+                    match = search_results.matches[0]
+                    if match.score > 0.5:  # Only use if reasonably similar
+                        description = match.metadata.get('description', '')
+                        event_name = match.metadata.get('event_name', query)
+                        
+                        if description:
+                            print(f"✅ Found analytics: Knowledge (score: {match.score:.3f})")
+                            print(f"✅ Found analytics knowledge for '{query}': {description[:100]}...")
+                            return [{
+                                "event_name": event_name,
+                                "description": description,
+                                "relevance": f"Analytics Knowledge (score: {match.score:.3f})"
+                            }]
+                        else:
+                            print(f"❌ No analytics knowledge found for {query}")
+                    else:
+                        print(f"❌ No analytics knowledge found for {query}")
+                else:
+                    print(f"❌ No analytics knowledge found for {query}")
+            except Exception as e:
+                print(f"Analytics semantic search failed for '{query}': {e}")
+        except Exception:
+            pass
+    
+    # Fallback: Generate description even without Pinecone
+    generated_desc = generate_description_from_event_name(query)
+    print(f"ℹ️ Generated description for '{query}': {generated_desc[:100]}...")
+    return [{
+        "event_name": query,
+        "description": generated_desc,
+        "relevance": "Generated from event name"
+    }]
+
 
 
 def get_event_recommendations(current_events: list) -> dict:
@@ -1072,4 +1179,243 @@ def enrich_with_analytics_knowledge(df: pd.DataFrame) -> pd.DataFrame:
         mapping = {evt: generate_description_from_event_name(evt) for evt in unique_events}
     
     df["event_desc"] = df["event"].map(mapping)
-    return df 
+    return df
+
+
+def get_analytics_knowledge_for_events(event_names, k=5):
+    """
+    Retrieve comprehensive analytics knowledge for given events from Pinecone database
+    """
+    try:
+        print(f"🔍 Retrieving analytics knowledge for {len(event_names)} events...")
+        
+        if not _analytics_index:
+            print("❌ Analytics index not available")
+            return {}
+        
+        # Ensure embeddings are available
+        try:
+            embeddings = OpenAIEmbeddings(
+                openai_api_key=_OPENAI_KEY,
+                model="text-embedding-3-small", 
+                dimensions=DIMENSIONS
+            )
+        except Exception as e:
+            print(f"❌ Error initializing embeddings: {e}")
+            return {}
+        
+        analytics_knowledge = {}
+        
+        for event_name in event_names:
+            try:
+                # Create search query
+                search_text = f"event {event_name} analytics tracking behavior user"
+                
+                # Get embedding for the search
+                query_embedding = embeddings.embed_query(search_text)
+                
+                # Search Pinecone
+                search_results = _analytics_index.query(
+                    vector=query_embedding,
+                    top_k=k,
+                    include_metadata=True
+                )
+                
+                if search_results and search_results.matches:
+                    # Process and store the best matches
+                    event_knowledge = []
+                    for match in search_results.matches:
+                        if match.score > 0.3:  # Only include relevant matches
+                            knowledge_item = {
+                                'content': match.metadata.get('content', ''),
+                                'description': match.metadata.get('description', ''),
+                                'event_name': match.metadata.get('event_name', ''),
+                                'context': match.metadata.get('context', ''),
+                                'user_journey': match.metadata.get('user_journey', ''),
+                                'properties': match.metadata.get('properties', ''),
+                                'timing': match.metadata.get('timing', ''),
+                                'screen': match.metadata.get('screen', ''),
+                                'implementation': match.metadata.get('implementation', ''),
+                                'score': match.score
+                            }
+                            event_knowledge.append(knowledge_item)
+                    
+                    if event_knowledge:
+                        analytics_knowledge[event_name] = event_knowledge
+                        print(f"✅ Found {len(event_knowledge)} knowledge items for '{event_name}'")
+                    else:
+                        print(f"⚠️ No relevant knowledge found for '{event_name}'")
+                else:
+                    print(f"❌ No search results for '{event_name}'")
+                    
+            except Exception as e:
+                print(f"❌ Error searching for '{event_name}': {e}")
+                continue
+        
+        print(f"🎯 Retrieved analytics knowledge for {len(analytics_knowledge)} events")
+        return analytics_knowledge
+        
+    except Exception as e:
+        print(f"❌ Error in get_analytics_knowledge_for_events: {e}")
+        return {}
+
+
+def enrich_mixpanel_data_with_analytics(mixpanel_df, analytics_knowledge):
+    """
+    Enrich Mixpanel dataframe with analytics knowledge from Pinecone
+    """
+    try:
+        print(f"🚀 Enriching {len(mixpanel_df)} Mixpanel events with analytics knowledge...")
+        
+        # Add analytics knowledge columns
+        mixpanel_df['analytics_context'] = ''
+        mixpanel_df['analytics_description'] = ''
+        mixpanel_df['analytics_user_journey'] = ''
+        mixpanel_df['analytics_properties'] = ''
+        mixpanel_df['analytics_implementation'] = ''
+        
+        # Enrich each event with its analytics knowledge
+        for idx, row in mixpanel_df.iterrows():
+            event_name = row['event']
+            
+            if event_name in analytics_knowledge:
+                knowledge_items = analytics_knowledge[event_name]
+                
+                if knowledge_items:
+                    # Use the best match (highest score)
+                    best_match = knowledge_items[0]
+                    
+                    mixpanel_df.at[idx, 'analytics_context'] = best_match.get('context', '')
+                    mixpanel_df.at[idx, 'analytics_description'] = best_match.get('description', '')
+                    mixpanel_df.at[idx, 'analytics_user_journey'] = best_match.get('user_journey', '')
+                    mixpanel_df.at[idx, 'analytics_properties'] = best_match.get('properties', '')
+                    mixpanel_df.at[idx, 'analytics_implementation'] = best_match.get('implementation', '')
+        
+        print(f"✅ Successfully enriched Mixpanel data with analytics knowledge")
+        return mixpanel_df
+        
+    except Exception as e:
+        print(f"❌ Error enriching Mixpanel data: {e}")
+        return mixpanel_df
+
+
+def generate_llm_enhanced_analysis(enriched_mixpanel_df, user_query=""):
+    """
+    Generate powerful LLM analysis using enriched Mixpanel data with analytics knowledge
+    """
+    try:
+        print(f"🧠 Generating LLM-enhanced analysis for {len(enriched_mixpanel_df)} events...")
+        
+        # Initialize ChatOpenAI
+        llm = ChatOpenAI(
+            openai_api_key=_OPENAI_KEY,
+            model="gpt-4o",
+            temperature=0.1,
+            timeout=120
+        )
+        
+        # Prepare comprehensive event analysis
+        event_summary = {}
+        unique_events = enriched_mixpanel_df['event'].unique()
+        
+        for event in unique_events:
+            event_data = enriched_mixpanel_df[enriched_mixpanel_df['event'] == event]
+            event_summary[event] = {
+                'count': len(event_data),
+                'users': event_data['user_id'].nunique() if 'user_id' in event_data.columns else 0,
+                'platforms': event_data['platform'].unique().tolist() if 'platform' in event_data.columns else [],
+                'analytics_context': event_data['analytics_context'].iloc[0] if len(event_data) > 0 and 'analytics_context' in event_data.columns else '',
+                'analytics_description': event_data['analytics_description'].iloc[0] if len(event_data) > 0 and 'analytics_description' in event_data.columns else '',
+                'analytics_user_journey': event_data['analytics_user_journey'].iloc[0] if len(event_data) > 0 and 'analytics_user_journey' in event_data.columns else '',
+                'analytics_properties': event_data['analytics_properties'].iloc[0] if len(event_data) > 0 and 'analytics_properties' in event_data.columns else '',
+                'latest_time': event_data['time'].max() if 'time' in event_data.columns and len(event_data) > 0 else None
+            }
+        
+        # Create comprehensive prompt
+        analysis_prompt = f"""
+You are a senior product analytics consultant with access to comprehensive analytics knowledge from a specialized knowledge base.
+
+**USER QUERY:** {user_query}
+
+**ENRICHED MIXPANEL DATA WITH ANALYTICS KNOWLEDGE:**
+
+**Event Summary:**
+{json.dumps(event_summary, indent=2, default=str)[:6000]}
+
+**Analytics Knowledge Integration:**
+- Each event has been enriched with context, description, user journey insights, and implementation details from our analytics knowledge base
+- This allows for deeper behavioral analysis and more actionable recommendations
+
+**Analysis Request:**
+1. **Behavioral Insights**: Analyze user behavior patterns using both Mixpanel data and analytics knowledge context
+2. **User Journey Analysis**: Map the user journey using analytics knowledge about each event's role and timing
+3. **Optimization Opportunities**: Identify specific optimization opportunities based on analytics knowledge and event patterns
+4. **Implementation Insights**: Provide technical recommendations using the implementation details from analytics knowledge
+5. **Property Analysis**: Suggest relevant properties to track based on analytics knowledge for each event
+
+**Requirements:**
+- Use analytics knowledge context to provide deeper insights than raw event data alone
+- Reference specific analytics knowledge elements (context, user journey, implementation) in your analysis
+- Provide actionable recommendations backed by both data patterns and analytics expertise
+- Focus on practical, implementable suggestions for product improvement
+
+Provide a comprehensive analysis that showcases the power of combining Mixpanel event data with specialized analytics knowledge.
+"""
+        
+        # Generate analysis
+        response = llm.invoke(analysis_prompt)
+        
+        analysis_result = str(response.content) if hasattr(response, 'content') else str(response)
+        
+        print(f"✅ Generated LLM-enhanced analysis using analytics knowledge")
+        return analysis_result
+        
+    except Exception as e:
+        print(f"❌ Error generating LLM analysis: {e}")
+        return f"Error generating enhanced analysis: {e}"
+
+
+def create_comprehensive_user_insights(mixpanel_df):
+    """
+    Create comprehensive user insights by combining Mixpanel data with analytics knowledge
+    """
+    try:
+        print(f"🎯 Creating comprehensive insights for user activity...")
+        
+        # Get unique events from Mixpanel data
+        unique_events = mixpanel_df['event'].unique().tolist()
+        
+        # Retrieve analytics knowledge for these events
+        analytics_knowledge = get_analytics_knowledge_for_events(unique_events)
+        
+        # Enrich Mixpanel data with analytics knowledge
+        enriched_df = enrich_mixpanel_data_with_analytics(mixpanel_df, analytics_knowledge)
+        
+        # Generate comprehensive analysis
+        analysis = generate_llm_enhanced_analysis(enriched_df)
+        
+        return {
+            'enriched_data': enriched_df,
+            'analytics_knowledge': analytics_knowledge,
+            'llm_analysis': analysis,
+            'summary': {
+                'total_events': len(enriched_df),
+                'unique_events': len(unique_events),
+                'events_with_analytics': len(analytics_knowledge),
+                'coverage_percentage': round((len(analytics_knowledge) / len(unique_events)) * 100, 1) if unique_events else 0
+            }
+        }
+        
+    except Exception as e:
+        print(f"❌ Error creating comprehensive insights: {e}")
+        return {
+            'enriched_data': mixpanel_df,
+            'analytics_knowledge': {},
+            'llm_analysis': f"Error generating insights: {e}",
+            'summary': {
+                'total_events': len(mixpanel_df),
+                'unique_events': len(mixpanel_df['event'].unique()) if len(mixpanel_df) > 0 else 0,
+                'events_with_analytics': 0,
+                'coverage_percentage': 0
+            }
+        }

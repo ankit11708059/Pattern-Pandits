@@ -207,6 +207,18 @@ class MixpanelUserActivity:
                                 pass
                         properties[key] = value
                 
+                # 🚀 ENHANCED: Apply safe string conversion to all properties for DataFrame compatibility
+                safe_properties = {}
+                for k, v in properties.items():
+                    if v is None or pd.isna(v):
+                        safe_properties[k] = ""
+                    elif isinstance(v, (bool, int, float)):
+                        safe_properties[k] = str(v)  
+                    else:
+                        safe_properties[k] = str(v)
+                
+                properties = safe_properties
+                
                 # Create event in Mixpanel format
                 event_data = {
                     "event": event_name,
@@ -784,6 +796,19 @@ class MixpanelUserActivity:
             st.error(f"❌ Funnel Query Network Error: {e}")
             return {"error": f"API request failed: {e}"}
 
+    def safe_str_convert(self, value):
+        """Safely convert any value to string for DataFrame compatibility"""
+        if value is None or pd.isna(value):
+            return ""
+        if isinstance(value, (bool, int, float)):
+            return str(value)
+        if isinstance(value, str):
+            return value
+        try:
+            return str(value)
+        except:
+            return ""
+
     def format_activity_data(self, api_response):
         if "error" in api_response:
             return pd.DataFrame()
@@ -820,10 +845,17 @@ class MixpanelUserActivity:
                             "properties": json.dumps(event.get("properties", {}), indent=2)
                         }
                         props = event.get("properties", {})
-                        event_data["platform"] = props.get("platform", "")
-                        event_data["browser"] = props.get("browser", "")
-                        event_data["city"] = props.get("$city", "")
-                        event_data["country"] = props.get("$country_code", "")
+                        event_data["platform"] = self.safe_str_convert(props.get("platform", ""))
+                        event_data["browser"] = self.safe_str_convert(props.get("browser", ""))
+                        event_data["city"] = self.safe_str_convert(props.get("$city", ""))
+                        event_data["country"] = self.safe_str_convert(props.get("$country_code", ""))
+                        
+                        # 🚀 ENHANCED: Extract ALL additional properties dynamically with safe conversion
+                        for key, value in props.items():
+                            if key not in ["platform", "browser", "$city", "$country_code", "time", "$time"]:
+                                # Use clean key name for DataFrame column
+                                clean_key = key.replace("$", "").replace("-", "_")
+                                event_data[clean_key] = self.safe_str_convert(value)
                         all_events.append(event_data)
         if not all_events:
             return pd.DataFrame()
@@ -3175,14 +3207,40 @@ def fetch_user_activity_data(client, user_ids_input, from_date, to_date):
             st.info("📝 This data includes sample events for analysis and chat functionality")
 
         # Store data in session state
-        from rag_utils import enrich_with_analytics_knowledge
+        from rag_utils import enrich_with_analytics_knowledge, create_comprehensive_user_insights
         
         # Store original data first
         st.session_state.current_mixpanel_data = df.copy()
         st.session_state.is_testing_fallback = is_testing_fallback
         
-        # Enrich with event descriptions
-        enriched_df = enrich_with_analytics_knowledge(df)
+        # 🚀 ENHANCED: Create comprehensive insights using analytics-events-knowledge-base-512
+        with st.spinner("🚀 Enriching data with analytics knowledge from Pinecone..."):
+            comprehensive_insights = create_comprehensive_user_insights(df)
+            
+            # Store enhanced data and insights
+            enriched_df = comprehensive_insights['enriched_data']
+            st.session_state.analytics_knowledge = comprehensive_insights['analytics_knowledge']
+            st.session_state.llm_analysis = comprehensive_insights['llm_analysis']
+            st.session_state.analytics_summary = comprehensive_insights['summary']
+            
+            # Display enhancement summary
+            summary = comprehensive_insights['summary']
+            st.success(f"🎯 **Analytics Enhancement Complete!**")
+            col1, col2, col3, col4 = st.columns(4)
+            with col1:
+                st.metric("📊 Total Events", summary['total_events'])
+            with col2:
+                st.metric("🎯 Unique Events", summary['unique_events'])
+            with col3:
+                st.metric("🧠 Events with Analytics", summary['events_with_analytics'])
+            with col4:
+                st.metric("📈 Coverage", f"{summary['coverage_percentage']}%")
+        
+        # Fallback enrichment for events without analytics knowledge
+        enriched_df = enrich_with_analytics_knowledge(enriched_df)
+        
+        # 🚀 Store enriched data for chatbot access
+        st.session_state.current_enriched_data = enriched_df
         
         # Store enriched events context for chatbot
         unique_events = enriched_df['event'].unique().tolist()
@@ -3193,7 +3251,7 @@ def fetch_user_activity_data(client, user_ids_input, from_date, to_date):
                 events_with_descriptions[event] = {
                     'description': event_rows['event_desc'].iloc[0],
                     'count': len(event_rows),
-                    'platforms': event_rows['platform'].unique().tolist(),
+                    'platforms': [str(p) for p in event_rows['platform'].unique().tolist() if pd.notna(p)],
                     'latest_time': event_rows['time'].max() if pd.notna(event_rows['time']).any() else None
                 }
         
@@ -3255,11 +3313,65 @@ def display_mixpanel_data_analysis():
     filtered_df = enriched_df[enriched_df['user_id'].isin(selected_users)]
     filtered_df = filtered_df.sort_values("time", ascending=False)
 
+    # 🚀 ENHANCED: Display comprehensive analytics data
+    # Determine available columns for display
+    base_columns = ['time', 'event', 'event_desc', 'user_id']
+    optional_columns = ['platform', 'city', 'country'] 
+    analytics_columns = ['analytics_context', 'analytics_description', 'analytics_user_journey', 'analytics_properties']
+    
+    # Build display columns based on what's available
+    display_columns = base_columns.copy()
+    for col in optional_columns + analytics_columns:
+        if col in filtered_df.columns:
+            display_columns.append(col)
+    
     st.dataframe(
-        filtered_df[['time', 'event', 'event_desc', 'user_id', 'platform', 'city', 'country']],
+        filtered_df[display_columns],
         use_container_width=True,
         key="mixpanel_data_table"
     )
+    
+    # 🚀 ENHANCED: Show analytics knowledge insights
+    if hasattr(st.session_state, 'analytics_knowledge') and st.session_state.analytics_knowledge:
+        with st.expander("🧠 **Analytics Knowledge Insights** - Deep Event Intelligence", expanded=False):
+            st.markdown("**📊 Event Intelligence from analytics-events-knowledge-base-512:**")
+            
+            knowledge = st.session_state.analytics_knowledge
+            for event_name, knowledge_items in knowledge.items():
+                if knowledge_items:
+                    st.markdown(f"### 🎯 **{event_name}**")
+                    best_match = knowledge_items[0]  # Highest score match
+                    
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        if best_match.get('context'):
+                            st.markdown(f"**🔍 Context:** {best_match['context']}")
+                        if best_match.get('description'):
+                            st.markdown(f"**📝 Description:** {best_match['description']}")
+                        if best_match.get('timing'):
+                            st.markdown(f"**⏰ Timing:** {best_match['timing']}")
+                    
+                    with col2:
+                        if best_match.get('user_journey'):
+                            st.markdown(f"**🗺️ User Journey:** {best_match['user_journey']}")
+                        if best_match.get('screen'):
+                            st.markdown(f"**📱 Screen:** {best_match['screen']}")
+                        if best_match.get('implementation'):
+                            st.markdown(f"**⚙️ Implementation:** {best_match['implementation']}")
+                    
+                    if best_match.get('properties'):
+                        st.markdown(f"**🏷️ Properties:** {best_match['properties']}")
+                    
+                    st.markdown(f"*Relevance Score: {best_match.get('score', 0):.3f}*")
+                    st.markdown("---")
+    
+    # 🚀 ENHANCED: AI-Powered Comprehensive Analysis
+    if hasattr(st.session_state, 'llm_analysis') and st.session_state.llm_analysis:
+        with st.expander("🤖 **AI-Powered Analytics Intelligence** - Comprehensive Insights", expanded=True):
+            st.markdown("### 🧠 **LLM-Enhanced Analysis using Analytics Knowledge**")
+            st.markdown("*Powered by GPT-4o with specialized analytics knowledge from Pinecone*")
+            st.markdown("---")
+            st.markdown(st.session_state.llm_analysis)
 
     # AI Analysis
     render_ai_analysis(filtered_df)
@@ -3418,7 +3530,7 @@ def render_event_intelligence(filtered_df):
                         
                         # Show platforms where this event occurred
                         platforms = event_rows['platform'].unique().tolist()
-                        platforms = [p for p in platforms if p and p != 'Unknown']
+                        platforms = [str(p) for p in platforms if p and str(p) not in ['Unknown', 'nan', 'None', 'null'] and pd.notna(p)]
                         if platforms:
                             st.markdown(f"**Platforms:** {', '.join(platforms)}")
                         
@@ -3612,12 +3724,12 @@ def render_modern_chat_interface():
     
     # Beautiful Chat Header
     st.markdown("""
-    <div class="chat-container">
-        <div class="chat-header">
-            <div class="chat-title">🤖 AI Analytics Assistant</div>
-            <div class="chat-subtitle">Powered by GPT-4o • Temporal Intelligence • Event Sequence Analysis</div>
-        </div>
-    </div>
+         <div class="chat-container">
+         <div class="chat-header">
+             <div class="chat-title">🚀 Enhanced AI Analytics Assistant</div>
+             <div class="chat-subtitle">🧠 GPT-4o + 📊 Pinecone analytics-events-knowledge-base-512 • 🎯 Deep Event Intelligence • 📈 Behavioral Analysis</div>
+         </div>
+     </div>
     """, unsafe_allow_html=True)
     
     # Modern Context Status Card
@@ -4501,20 +4613,59 @@ def process_chat_response_async():
         
         last_user_question = user_messages[-1]["content"]
         
-        # Generate response with enhanced error handling
-        with st.spinner("🧠 Processing your query with temporal intelligence..."):
-            response = generate_event_catalog_response(last_user_question)
-            
-            # Enhanced assistant message with metadata
-            assistant_message = {
-                "role": "assistant",
-                "content": response["answer"],
-                "timestamp": pd.Timestamp.now().strftime("%H:%M:%S"),
-                "processing_time": "⚡ Analyzed with GPT-4o"
-            }
-            
-            if "sources" in response and response["sources"]:
-                assistant_message["sources"] = response["sources"]
+        # 🚀 ENHANCED: Generate response with analytics knowledge integration
+        with st.spinner("🚀 Processing with analytics-events-knowledge-base-512 + ChatOpenAI..."):
+            try:
+                # Try to use enhanced analytics knowledge if available
+                if (hasattr(st.session_state, 'analytics_knowledge') and 
+                    st.session_state.analytics_knowledge and 
+                    hasattr(st.session_state, 'current_mixpanel_data')):
+                    
+                    from rag_utils import generate_llm_enhanced_analysis
+                    
+                    # Get the enriched dataframe from session state
+                    enriched_df = st.session_state.get('current_enriched_data', st.session_state.current_mixpanel_data)
+                    
+                    # Generate enhanced analysis with user query
+                    enhanced_response = generate_llm_enhanced_analysis(enriched_df, last_user_question)
+                    
+                    assistant_message = {
+                        "role": "assistant",
+                        "content": enhanced_response,
+                        "timestamp": pd.Timestamp.now().strftime("%H:%M:%S"),
+                        "processing_time": "🚀 Enhanced with Pinecone + GPT-4o"
+                    }
+                    
+                    print(f"🚀 Generated enhanced response using analytics knowledge")
+                    
+                else:
+                    # Fallback to standard response
+                    response = generate_event_catalog_response(last_user_question)
+                    
+                    assistant_message = {
+                        "role": "assistant",
+                        "content": response["answer"],
+                        "timestamp": pd.Timestamp.now().strftime("%H:%M:%S"),
+                        "processing_time": "⚡ Standard GPT-4o Analysis"
+                    }
+                    
+                    if "sources" in response and response["sources"]:
+                        assistant_message["sources"] = response["sources"]
+                        
+            except Exception as e:
+                print(f"❌ Enhanced chatbot error, using fallback: {e}")
+                # Final fallback
+                response = generate_event_catalog_response(last_user_question)
+                
+                assistant_message = {
+                    "role": "assistant",
+                    "content": response["answer"],
+                    "timestamp": pd.Timestamp.now().strftime("%H:%M:%S"),
+                    "processing_time": "⚡ Fallback Analysis"
+                }
+                
+                if "sources" in response and response["sources"]:
+                    assistant_message["sources"] = response["sources"]
             
             st.session_state.chatbot_messages.append(assistant_message)
         
@@ -4983,24 +5134,9 @@ def render_dashboard_tab(client):
     st.header("📈 Analytics Dashboard")
     st.markdown("Advanced funnel analysis and event insights")
     
-    # Sidebar configuration for dashboard
-    st.sidebar.subheader("⚙️ Dashboard Settings")
-    
-    col1, col2 = st.sidebar.columns(2)
-    with col1:
-        dash_from_date = st.date_input(
-            "Dashboard From Date",
-            value=datetime.now() - timedelta(days=30),
-            max_value=datetime.now().date(),
-            key="dash_from"
-        )
-    with col2:
-        dash_to_date = st.date_input(
-            "Dashboard To Date", 
-            value=datetime.now().date(),
-            max_value=datetime.now().date(),
-            key="dash_to"
-        )
+    # Set default dashboard date range (30 days)
+    dash_from_date = datetime.now() - timedelta(days=30)
+    dash_to_date = datetime.now()
     
     # Create two main sections: Saved Funnels and Custom Funnel
     col1, col2 = st.columns(2)

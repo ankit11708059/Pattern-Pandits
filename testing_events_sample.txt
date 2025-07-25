@@ -1,0 +1,334 @@
+================================================================================
+📋 SAMPLE EVENTS DATA FOR DISTINCT_ID: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+📅 Generated: 2025-07-25 11:50:00
+📊 Total Events: 15
+🗓️ Days Analyzed: 7
+================================================================================
+
+EVENT #001 - app_open
+Time: 2025-07-25 11:45:00
+Timestamp: 1753381500.000
+Properties:
+  time: 1753381500.000
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_build_number: 981
+  $app_version: 17.0.0
+  $brand: OnePlus
+  $carrier: IND Airtel
+  $city: Hyderabad
+  $device_id: 9b62b09c-af9a-4e2f-b9d6-5ec9f2621336
+  $model: CPH2585
+  $os: Android
+  $os_version: 15
+  $region: Telangana
+  app_version: 17.0.0
+  platform: android
+  session_id: session_12345
+  network_type: 4G
+  from: fresh
+  flow: app_launch
+--------------------------------------------------------------------------------
+
+EVENT #002 - upi_home_screen_source_loaded
+Time: 2025-07-25 11:46:00
+Timestamp: 1753381560.000
+Properties:
+  time: 1753381560.000
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_version: 17.0.0
+  $brand: Samsung
+  $carrier: IND Jio
+  $city: Mumbai
+  $model: Galaxy S23
+  $os: Android
+  app_version: 17.0.0
+  platform: android
+  screen_name: upi_home
+  source: home_tab
+  load_time: 0.8
+  network_type: 5G
+  flow: upi_navigation
+--------------------------------------------------------------------------------
+
+EVENT #003 - mpin_verify_screen_entered
+Time: 2025-07-25 11:47:00
+Timestamp: 1753381620.000
+Properties:
+  time: 1753381620.000
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_version: 17.0.0
+  $brand: Xiaomi
+  $carrier: IND Vi
+  $city: Bangalore
+  $model: Redmi Note 12
+  $os: Android
+  app_version: 17.0.0
+  platform: android
+  screen_name: mpin_verify
+  auth_type: transaction
+  attempt_number: 1
+  network_type: 4G
+  flow: authentication
+--------------------------------------------------------------------------------
+
+EVENT #004 - borrow_page_opened
+Time: 2025-07-25 11:48:00
+Timestamp: 1753381680.000
+Properties:
+  time: 1753381680.000
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_version: 17.0.0
+  $brand: OnePlus
+  $carrier: IND Airtel
+  $city: Delhi
+  $model: Nord CE 3
+  $os: Android
+  app_version: 17.0.0
+  platform: android
+  page_name: borrow_landing
+  source: home_banner
+  eligible_amount: 50000
+  credit_score: 750
+  network_type: 5G
+  flow: lending
+--------------------------------------------------------------------------------
+
+EVENT #005 - login_screen_opened
+Time: 2025-07-25 11:49:00
+Timestamp: 1753381740.000
+Properties:
+  time: 1753381740.000
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_version: 17.0.0
+  $brand: Apple
+  $carrier: IND Jio
+  $city: Chennai
+  $model: iPhone 15
+  $os: iOS
+  app_version: 17.0.0
+  platform: ios
+  screen_name: login
+  login_type: returning_user
+  biometric_available: true
+  network_type: 5G
+  flow: authentication
+--------------------------------------------------------------------------------
+
+EVENT #006 - app_intent_details
+Time: 2025-07-25 11:50:00
+Timestamp: 1753381800.000
+Properties:
+  time: 1753381800.000
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_version: 17.0.0
+  $brand: Vivo
+  $carrier: IND BSNL
+  $city: Pune
+  $model: V2329
+  $os: Android
+  app_version: 17.0.0
+  platform: android
+  intent_type: payment
+  target_app: gpay
+  amount: 1500
+  network_type: 4G
+  flow: external_intent
+--------------------------------------------------------------------------------
+
+EVENT #007 - purple_screen
+Time: 2025-07-25 11:51:00
+Timestamp: 1753381860.000
+Properties:
+  time: 1753381860.000
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_version: 17.0.0
+  $brand: Samsung
+  $carrier: IND Airtel
+  $city: Kolkata
+  $model: Galaxy A54
+  $os: Android
+  app_version: 17.0.0
+  platform: android
+  screen_type: promotional
+  campaign_id: purple_2024_q4
+  duration: 3.2
+  action_taken: skip
+  network_type: 4G
+  flow: onboarding
+--------------------------------------------------------------------------------
+
+EVENT #008 - chatbot_ticket_created
+Time: 2025-07-25 11:52:00
+Timestamp: 1753381920.000
+Properties:
+  time: 1753381920.000
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_version: 17.0.0
+  $brand: OnePlus
+  $carrier: IND Jio
+  $city: Hyderabad
+  $model: CPH2585
+  $os: Android
+  app_version: 17.0.0
+  platform: android
+  ticket_id: CHT_789456
+  issue_type: payment_failed
+  channel: in_app_chat
+  priority: medium
+  network_type: 5G
+  flow: support
+--------------------------------------------------------------------------------
+
+EVENT #009 - sim_binding_terminal_state
+Time: 2025-07-25 11:53:00
+Timestamp: 1753381980.000
+Properties:
+  time: 1753381980.000
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_version: 17.0.0
+  $brand: Xiaomi
+  $carrier: IND Vi
+  $city: Mumbai
+  $model: Redmi Note 12 Pro
+  $os: Android
+  app_version: 17.0.0
+  platform: android
+  binding_status: success
+  sim_operator: Vi
+  binding_method: auto_read
+  retry_count: 0
+  network_type: 4G
+  flow: sim_verification
+--------------------------------------------------------------------------------
+
+EVENT #010 - sync_completed
+Time: 2025-07-25 11:54:00
+Timestamp: 1753382040.000
+Properties:
+  time: 1753382040.000
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_version: 17.0.0
+  $brand: Apple
+  $carrier: IND Airtel
+  $city: Bangalore
+  $model: iPhone 15 Pro
+  $os: iOS
+  app_version: 17.0.0
+  platform: ios
+  sync_type: full_sync
+  items_synced: 1250
+  sync_duration: 12.5
+  success_rate: 98.5
+  network_type: 5G
+  flow: data_sync
+--------------------------------------------------------------------------------
+
+EVENT #011 - nudge_shown
+Time: 2025-07-25 11:55:00
+Timestamp: 1753382100.000
+Properties:
+  time: 1753382100.000
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_version: 17.0.0
+  $brand: Oppo
+  $carrier: IND Jio
+  $city: Delhi
+  $model: Find X6
+  $os: Android
+  app_version: 17.0.0
+  platform: android
+  nudge_type: borrow_offer
+  amount_offered: 25000
+  tenure_months: 12
+  interest_rate: 18.5
+  network_type: 5G
+  flow: marketing
+--------------------------------------------------------------------------------
+
+EVENT #012 - timer_pre_auth
+Time: 2025-07-25 11:56:00
+Timestamp: 1753382160.000
+Properties:
+  time: 1753382160.000
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_version: 17.0.0
+  $brand: Samsung
+  $carrier: IND Vi
+  $city: Chennai
+  $model: Galaxy S24
+  $os: Android
+  app_version: 17.0.0
+  platform: android
+  timer_duration: 180
+  transaction_type: upi_payment
+  amount: 2500
+  merchant: amazon
+  network_type: 4G
+  flow: pre_authorization
+--------------------------------------------------------------------------------
+
+EVENT #013 - contacts_sync_started
+Time: 2025-07-25 11:57:00
+Timestamp: 1753382220.000
+Properties:
+  time: 1753382220.000
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_version: 17.0.0
+  $brand: Vivo
+  $carrier: IND BSNL
+  $city: Pune
+  $model: Y100
+  $os: Android
+  app_version: 17.0.0
+  platform: android
+  permission_granted: true
+  contact_count: 856
+  estimated_duration: 45
+  sync_method: incremental
+  network_type: 4G
+  flow: contact_sync
+--------------------------------------------------------------------------------
+
+EVENT #014 - credit_home_page_opened
+Time: 2025-07-25 11:58:00
+Timestamp: 1753382280.000
+Properties:
+  time: 1753382280.000
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_version: 17.0.0
+  $brand: OnePlus
+  $carrier: IND Airtel
+  $city: Hyderabad
+  $model: 11R
+  $os: Android
+  app_version: 17.0.0
+  platform: android
+  credit_limit: 75000
+  used_amount: 25000
+  available_amount: 50000
+  due_date: 2025-08-15
+  network_type: 5G
+  flow: credit_management
+--------------------------------------------------------------------------------
+
+EVENT #015 - phone_verification_complete
+Time: 2025-07-25 11:59:00
+Timestamp: 1753382340.000
+Properties:
+  time: 1753382340.000
+  distinct_id: 0df12c5061e17fe279f396f735762c63c3ffe479e69faa41e2c2aa4f33c148c6
+  $app_version: 17.0.0
+  $brand: Apple
+  $carrier: IND Jio
+  $city: Mumbai
+  $model: iPhone 14
+  $os: iOS
+  app_version: 17.0.0
+  platform: ios
+  verification_method: sms_otp
+  attempts: 1
+  success: true
+  phone_number_type: primary
+  network_type: 5G
+  flow: phone_verification
+-------------------------------------------------------------------------------- 

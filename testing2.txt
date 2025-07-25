@@ -1,0 +1,1205 @@
+EVENT #1 - app_opened
+Time: 2025-07-25 08:00:00
+Timestamp: 1722000000
+Properties:
+platform: iOS
+city: Mumbai
+country: India
+app_version: 3.2.1
+device_model: iPhone 14
+carrier: Jio
+open_source: direct
+session_id: sess_001
+--------------------------------------------------------------------------------
+
+EVENT #2 - splash_screen_viewed
+Time: 2025-07-25 08:00:02
+Timestamp: 1722000002
+Properties:
+platform: iOS
+city: Mumbai
+country: India
+app_version: 3.2.1
+splash_duration_ms: 2000
+session_id: sess_001
+--------------------------------------------------------------------------------
+
+EVENT #3 - user_registration_started
+Time: 2025-07-25 08:00:05
+Timestamp: 1722000005
+Properties:
+registration_source: google
+platform: iOS
+city: Mumbai
+country: India
+app_version: 3.2.1
+device_model: iPhone 14
+carrier: Jio
+session_id: sess_001
+--------------------------------------------------------------------------------
+
+EVENT #4 - phone_number_entered
+Time: 2025-07-25 08:00:30
+Timestamp: 1722000030
+Properties:
+phone_country_code: +91
+platform: iOS
+city: Mumbai
+country: India
+app_version: 3.2.1
+input_method: keyboard
+session_id: sess_001
+--------------------------------------------------------------------------------
+
+EVENT #5 - otp_requested
+Time: 2025-07-25 08:00:45
+Timestamp: 1722000045
+Properties:
+phone_number: 9876543210
+platform: iOS
+city: Mumbai
+country: India
+app_version: 3.2.1
+otp_method: sms
+session_id: sess_001
+--------------------------------------------------------------------------------
+
+EVENT #6 - otp_received
+Time: 2025-07-25 08:01:15
+Timestamp: 1722000075
+Properties:
+otp_delivery_time_seconds: 30
+platform: iOS
+city: Mumbai
+country: India
+app_version: 3.2.1
+session_id: sess_001
+--------------------------------------------------------------------------------
+
+EVENT #7 - otp_verified
+Time: 2025-07-25 08:01:30
+Timestamp: 1722000090
+Properties:
+verification_attempts: 1
+platform: iOS
+city: Mumbai
+country: India
+app_version: 3.2.1
+verification_success: true
+session_id: sess_001
+--------------------------------------------------------------------------------
+
+EVENT #8 - email_verification_sent
+Time: 2025-07-25 08:01:45
+Timestamp: 1722000105
+Properties:
+email_domain: gmail.com
+platform: iOS
+city: Mumbai
+country: India
+app_version: 3.2.1
+verification_method: email_link
+session_id: sess_001
+--------------------------------------------------------------------------------
+
+EVENT #9 - profile_setup_started
+Time: 2025-07-25 08:02:00
+Timestamp: 1722000120
+Properties:
+profile_type: personal
+platform: iOS
+city: Mumbai
+country: India
+app_version: 3.2.1
+flow: onboarding
+session_id: sess_001
+--------------------------------------------------------------------------------
+
+EVENT #10 - personal_details_entered
+Time: 2025-07-25 08:02:30
+Timestamp: 1722000150
+Properties:
+name_length: 15
+age_range: 25-30
+platform: iOS
+city: Mumbai
+country: India
+app_version: 3.2.1
+session_id: sess_001
+--------------------------------------------------------------------------------
+
+EVENT #11 - kyc_document_uploaded
+Time: 2025-07-25 08:03:00
+Timestamp: 1722000180
+Properties:
+document_type: aadhar
+platform: iOS
+city: Mumbai
+country: India
+app_version: 3.2.1
+upload_method: camera
+file_size_kb: 250
+session_id: sess_001
+--------------------------------------------------------------------------------
+
+EVENT #12 - face_verification_started
+Time: 2025-07-25 08:03:30
+Timestamp: 1722000210
+Properties:
+verification_type: liveness_check
+platform: iOS
+city: Mumbai
+country: India
+app_version: 3.2.1
+camera_quality: high
+session_id: sess_001
+--------------------------------------------------------------------------------
+
+EVENT #13 - face_verification_complete
+Time: 2025-07-25 08:04:00
+Timestamp: 1722000240
+Properties:
+verification_success: true
+match_confidence: 0.95
+platform: iOS
+city: Mumbai
+country: India
+app_version: 3.2.1
+session_id: sess_001
+--------------------------------------------------------------------------------
+
+EVENT #14 - payment_method_setup_started
+Time: 2025-07-25 08:04:30
+Timestamp: 1722000270
+Properties:
+payment_type: bank_account
+platform: iOS
+city: Mumbai
+country: India
+app_version: 3.2.1
+session_id: sess_001
+--------------------------------------------------------------------------------
+
+EVENT #15 - bank_account_added
+Time: 2025-07-25 08:05:00
+Timestamp: 1722000300
+Properties:
+bank_name: HDFC
+account_type: savings
+platform: iOS
+city: Mumbai
+country: India
+app_version: 3.2.1
+verification_method: penny_drop
+session_id: sess_001
+--------------------------------------------------------------------------------
+
+EVENT #16 - onboarding_completed
+Time: 2025-07-25 08:05:30
+Timestamp: 1722000330
+Properties:
+total_time_minutes: 5.5
+platform: iOS
+city: Mumbai
+country: India
+app_version: 3.2.1
+completion_rate: 100
+session_id: sess_001
+--------------------------------------------------------------------------------
+
+EVENT #17 - home_screen_viewed
+Time: 2025-07-25 08:06:00
+Timestamp: 1722000360
+Properties:
+view_duration_seconds: 45
+platform: iOS
+city: Mumbai
+country: India
+app_version: 3.2.1
+first_time_user: true
+session_id: sess_001
+--------------------------------------------------------------------------------
+
+EVENT #18 - balance_checked
+Time: 2025-07-25 08:06:30
+Timestamp: 1722000390
+Properties:
+balance_amount: 0
+platform: iOS
+city: Mumbai
+country: India
+app_version: 3.2.1
+check_method: swipe_refresh
+session_id: sess_001
+--------------------------------------------------------------------------------
+
+EVENT #19 - add_money_screen_opened
+Time: 2025-07-25 08:07:00
+Timestamp: 1722000420
+Properties:
+entry_point: balance_card
+platform: iOS
+city: Mumbai
+country: India
+app_version: 3.2.1
+session_id: sess_001
+--------------------------------------------------------------------------------
+
+EVENT #20 - add_money_amount_entered
+Time: 2025-07-25 08:07:30
+Timestamp: 1722000450
+Properties:
+amount: 500
+platform: iOS
+city: Mumbai
+country: India
+app_version: 3.2.1
+input_method: quick_select
+session_id: sess_001
+--------------------------------------------------------------------------------
+
+EVENT #21 - payment_method_selected
+Time: 2025-07-25 08:08:00
+Timestamp: 1722000480
+Properties:
+payment_method: bank_transfer
+bank_name: HDFC
+platform: iOS
+city: Mumbai
+country: India
+app_version: 3.2.1
+session_id: sess_001
+--------------------------------------------------------------------------------
+
+EVENT #22 - payment_initiated
+Time: 2025-07-25 08:08:30
+Timestamp: 1722000510
+Properties:
+amount: 500
+transaction_id: TXN_001
+platform: iOS
+city: Mumbai
+country: India
+app_version: 3.2.1
+payment_gateway: razorpay
+session_id: sess_001
+--------------------------------------------------------------------------------
+
+EVENT #23 - payment_completed
+Time: 2025-07-25 08:09:00
+Timestamp: 1722000540
+Properties:
+amount: 500
+transaction_id: TXN_001
+platform: iOS
+city: Mumbai
+country: India
+app_version: 3.2.1
+payment_status: success
+processing_time_seconds: 30
+session_id: sess_001
+--------------------------------------------------------------------------------
+
+EVENT #24 - notification_permission_requested
+Time: 2025-07-25 08:09:30
+Timestamp: 1722000570
+Properties:
+permission_type: push_notifications
+platform: iOS
+city: Mumbai
+country: India
+app_version: 3.2.1
+context: post_payment
+session_id: sess_001
+--------------------------------------------------------------------------------
+
+EVENT #25 - notification_permission_granted
+Time: 2025-07-25 08:09:45
+Timestamp: 1722000585
+Properties:
+permission_type: push_notifications
+platform: iOS
+city: Mumbai
+country: India
+app_version: 3.2.1
+granted: true
+session_id: sess_001
+--------------------------------------------------------------------------------
+
+EVENT #26 - game_section_opened
+Time: 2025-07-25 08:10:00
+Timestamp: 1722000600
+Properties:
+entry_point: bottom_navigation
+platform: iOS
+city: Mumbai
+country: India
+app_version: 3.2.1
+games_available: 5
+session_id: sess_001
+--------------------------------------------------------------------------------
+
+EVENT #27 - game_selected
+Time: 2025-07-25 08:10:15
+Timestamp: 1722000615
+Properties:
+game_name: spin_wheel
+game_category: casual
+platform: iOS
+city: Mumbai
+country: India
+app_version: 3.2.1
+session_id: sess_001
+--------------------------------------------------------------------------------
+
+EVENT #28 - game_started
+Time: 2025-07-25 08:10:30
+Timestamp: 1722000630
+Properties:
+game_name: spin_wheel
+entry_fee: 10
+platform: iOS
+city: Mumbai
+country: India
+app_version: 3.2.1
+session_id: sess_001
+--------------------------------------------------------------------------------
+
+EVENT #29 - game_completed
+Time: 2025-07-25 08:11:00
+Timestamp: 1722000660
+Properties:
+game_name: spin_wheel
+result: win
+reward_amount: 15
+platform: iOS
+city: Mumbai
+country: India
+app_version: 3.2.1
+game_duration_seconds: 30
+session_id: sess_001
+--------------------------------------------------------------------------------
+
+EVENT #30 - cashback_earned
+Time: 2025-07-25 08:11:05
+Timestamp: 1722000665
+Properties:
+cashback_amount: 15
+cashback_type: game_reward
+platform: iOS
+city: Mumbai
+country: India
+app_version: 3.2.1
+session_id: sess_001
+--------------------------------------------------------------------------------
+
+EVENT #31 - app_backgrounded
+Time: 2025-07-25 08:15:00
+Timestamp: 1722000900
+Properties:
+session_duration_minutes: 15
+platform: iOS
+city: Mumbai
+country: India
+app_version: 3.2.1
+session_id: sess_001
+--------------------------------------------------------------------------------
+
+EVENT #32 - app_opened
+Time: 2025-07-25 10:30:00
+Timestamp: 1722009000
+Properties:
+platform: Android
+city: Delhi
+country: India
+app_version: 3.2.0
+device_model: Samsung Galaxy S22
+carrier: Airtel
+open_source: notification
+session_id: sess_002
+--------------------------------------------------------------------------------
+
+EVENT #33 - home_screen_viewed
+Time: 2025-07-25 10:30:05
+Timestamp: 1722009005
+Properties:
+view_duration_seconds: 25
+platform: Android
+city: Delhi
+country: India
+app_version: 3.2.0
+returning_user: true
+session_id: sess_002
+--------------------------------------------------------------------------------
+
+EVENT #34 - qr_scanner_opened
+Time: 2025-07-25 10:30:30
+Timestamp: 1722009030
+Properties:
+entry_point: home_quick_action
+platform: Android
+city: Delhi
+country: India
+app_version: 3.2.0
+camera_permission: granted
+session_id: sess_002
+--------------------------------------------------------------------------------
+
+EVENT #35 - qr_code_scanned
+Time: 2025-07-25 10:31:00
+Timestamp: 1722009060
+Properties:
+qr_type: payment
+merchant_name: Local Store
+platform: Android
+city: Delhi
+country: India
+app_version: 3.2.0
+scan_success: true
+session_id: sess_002
+--------------------------------------------------------------------------------
+
+EVENT #36 - payment_confirmation_screen
+Time: 2025-07-25 10:31:15
+Timestamp: 1722009075
+Properties:
+amount: 250
+recipient_name: Local Store
+platform: Android
+city: Delhi
+country: India
+app_version: 3.2.0
+payment_method: upi
+session_id: sess_002
+--------------------------------------------------------------------------------
+
+EVENT #37 - mpin_screen_opened
+Time: 2025-07-25 10:31:30
+Timestamp: 1722009090
+Properties:
+transaction_amount: 250
+platform: Android
+city: Delhi
+country: India
+app_version: 3.2.0
+security_level: high
+session_id: sess_002
+--------------------------------------------------------------------------------
+
+EVENT #38 - mpin_entered
+Time: 2025-07-25 10:31:45
+Timestamp: 1722009105
+Properties:
+attempt_number: 1
+platform: Android
+city: Delhi
+country: India
+app_version: 3.2.0
+session_id: sess_002
+--------------------------------------------------------------------------------
+
+EVENT #39 - biometric_authentication
+Time: 2025-07-25 10:32:00
+Timestamp: 1722009120
+Properties:
+auth_type: fingerprint
+auth_success: true
+platform: Android
+city: Delhi
+country: India
+app_version: 3.2.0
+attempt_number: 1
+session_id: sess_002
+--------------------------------------------------------------------------------
+
+EVENT #40 - payment_processing
+Time: 2025-07-25 10:32:15
+Timestamp: 1722009135
+Properties:
+amount: 250
+transaction_id: TXN_002
+platform: Android
+city: Delhi
+country: India
+app_version: 3.2.0
+session_id: sess_002
+--------------------------------------------------------------------------------
+
+EVENT #41 - payment_completed
+Time: 2025-07-25 10:32:45
+Timestamp: 1722009165
+Properties:
+transaction_id: TXN_002
+amount: 250
+platform: Android
+city: Delhi
+country: India
+app_version: 3.2.0
+completion_time_seconds: 30
+payment_status: success
+session_id: sess_002
+--------------------------------------------------------------------------------
+
+EVENT #42 - transaction_receipt_viewed
+Time: 2025-07-25 10:33:00
+Timestamp: 1722009180
+Properties:
+transaction_id: TXN_002
+platform: Android
+city: Delhi
+country: India
+app_version: 3.2.0
+view_duration_seconds: 10
+session_id: sess_002
+--------------------------------------------------------------------------------
+
+EVENT #43 - transaction_receipt_shared
+Time: 2025-07-25 10:33:15
+Timestamp: 1722009195
+Properties:
+transaction_id: TXN_002
+share_method: whatsapp
+platform: Android
+city: Delhi
+country: India
+app_version: 3.2.0
+session_id: sess_002
+--------------------------------------------------------------------------------
+
+EVENT #44 - transaction_history_viewed
+Time: 2025-07-25 10:33:30
+Timestamp: 1722009210
+Properties:
+filter_applied: today
+platform: Android
+city: Delhi
+country: India
+app_version: 3.2.0
+transaction_count: 2
+session_id: sess_002
+--------------------------------------------------------------------------------
+
+EVENT #45 - profile_page_opened
+Time: 2025-07-25 10:34:00
+Timestamp: 1722009240
+Properties:
+entry_point: side_menu
+platform: Android
+city: Delhi
+country: India
+app_version: 3.2.0
+session_id: sess_002
+--------------------------------------------------------------------------------
+
+EVENT #46 - refer_friend_clicked
+Time: 2025-07-25 10:34:30
+Timestamp: 1722009270
+Properties:
+entry_point: profile_page
+platform: Android
+city: Delhi
+country: India
+app_version: 3.2.0
+referral_code: REF123
+session_id: sess_002
+--------------------------------------------------------------------------------
+
+EVENT #47 - referral_code_shared
+Time: 2025-07-25 10:34:45
+Timestamp: 1722009285
+Properties:
+share_method: telegram
+referral_code: REF123
+platform: Android
+city: Delhi
+country: India
+app_version: 3.2.0
+session_id: sess_002
+--------------------------------------------------------------------------------
+
+EVENT #48 - app_closed
+Time: 2025-07-25 10:35:00
+Timestamp: 1722009300
+Properties:
+session_duration_minutes: 5
+platform: Android
+city: Delhi
+country: India
+app_version: 3.2.0
+session_id: sess_002
+--------------------------------------------------------------------------------
+
+EVENT #49 - app_opened
+Time: 2025-07-25 14:00:00
+Timestamp: 1722022800
+Properties:
+platform: Web
+city: Bangalore
+country: India
+app_version: 3.2.1
+browser: Chrome
+device_type: desktop
+screen_resolution: 1920x1080
+session_id: sess_003
+--------------------------------------------------------------------------------
+
+EVENT #50 - login_screen_opened
+Time: 2025-07-25 14:00:05
+Timestamp: 1722022805
+Properties:
+entry_point: direct_url
+platform: Web
+city: Bangalore
+country: India
+app_version: 3.2.1
+browser: Chrome
+session_id: sess_003
+--------------------------------------------------------------------------------
+
+EVENT #51 - login_method_selected
+Time: 2025-07-25 14:00:15
+Timestamp: 1722022815
+Properties:
+login_method: phone_number
+platform: Web
+city: Bangalore
+country: India
+app_version: 3.2.1
+browser: Chrome
+session_id: sess_003
+--------------------------------------------------------------------------------
+
+EVENT #52 - otp_requested
+Time: 2025-07-25 14:00:30
+Timestamp: 1722022830
+Properties:
+phone_number: 9876543211
+platform: Web
+city: Bangalore
+country: India
+app_version: 3.2.1
+otp_method: sms
+browser: Chrome
+session_id: sess_003
+--------------------------------------------------------------------------------
+
+EVENT #53 - otp_verified
+Time: 2025-07-25 14:01:00
+Timestamp: 1722022860
+Properties:
+verification_attempts: 1
+platform: Web
+city: Bangalore
+country: India
+app_version: 3.2.1
+verification_success: true
+browser: Chrome
+session_id: sess_003
+--------------------------------------------------------------------------------
+
+EVENT #54 - dashboard_viewed
+Time: 2025-07-25 14:01:15
+Timestamp: 1722022875
+Properties:
+view_type: grid
+platform: Web
+city: Bangalore
+country: India
+app_version: 3.2.1
+browser: Chrome
+widgets_visible: 6
+session_id: sess_003
+--------------------------------------------------------------------------------
+
+EVENT #55 - rewards_section_opened
+Time: 2025-07-25 14:01:45
+Timestamp: 1722022905
+Properties:
+entry_point: dashboard_widget
+platform: Web
+city: Bangalore
+country: India
+app_version: 3.2.1
+browser: Chrome
+rewards_available: 125
+session_id: sess_003
+--------------------------------------------------------------------------------
+
+EVENT #56 - offer_card_clicked
+Time: 2025-07-25 14:02:00
+Timestamp: 1722022920
+Properties:
+offer_type: cashback
+offer_category: food
+discount_percentage: 20
+platform: Web
+city: Bangalore
+country: India
+app_version: 3.2.1
+browser: Chrome
+offer_validity_days: 7
+session_id: sess_003
+--------------------------------------------------------------------------------
+
+EVENT #57 - offer_details_viewed
+Time: 2025-07-25 14:02:15
+Timestamp: 1722022935
+Properties:
+offer_id: OFF_001
+view_duration_seconds: 30
+platform: Web
+city: Bangalore
+country: India
+app_version: 3.2.1
+browser: Chrome
+session_id: sess_003
+--------------------------------------------------------------------------------
+
+EVENT #58 - offer_activated
+Time: 2025-07-25 14:02:45
+Timestamp: 1722022965
+Properties:
+offer_id: OFF_001
+activation_method: click
+platform: Web
+city: Bangalore
+country: India
+app_version: 3.2.1
+browser: Chrome
+session_id: sess_003
+--------------------------------------------------------------------------------
+
+EVENT #59 - settings_page_opened
+Time: 2025-07-25 14:03:00
+Timestamp: 1722022980
+Properties:
+entry_point: top_menu
+platform: Web
+city: Bangalore
+country: India
+app_version: 3.2.1
+browser: Chrome
+session_id: sess_003
+--------------------------------------------------------------------------------
+
+EVENT #60 - notification_settings_changed
+Time: 2025-07-25 14:03:30
+Timestamp: 1722023010
+Properties:
+setting_type: email_notifications
+new_value: disabled
+platform: Web
+city: Bangalore
+country: India
+app_version: 3.2.1
+browser: Chrome
+session_id: sess_003
+--------------------------------------------------------------------------------
+
+EVENT #61 - privacy_settings_viewed
+Time: 2025-07-25 14:04:00
+Timestamp: 1722023040
+Properties:
+section: data_sharing
+platform: Web
+city: Bangalore
+country: India
+app_version: 3.2.1
+browser: Chrome
+session_id: sess_003
+--------------------------------------------------------------------------------
+
+EVENT #62 - help_center_opened
+Time: 2025-07-25 14:04:30
+Timestamp: 1722023070
+Properties:
+entry_point: settings_menu
+platform: Web
+city: Bangalore
+country: India
+app_version: 3.2.1
+browser: Chrome
+session_id: sess_003
+--------------------------------------------------------------------------------
+
+EVENT #63 - faq_searched
+Time: 2025-07-25 14:05:00
+Timestamp: 1722023100
+Properties:
+search_query: transaction failed
+platform: Web
+city: Bangalore
+country: India
+app_version: 3.2.1
+browser: Chrome
+results_count: 5
+session_id: sess_003
+--------------------------------------------------------------------------------
+
+EVENT #64 - faq_article_viewed
+Time: 2025-07-25 14:05:15
+Timestamp: 1722023115
+Properties:
+article_id: FAQ_001
+article_title: Why did my transaction fail
+platform: Web
+city: Bangalore
+country: India
+app_version: 3.2.1
+browser: Chrome
+view_duration_seconds: 45
+session_id: sess_003
+--------------------------------------------------------------------------------
+
+EVENT #65 - chat_support_initiated
+Time: 2025-07-25 14:06:00
+Timestamp: 1722023160
+Properties:
+issue_category: payment_issue
+platform: Web
+city: Bangalore
+country: India
+app_version: 3.2.1
+browser: Chrome
+session_id: sess_003
+--------------------------------------------------------------------------------
+
+EVENT #66 - chat_message_sent
+Time: 2025-07-25 14:06:30
+Timestamp: 1722023190
+Properties:
+message_type: text
+message_length: 45
+platform: Web
+city: Bangalore
+country: India
+app_version: 3.2.1
+browser: Chrome
+session_id: sess_003
+--------------------------------------------------------------------------------
+
+EVENT #67 - logout_initiated
+Time: 2025-07-25 14:10:00
+Timestamp: 1722023400
+Properties:
+logout_reason: user_action
+session_duration_minutes: 10
+platform: Web
+city: Bangalore
+country: India
+app_version: 3.2.1
+browser: Chrome
+logout_source: settings
+session_id: sess_003
+--------------------------------------------------------------------------------
+
+EVENT #68 - app_opened
+Time: 2025-07-25 18:00:00
+Timestamp: 1722038400
+Properties:
+platform: iOS
+city: Chennai
+country: India
+app_version: 3.2.1
+device_model: iPhone 13
+carrier: Vodafone
+open_source: direct
+session_id: sess_004
+--------------------------------------------------------------------------------
+
+EVENT #69 - game_tournament_joined
+Time: 2025-07-25 18:01:00
+Timestamp: 1722038460
+Properties:
+tournament_name: Daily Challenge
+entry_fee: 50
+platform: iOS
+city: Chennai
+country: India
+app_version: 3.2.1
+participants_count: 100
+session_id: sess_004
+--------------------------------------------------------------------------------
+
+EVENT #70 - game_started
+Time: 2025-07-25 18:02:00
+Timestamp: 1722038520
+Properties:
+game_name: quiz_master
+tournament_mode: true
+platform: iOS
+city: Chennai
+country: India
+app_version: 3.2.1
+session_id: sess_004
+--------------------------------------------------------------------------------
+
+EVENT #71 - game_question_answered
+Time: 2025-07-25 18:02:15
+Timestamp: 1722038535
+Properties:
+question_number: 1
+answer_correct: true
+response_time_seconds: 8
+platform: iOS
+city: Chennai
+country: India
+app_version: 3.2.1
+session_id: sess_004
+--------------------------------------------------------------------------------
+
+EVENT #72 - game_question_answered
+Time: 2025-07-25 18:02:35
+Timestamp: 1722038555
+Properties:
+question_number: 2
+answer_correct: false
+response_time_seconds: 12
+platform: iOS
+city: Chennai
+country: India
+app_version: 3.2.1
+session_id: sess_004
+--------------------------------------------------------------------------------
+
+EVENT #73 - game_completed
+Time: 2025-07-25 18:05:00
+Timestamp: 1722038700
+Properties:
+game_name: quiz_master
+final_score: 750
+ranking: 25
+platform: iOS
+city: Chennai
+country: India
+app_version: 3.2.1
+prize_amount: 0
+session_id: sess_004
+--------------------------------------------------------------------------------
+
+EVENT #74 - social_feed_opened
+Time: 2025-07-25 18:06:00
+Timestamp: 1722038760
+Properties:
+entry_point: bottom_navigation
+platform: iOS
+city: Chennai
+country: India
+app_version: 3.2.1
+posts_visible: 10
+session_id: sess_004
+--------------------------------------------------------------------------------
+
+EVENT #75 - post_liked
+Time: 2025-07-25 18:06:30
+Timestamp: 1722038790
+Properties:
+post_id: POST_001
+post_type: achievement
+platform: iOS
+city: Chennai
+country: India
+app_version: 3.2.1
+session_id: sess_004
+--------------------------------------------------------------------------------
+
+EVENT #76 - post_shared
+Time: 2025-07-25 18:07:00
+Timestamp: 1722038820
+Properties:
+post_id: POST_001
+share_method: instagram
+platform: iOS
+city: Chennai
+country: India
+app_version: 3.2.1
+session_id: sess_004
+--------------------------------------------------------------------------------
+
+EVENT #77 - leaderboard_viewed
+Time: 2025-07-25 18:08:00
+Timestamp: 1722038880
+Properties:
+leaderboard_type: weekly
+user_rank: 45
+platform: iOS
+city: Chennai
+country: India
+app_version: 3.2.1
+session_id: sess_004
+--------------------------------------------------------------------------------
+
+EVENT #78 - achievement_unlocked
+Time: 2025-07-25 18:09:00
+Timestamp: 1722038940
+Properties:
+achievement_name: First Tournament
+achievement_category: gaming
+platform: iOS
+city: Chennai
+country: India
+app_version: 3.2.1
+session_id: sess_004
+--------------------------------------------------------------------------------
+
+EVENT #79 - notification_received
+Time: 2025-07-25 18:10:00
+Timestamp: 1722039000
+Properties:
+notification_type: promotional
+content_category: new_game
+platform: iOS
+city: Chennai
+country: India
+app_version: 3.2.1
+session_id: sess_004
+--------------------------------------------------------------------------------
+
+EVENT #80 - app_error_occurred
+Time: 2025-07-25 18:11:00
+Timestamp: 1722039060
+Properties:
+error_type: network_timeout
+error_code: ERR_001
+platform: iOS
+city: Chennai
+country: India
+app_version: 3.2.1
+affected_feature: game_loading
+session_id: sess_004
+--------------------------------------------------------------------------------
+
+EVENT #81 - error_retry_attempted
+Time: 2025-07-25 18:11:15
+Timestamp: 1722039075
+Properties:
+error_code: ERR_001
+retry_attempt: 1
+platform: iOS
+city: Chennai
+country: India
+app_version: 3.2.1
+retry_success: true
+session_id: sess_004
+--------------------------------------------------------------------------------
+
+EVENT #82 - feedback_popup_shown
+Time: 2025-07-25 18:12:00
+Timestamp: 1722039120
+Properties:
+trigger_event: error_recovery
+popup_type: rating
+platform: iOS
+city: Chennai
+country: India
+app_version: 3.2.1
+session_id: sess_004
+--------------------------------------------------------------------------------
+
+EVENT #83 - feedback_submitted
+Time: 2025-07-25 18:12:30
+Timestamp: 1722039150
+Properties:
+rating: 4
+feedback_category: bug_report
+platform: iOS
+city: Chennai
+country: India
+app_version: 3.2.1
+session_id: sess_004
+--------------------------------------------------------------------------------
+
+EVENT #84 - app_backgrounded
+Time: 2025-07-25 18:15:00
+Timestamp: 1722039300
+Properties:
+session_duration_minutes: 15
+platform: iOS
+city: Chennai
+country: India
+app_version: 3.2.1
+session_id: sess_004
+--------------------------------------------------------------------------------
+
+EVENT #85 - app_opened
+Time: 2025-07-25 20:30:00
+Timestamp: 1722047400
+Properties:
+platform: Android
+city: Kolkata
+country: India
+app_version: 3.1.9
+device_model: OnePlus 9
+carrier: Jio
+open_source: deeplink
+session_id: sess_005
+--------------------------------------------------------------------------------
+
+EVENT #86 - upi_transaction_initiated
+Time: 2025-07-25 20:31:00
+Timestamp: 1722047460
+Properties:
+amount: 1000
+recipient_type: contact
+platform: Android
+city: Kolkata
+country: India
+app_version: 3.1.9
+transaction_source: split_bill
+session_id: sess_005
+--------------------------------------------------------------------------------
+
+EVENT #87 - split_bill_created
+Time: 2025-07-25 20:31:30
+Timestamp: 1722047490
+Properties:
+total_amount: 1000
+participants_count: 4
+platform: Android
+city: Kolkata
+country: India
+app_version: 3.1.9
+split_method: equal
+session_id: sess_005
+--------------------------------------------------------------------------------
+
+EVENT #88 - contact_selected
+Time: 2025-07-25 20:32:00
+Timestamp: 1722047520
+Properties:
+contact_source: phonebook
+contact_count: 3
+platform: Android
+city: Kolkata
+country: India
+app_version: 3.1.9
+session_id: sess_005
+--------------------------------------------------------------------------------
+
+EVENT #89 - split_invitation_sent
+Time: 2025-07-25 20:32:30
+Timestamp: 1722047550
+Properties:
+invitation_method: whatsapp
+recipients_count: 3
+platform: Android
+city: Kolkata
+country: India
+app_version: 3.1.9
+session_id: sess_005
+--------------------------------------------------------------------------------
+
+EVENT #90 - subscription_upgraded
+Time: 2025-07-25 20:33:00
+Timestamp: 1722047580
+Properties:
+plan_name: Premium Plus
+upgrade_amount: 299
+platform: Android
+city: Kolkata
+country: India
+app_version: 3.1.9
+subscription_duration_months: 12
+session_id: sess_005
+--------------------------------------------------------------------------------
+
