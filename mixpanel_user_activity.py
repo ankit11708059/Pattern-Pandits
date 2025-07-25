@@ -822,26 +822,97 @@ class MixpanelUserActivity:
             for user_id, events in results.items():
                 if isinstance(events, list):
                     for event in events:
-                        def _parse_mixpanel_time(raw_time):
+                        def _parse_mixpanel_time(raw_time, event_data=None):
+                            """Enhanced Mixpanel timestamp parsing with multiple fallback strategies"""
                             try:
                                 if raw_time is None:
                                     return pd.NaT
-                                ts = int(raw_time)
-                                if ts > 1e12:
-                                    ts = ts / 1000
-                                return datetime.fromtimestamp(ts)
-                            except Exception:
+                                
+                                # Handle different timestamp formats
+                                if isinstance(raw_time, str):
+                                    # Try parsing ISO format first
+                                    try:
+                                        import dateutil.parser
+                                        return dateutil.parser.parse(raw_time)
+                                    except:
+                                        # Try converting string to number
+                                        try:
+                                            raw_time = float(raw_time)
+                                        except:
+                                            return pd.NaT
+                                
+                                # Handle numeric timestamps
+                                if isinstance(raw_time, (int, float)):
+                                    ts = float(raw_time)
+                                    
+                                    # Handle millisecond timestamps (13 digits)
+                                    if ts > 1e12:
+                                        ts = ts / 1000
+                                    
+                                    # Handle microsecond timestamps (16+ digits)
+                                    elif ts > 1e15:
+                                        ts = ts / 1000000
+                                    
+                                    # Validate timestamp is reasonable (after 2000, before 2100)
+                                    if 946684800 <= ts <= 4102444800:  # 2000-01-01 to 2100-01-01
+                                        return datetime.fromtimestamp(ts)
+                                
+                                return pd.NaT
+                                
+                            except Exception as e:
+                                # Debug logging for timestamp parsing issues
+                                if raw_time is not None:
+                                    print(f"⚠️ Time parsing failed for: {raw_time} (type: {type(raw_time)}, error: {e})")
                                 return pd.NaT
 
-                        raw_time = (
-                            event.get("time")
-                            or event.get("properties", {}).get("time")
-                            or event.get("properties", {}).get("$time")
-                        )
+                        # Enhanced time extraction with multiple strategies
+                        raw_time = None
+                        props = event.get("properties", {})
+                        
+                        # Strategy 1: Direct time field
+                        raw_time = event.get("time")
+                        
+                        # Strategy 2: Properties time field
+                        if raw_time is None:
+                            raw_time = props.get("time")
+                        
+                        # Strategy 3: Mixpanel $time field
+                        if raw_time is None:
+                            raw_time = props.get("$time")
+                        
+                        # Strategy 4: Common timestamp fields
+                        if raw_time is None:
+                            for time_field in ["timestamp", "$timestamp", "event_time", "created_at", "occurred_at"]:
+                                if time_field in props:
+                                    raw_time = props[time_field]
+                                    break
+                        
+                        # Strategy 5: Search for any field containing 'time' 
+                        if raw_time is None:
+                            for key, value in props.items():
+                                if 'time' in key.lower() and value is not None:
+                                    raw_time = value
+                                    break
+                        # Parse the time and add debug info if needed
+                        parsed_time = _parse_mixpanel_time(raw_time)
+                        
+                        # Debug: Show time parsing results (remove this after testing)
+                        if raw_time is not None and pd.isna(parsed_time):
+                            print(f"🔍 DEBUG - Time parsing failed:")
+                            print(f"   Event: {event.get('event', 'unknown')}")
+                            print(f"   Raw time: {raw_time} (type: {type(raw_time)})")
+                            print(f"   Event keys: {list(event.keys())}")
+                            print(f"   Properties time keys: {[k for k in event.get('properties', {}).keys() if 'time' in k.lower()]}")
+                        
+                        # Final fallback: use current time if parsing completely failed
+                        if pd.isna(parsed_time):
+                            print(f"⚠️ Using current time as fallback for event: {event.get('event', 'unknown')}")
+                            parsed_time = datetime.now()
+                        
                         event_data = {
                             "user_id": user_id,
                             "event": event.get("event", ""),
-                            "time": _parse_mixpanel_time(raw_time),
+                            "time": parsed_time,
                             "properties": json.dumps(event.get("properties", {}), indent=2)
                         }
                         props = event.get("properties", {})
