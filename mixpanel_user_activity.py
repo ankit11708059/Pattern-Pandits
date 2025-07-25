@@ -798,8 +798,17 @@ class MixpanelUserActivity:
 
     def safe_str_convert(self, value):
         """Safely convert any value to string for DataFrame compatibility"""
-        if value is None or pd.isna(value):
+        if value is None:
             return ""
+        
+        # Safely check if value is NaN without crashing
+        try:
+            if pd.isna(value):
+                return ""
+        except (TypeError, ValueError):
+            # If pd.isna() fails, continue with other checks
+            pass
+        
         if isinstance(value, (bool, int, float)):
             return str(value)
         if isinstance(value, str):
