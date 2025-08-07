@@ -3481,12 +3481,14 @@ def render_ai_analysis(filtered_df):
         # Display the narrative summary with proper formatting
         st.markdown("### 📖 Comprehensive User Journey Analysis")
         
-        # Create a well-formatted display
+        # Create a well-formatted display that works in both light and dark modes
         st.markdown(f"""
-        <div style="background: linear-gradient(135deg, #f8f9fa, #e9ecef); 
+        <div style="background: var(--background-color, rgba(240, 242, 246, 0.1)); 
+                   color: var(--text-color, inherit);
                    padding: 1.5rem; border-radius: 10px; 
                    border-left: 4px solid #28a745; margin: 1rem 0;
-                   font-size: 1.1rem; line-height: 1.6;">
+                   font-size: 1.1rem; line-height: 1.6;
+                   border: 1px solid var(--border-color, rgba(49, 51, 63, 0.2));">
             {summary_text}
         </div>
         """, unsafe_allow_html=True)
